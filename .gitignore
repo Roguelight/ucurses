@@ -1,5 +1,6 @@
 # Compiled Object files
 program.log
+.copyright
 *.slo
 *.lo
 *.o
