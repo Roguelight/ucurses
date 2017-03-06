@@ -34,5 +34,7 @@ namespace ncursespp { namespace gui {
 
             vector<colorindex> indices;
             vector<string> keys;
+
+            const size_t size = 16;
     };
 }}

@@ -12,7 +12,7 @@ INCDIR = -I ./include
 
 #*****************  Compiler  *********************************************
 
-CXXFLAGS := -g -fPIC -std=c++11 -fpermissive # Determined by platform and args
+CXXFLAGS := -g -fPIC -std=c++17 -fpermissive # Determined by platform and args
 CXX :=
 
 #*****************  Linker  ***********************************************

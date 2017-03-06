@@ -17,18 +17,21 @@ namespace ncursespp { namespace gui {
 	{
 		public:
 
-			FileMenu();
             FileMenu(coord2d size, coord2d position);
-
-            void setDirectory(string dir)     { directory = dir; }
-
-            virtual void Update();
-
 
         protected:
 
-            void refreshList();
             string directory;
+
+            string last;
+            // History of one to enable backtracking
+            
+            void setDirectory(string inString);
+            void backTrack();
+            
+            virtual void Select();
+            virtual void Update();
+            virtual void addCommands();
 
 	};
 

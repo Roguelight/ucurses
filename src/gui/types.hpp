@@ -12,14 +12,14 @@
 
 namespace ncursespp { namespace gui {
 
-    using coord = short;
     /*
      * Coordinates in ncurses a passed with the y axis first
-     */
+     */ using coord = short;
 
-    using index = unsigned short;
-
-    struct coord2d
+    /*
+     * Ncurses always passes the y coord in first
+     * This wrapper will reverse this so x can be passed first
+     */ struct coord2d
     {
         coord y;
         coord x;
@@ -27,10 +27,6 @@ namespace ncursespp { namespace gui {
         coord2d(const coord2d& src) : x(src.x), y(src.y)  {}
         coord2d() : x(0), y(0)  {}
     };
-    /*
-     * Ncurses always passes the y coord in first
-     * This wrapper will reverse this so x can be passed first
-     */
     
     
 }}

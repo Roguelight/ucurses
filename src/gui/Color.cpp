@@ -10,7 +10,10 @@ namespace ncursespp { namespace gui {
     {
         GlobalLogger::log(TRACE) << "Initialising ncurses color settings and loading default colors" << Sentinel::END;
         start_color();
-        init_color(COLOR_RED, 255, 160, 20);
+        init_color(COLOR_RED, 255, 160, 20); // Changine value of COLOR_RED defined in ncurses.h
+        indices.reserve(size);
+        keys.reserve(size);
+
         Add("Default", COLOR_BLACK, COLOR_RED); 
         Add("Inverse", COLOR_RED, COLOR_BLACK); 
         Add("BW", COLOR_BLACK, COLOR_WHITE); 
@@ -27,16 +30,14 @@ namespace ncursespp { namespace gui {
 
     const color ColorContainer::Get(string ID) const
     {
-        GlobalLogger::log(TRACE) << "Searching for color pair: ID = " << ID << Sentinel::END; 
         auto key = std::find(keys.begin(), keys.end(), ID);
         if (key != keys.end())
         {
             int keyindex = key - keys.begin();
-            GlobalLogger::log(TRACE) << "Found! " << *key << Sentinel::END; 
             return COLOR_PAIR(indices[keyindex]);
         }
         else
-            GlobalLogger::log(TRACE) << "Couldn't find color pair with ID: " << ID << Sentinel::END;
+            GlobalLogger::log(TRACE, "ColorContainer") << "Couldn't find color pair with ID: " << ID << Sentinel::END;
     }
 
 }}

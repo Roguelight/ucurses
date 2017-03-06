@@ -11,7 +11,7 @@
 #include <ncurses.h>
 
 #include <ncursespp/application/GUI.hpp>
-#include <ncursespp/gui/CommandArray.hpp>
+#include <ncursespp/gui/Command.hpp>
 #include <ncursespp/gui/Window.hpp>
 
 using namespace ctk::log;
@@ -27,29 +27,29 @@ namespace ncursespp { namespace application {
 			virtual ~Application();
 
             void Run();
+            void End(); 
             void addWindow(string ID, Window* win);  
-
-            void End()                              { run = false; }
             
         protected:
 
             GUI* C_GUI;
             /* 
-             * Important components should have a capital letter
-             * and prefix C_ so that the class name can be used as
-             * the name. This distinguishes pointers to shared objects
+             * The prefix C_ indicates the variable points to an important component that 
+             * is a part of this class. This distinguishes pointers to shared objects
              * from pointers to components that should be constructed once.
              */ 
 
-            CommandArray applicationCommands;
+            CommandArray Commands;
+
+            bool running;
+            void addCommand(delegate function, int key);
             /*
-             * First attempt at data oriented design, check types.h
-             * for implementation
+             * Called in children class to customise application functionality
              */
 
-            Window appWindow;
+        private:
 
-            bool run;
+            void Parse();
 
 	};
 

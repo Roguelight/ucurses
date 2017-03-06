@@ -16,9 +16,11 @@
 using namespace std;
 using namespace ctk::log;
 
+using delegate = std::function<void()>;
+
 namespace ncursespp { namespace gui {
 
-    using delegate = std::function<void()>;
+    using index = short;
 
     class CommandArray
     {
@@ -30,12 +32,18 @@ namespace ncursespp { namespace gui {
             void Disable(int key); 
             
 
-            void parseInput(int key);
+            bool Parse(int key);
+            /*
+             * returns true if match found,
+             * this will allow for a chain of reponsibility
+             */
 
         private:
             vector<delegate> functions;
             vector<int> keys; 
             vector<bool> active;
+
+            const size_t size = 16;
     };
 
 }}

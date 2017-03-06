@@ -11,7 +11,6 @@
  */
 
 #pragma once
-#include <map>
 #include <string>
 
 #include <ctk/log/GlobalLogger.hpp>
@@ -34,11 +33,17 @@ namespace ncursespp { namespace application {
 			virtual ~GUI();
             void Render();
             void Update();
-            void addWindow(string ID, Window* win)     { Windows.Add(ID, win); }
+            void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
+            Window& getActiveWindow()                  { return *(Windows.getActive()); }
 
         private:
 
             WindowContainer Windows;
+            
+            CommandArray Commands;
+
+            void Parse(int input);
+            
 	};
 
 }}

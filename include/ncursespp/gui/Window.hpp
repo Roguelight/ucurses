@@ -8,10 +8,13 @@
 #pragma once
 #include <string>
 #include <map>
+#include <functional>
+#include <algorithm>
 
 #include <ctk/log/GlobalLogger.hpp>
 #include <ncursespp/gui/types.hpp>
 #include <ncursespp/gui/Color.hpp>
+#include <ncursespp/gui/Command.hpp>
 
 #include <ncurses.h>
 
@@ -25,10 +28,11 @@ namespace ncursespp { namespace application {
 using namespace ncursespp::application;
 
 namespace ncursespp { namespace gui {
-    
+
 	class Window
 	{
         friend class WindowContainer;
+
 		public:
 
             Window(); //default constructor for stdscr
@@ -41,8 +45,8 @@ namespace ncursespp { namespace gui {
             void     print(string inString) { waddstr(H_Window, inString.c_str());  }
             
             WINDOW*  getHandle() const      { return H_Window;  }
-            string   getTitle() const       { return Title;     }
-            void     setTitle(string s)     { Title = s;        }
+            string   getTitle() const       { return title;     }
+            void     setTitle(string s);
 
             coord2d  getSize() const;
             coord2d  getPos() const;
@@ -64,9 +68,13 @@ namespace ncursespp { namespace gui {
             void highlightRow(coord row);                  
             void highlightColumn(coord column);                  
             
-            string Title;
+            string title;
 
             virtual void Update();
+
+            virtual void initCommands() {};
+
+            CommandArray Commands;
 
         private:
 
@@ -85,7 +93,7 @@ namespace ncursespp { namespace gui {
     {
         friend class ncursespp::application::GUI;
         
-        using WindowMap = std::map<string, Window*>; 
+        using WindowMap = std::map<string, Window*>;  // map of pointers allows needed flexibility for GUI hierarchy
 
         public:
             
@@ -93,19 +101,27 @@ namespace ncursespp { namespace gui {
             virtual ~WindowContainer();
             
             void Update();
-            void Render();
+            void Refresh();
             void Add(string ID, Window* win);
             void Remove(string ID);
 
+            /*
+             * Sets active window to next window in map
+             */ void Next();
+
+
             Window* Get(string ID) const;
-            Window* getActive() const       { return active; }
+            Window* getActive() const       { return active.second; }
 
         private:
 
             WindowMap M_Windows;
-            Window* active;
+            std::pair<string, Window*> active;
+            
 
             ColorContainer Colors;
+
+            void Parse(int input);
 
     };
 
