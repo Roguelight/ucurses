@@ -31,10 +31,8 @@ namespace ncursespp { namespace application {
 
 			GUI();
 			virtual ~GUI();
-            void Render();
-            void Update();
-            void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
-            Window& getActiveWindow()                  { return *(Windows.getActive()); }
+            
+            coord2d getSize()                          { return Windows.Get("Standard Screen")->getSize(); }
 
         private:
 
@@ -43,6 +41,10 @@ namespace ncursespp { namespace application {
             CommandArray Commands;
 
             void Parse(int input);
+            Window& getActiveWindow()                  { return *(Windows.getActive()); }
+            void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
+            void Render();
+            void Update();
             
 	};
 

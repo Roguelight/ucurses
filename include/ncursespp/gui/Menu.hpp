@@ -26,7 +26,7 @@ namespace ncursespp { namespace gui {
             void addItem(string label);
             void removeItem(index id);
             void removeSelectedItem();
-            string& getItem(index id);
+            string& getItem(index id);      // Performs bounds checking
 
             inline void selectItem(index id)           { selection = id;            }
             inline string& getSelectedItem()           { if (selection != NONE) return getItem(selection); }
