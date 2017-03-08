@@ -36,11 +36,11 @@ namespace ncursespp { namespace gui {
         GlobalLogger::log(TRACE, "NCursespp::Menu") << "Updating menu, redrawing items" << Sentinel::END;
         coord xcenter = (getSize().x / 2) - 4;
         int size = getItem(selection).length();
-        move(coord2d(xcenter, 1)); //Initial position
+        setPosition(xcenter, 1); //Initial position
 
         for (auto& item : items)
         {
-            move(coord2d(xcenter, getPos().y + 1));
+            move(0, 1);
             print(item);
             wclrtoeol(getHandle());
         }

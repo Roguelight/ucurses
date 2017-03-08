@@ -40,11 +40,32 @@ namespace ncursespp { namespace gui {
         title = s;        
     }
 
+    string Window::requestString(string subject)
+    {
+        print("Enter " + subject + ": ");
+        echo();
+        char input[10];
+        getnstr(input, 10);
+        noecho();
+        if (input)
+        {
+            string temp(input);
+            move(0,1);
+            print("You entered: " + temp);
+        }
+    }
+
+    void Window::move(coord x, coord y)
+    { 
+        coord2d curpos = getPos();
+        wmove(H_Window, curpos.y + y, curpos.x + x);        
+    }
+
     void Window::Update()
     {
         GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window " << title << Sentinel::END;
         setAttributes(A_NORMAL);
-        move(coord2d(1,1));
+        setPosition(1,1);
         print(title);
     }
 

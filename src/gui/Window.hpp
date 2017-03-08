@@ -41,8 +41,8 @@ namespace ncursespp { namespace gui {
 
             //inline
             
-            void     move(coord2d pos)      { wmove(H_Window, pos.y, pos.x);        }
-            void     print(string inString) { waddstr(H_Window, inString.c_str());  }
+            void     setPosition(coord x, coord y)      { wmove(H_Window, y, x);        }
+            void     print(string inString)             { waddstr(H_Window, inString.c_str());  }
             
             WINDOW*  getHandle() const      { return H_Window;  }
             string   getTitle() const       { return title;     }
@@ -50,11 +50,15 @@ namespace ncursespp { namespace gui {
 
             coord2d  getSize() const;
             coord2d  getPos() const;
+            void     move(coord x, coord y);
 
         protected:
 
             void addBorder();
             void resize(coord2d size, coord2d position);
+
+            string requestString(string subject);
+            // Prints "Enter <subject>"  and returns entered text before <BREAK>
 
             
             const ColorContainer* S_Colors;
@@ -72,8 +76,6 @@ namespace ncursespp { namespace gui {
 
             virtual void Update();
 
-            void defaultCommands() {};
-
             CommandArray Commands;
 
         private:
@@ -86,6 +88,7 @@ namespace ncursespp { namespace gui {
              * and clean up of data.
              */
             bool std; // Destructor variable, does not free space to prevent double deletion.
+            void defaultCommands() {};
 	};
 
 

@@ -37,8 +37,8 @@ namespace ncursespp { namespace gui {
             std::vector<string> items; 
             index               selection;
             /*
-             * Selection ranges from 0-max
-             * 0 indicates no item selected
+             * Selection ranges from -1 - (items.size - 1)
+             * -1 indicates no item selected
              */
             
             virtual void Update();
