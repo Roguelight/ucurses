@@ -12,17 +12,16 @@ namespace ncursespp { namespace gui {
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
         addBorder();
-        initCommands();
+        defaultCommands();
 	}
     
-    Window::Window() : std(true)
+    Window::Window() : std(true), title("")
     {
         GlobalLogger::log(TRACE,"NCursespp::Window") << "Initialising ncurses stdscr Window" << Sentinel::END;
         H_Window = stdscr;
         keypad(H_Window, TRUE);
         addBorder();
-        initCommands();
-        setTitle("Stdscr");
+        defaultCommands();
     }
 
 	Window::~Window()
@@ -43,6 +42,7 @@ namespace ncursespp { namespace gui {
 
     void Window::Update()
     {
+        GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window " << title << Sentinel::END;
         setAttributes(A_NORMAL);
         move(coord2d(1,1));
         print(title);
@@ -114,7 +114,6 @@ namespace ncursespp { namespace gui {
     void WindowContainer::Add(string ID, Window* win)
     {
         GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Adding new window to ncursespp container with ID: " << ID <<  Sentinel::END;
-        win->setTitle(ID);
         win->EnableColor(&Colors);
         active.first = ID;
         active.second = win;

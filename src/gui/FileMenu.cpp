@@ -63,9 +63,5 @@ namespace ncursespp { namespace gui {
         selection = 0;
     }
 
-    void FileMenu::Update()
-    {
-        Menu::Update();
-    }
 
 }}

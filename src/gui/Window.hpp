@@ -72,7 +72,7 @@ namespace ncursespp { namespace gui {
 
             virtual void Update();
 
-            virtual void initCommands() {};
+            void defaultCommands() {};
 
             CommandArray Commands;
 

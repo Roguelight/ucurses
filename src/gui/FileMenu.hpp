@@ -30,7 +30,6 @@ namespace ncursespp { namespace gui {
             void backTrack();
             
             virtual void Select();
-            virtual void Update();
             virtual void addCommands();
 
 	};
