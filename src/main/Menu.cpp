@@ -7,6 +7,6 @@ using namespace ncursespp::gui;
 int main(int argc, char* argv[])
 {
     Application app;
-    app.getGUI()->addWindow("Menu 1", new Menu);
+    app.addWindow("Name Entry", new TextEntry(75,5,"Entity Name"));
     app.Run();
 }

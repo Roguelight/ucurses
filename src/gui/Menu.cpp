@@ -6,27 +6,26 @@
 
 namespace ncursespp { namespace gui {
 
-    Menu::Menu(coord2d size, coord2d pos) : Window(size, pos) 
+    Menu::Menu(coord x, coord y, Window* host) : Component(size, pos, host) 
     {
+        setSize(40,20);
         GlobalLogger::log(TRACE, "NCursespp::Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
         selection = NONE;
-        setTitle("Menu");
-        items.reserve(40);
-        bindDefault();
+        items.reserve(24);
     }
 
     void Menu::bindDefault()
     {
-        Commands.Add(bind( &Menu::addItem, this, string("Connect")), 'a');   // Test add item
-        Commands.Add(bind( &Menu::removeSelectedItem, this), KEY_BACKSPACE); // Remove highlighted item
-        Commands.Add(bind( &Menu::selectNext, this), 'j');                   // Move down menu 
-        Commands.Add(bind( &Menu::selectPrevious, this), 'k');               // Move up Menu 
-        Commands.Add(bind( &Menu::Select, this),  10);                       // Select highlighted item <Enter>
+        addCommand('a', bind( &Menu::addItem, this, string("Connect")));   // Test add item
+        addCommand(KEY_BACKSPACE, bind( &Menu::removeSelectedItem, this)); // Remove highlighted item
+        addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
+        addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
+        addCommand(10, bind( &Menu::Select, this));                        // Select highlighted item <Enter>
     }
 
     void Menu::printCommands()
     {
-        Window::printCommands();
+        commandPrintPos();
         attributeOn(A_REVERSE);
         print("Enter:");
         attributeOff(A_REVERSE);
@@ -35,7 +34,6 @@ namespace ncursespp { namespace gui {
     
     void Menu::Update()
     {
-        Window::Update();
         printCommands();
         GlobalLogger::log(TRACE, "NCursespp::Menu") << "Updating menu, redrawing items" << Sentinel::END;
         coord xcenter = getMiddle().x - 4;
@@ -62,6 +60,11 @@ namespace ncursespp { namespace gui {
             return getItem(selection); 
         else
             return string("");
+    }
+
+    index Menu::getSelectedIndex()
+    {
+        return selection;
     }
 
     void Menu::addItem(string label)

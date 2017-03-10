@@ -6,11 +6,11 @@
  */
 
 #pragma once
-#include <ncursespp/gui/Window.hpp>
+#include <ncursespp/gui/Component.hpp>
 
 namespace ncursespp { namespace gui {
 
-	class TextEntry : public Window
+	class TextEntry : public Component
 	{
 		public:
 

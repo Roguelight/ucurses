@@ -6,7 +6,7 @@
 
 namespace ncursespp { namespace application {
 
-	Application::Application(GUI* init) : running(true), C_GUI(init)
+	Application::Application() : running(true)
 	{
         GlobalLogger::log(TRACE, "NCursespp:App") << "Initialising C++ ncurses application" << Sentinel::END;
 
@@ -14,6 +14,9 @@ namespace ncursespp { namespace application {
         noecho();
         raw();
         curs_set(0);                    /* Invisible cursor     */
+        keypad(stdscr, TRUE);
+
+        C_GUI = new GUI();
         addCommand(std::bind( &Application::End, this), KEY_F(1));
 	}
 

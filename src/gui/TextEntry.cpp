@@ -17,7 +17,6 @@ namespace ncursespp { namespace gui {
 
     void TextEntry::Update()
     {
-        Window::Update();
         printCommands();
         setPosition(2,2);
         print(subject + ": " + input);
@@ -40,7 +39,7 @@ namespace ncursespp { namespace gui {
 
     void TextEntry::printCommands()
     {
-        Window::printCommands();
+        commandPrintPos();
         attributeOn(A_REVERSE);
         print("E:");
         attributeOff(A_REVERSE);

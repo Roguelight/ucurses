@@ -5,9 +5,8 @@
  * Handles window storage and color manipulation.
  * Parses input and delegates to the active window.
  *      Input should be passed on like a chain of command
+ *      Application->GUI->ActiveWindow
  *
- *      Application.getInput(); // If not an application function key pass to GUI
- *      GUI.parseInput();       // If not a GUI specific (like TAB) pass to active window
  */
 
 #pragma once

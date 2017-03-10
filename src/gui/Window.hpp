@@ -20,6 +20,7 @@
 #include <ncursespp/gui/types.hpp>
 #include <ncursespp/gui/Color.hpp>
 #include <ncursespp/gui/Command.hpp>
+#include <ncursespp/gui/Component.hpp>
 
 #include <ncurses.h>
 
@@ -37,6 +38,7 @@ namespace ncursespp { namespace gui {
 	class Window
 	{
         friend class WindowContainer;
+        friend class Component;
 
 		public:
 
@@ -50,6 +52,7 @@ namespace ncursespp { namespace gui {
             
             virtual void Update();
             void printBorder();
+            WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
 
             /* Construction */
 
@@ -92,14 +95,16 @@ namespace ncursespp { namespace gui {
             virtual void printCommands(); // Override for child Windows 
             void printGuiCommands();      // Prints application commands to Standard Screen 
 
+            /* Components */
+
+            ComponentArray Components;
+
         private:
 
-            WINDOW* H_Window; // Directly handle to NCurses WINDOW data
-
             string title;
-            bool std; // Destructor variable, does not free space to prevent double deletion.
-            const ColorContainer* S_Colors;
-            void  EnableColor(ColorContainer* s_ptr) { S_Colors = s_ptr; }
+            bool   std; // Destructor variable, does not free space to prevent double deletion.
+            const  ColorContainer* S_Colors;
+            void   EnableColor(ColorContainer* s_ptr);
 
 	};
 

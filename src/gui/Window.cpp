@@ -31,6 +31,8 @@ namespace ncursespp { namespace gui {
         {
             GlobalLogger::log(TRACE,"NCursespp::Window") << "Destroying default ncurses application Window" << Sentinel::END;
             delwin(H_Window);
+            for (auto& component : M_Components)
+                delete component;
         }
         else
             GlobalLogger::log(TRACE,"NCursespp::Window") << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
@@ -58,9 +60,9 @@ namespace ncursespp { namespace gui {
 
     void Window::Update()
     {
+        GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window -> " << title << Sentinel::END;
         werase(getHandle());
         printBorder();
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window -> " << title << Sentinel::END;
         setPosition(2,0);
         print(title);
     }
@@ -82,6 +84,11 @@ namespace ncursespp { namespace gui {
         }
         else
             GlobalLogger::log(WARNING,"NCursespp::Window") << "Tried to resize ncurses stdscr!" << Sentinel::END;
+    }
+
+    void EnableColor(ColorContainer* s_ptr) 
+    {
+        S_Colors = s_ptr;
     }
 
     void Window::setTitle(string s)
@@ -172,5 +179,5 @@ namespace ncursespp { namespace gui {
         getyx(H_Window, pos.y, pos.x);
         return pos;
     }
-    
+
 }}

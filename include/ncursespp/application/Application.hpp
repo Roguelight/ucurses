@@ -23,7 +23,7 @@ namespace ncursespp { namespace application {
 	{
 		public:
 
-			Application(GUI* in);
+			Application();
 			virtual ~Application();
 
             void Run();

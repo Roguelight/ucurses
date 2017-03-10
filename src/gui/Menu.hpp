@@ -2,13 +2,11 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * Menu interface that uses the ncurses WINDOW data structure.
- * The original ncurses menu written in C is ugly to use so I implemented
- * my own
+ * Menu interface that is constructed as a Window Component.
  */
 
 #pragma once
-#include <ncursespp/gui/Window.hpp>
+#include <ncursespp/gui/Component.hpp>
 #include <vector>
         
 
@@ -17,21 +15,21 @@ namespace ncursespp { namespace gui {
     #define NONE -1
     using index = short;
 
-	class Menu : public Window
-	{
+	class Menu : public Component
+    {
 		public:
 
-            Menu(coord2d size, coord2d pos);
+            Menu(coord x, coord y, Window* host);
 
             string getSelectedItem();           
-            index getSelectedIndex()            { return selection; }
+            index getSelectedIndex();
+            void addItem(string label);
 
         protected:
 
             /* Items */
             std::vector<string> items; 
 
-            void addItem(string label);
             void removeItem(index id);
             string& getItem(index id);      // Performs bounds checking
     
@@ -47,7 +45,7 @@ namespace ncursespp { namespace gui {
             virtual void bindDefault();
             virtual void printCommands();
             
-            virtual void Select() = 0; // * Different behaviour for selecting an item, mapped to enter
+            virtual void Select() {} // * Different behaviour for selecting an item, mapped to enter
             void removeSelectedItem(); // *->BACKSPACE
             void selectNext();         // *->j
             void selectPrevious();     // *->k

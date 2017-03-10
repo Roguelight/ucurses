@@ -1,4 +1,4 @@
-// Copyright Thu Mar  9 22:35:08 2017
+// Copyright Fri Mar 10 17:16:30 2017
 // Liam Rogers, All rights reserved.
 
 /*
@@ -9,12 +9,14 @@
 
 namespace ncursespp { namespace gui {
 
-	class UIComponent
+	class TestWindow
 	{
+
+        class enum { T
 		public:
 
-			UIComponent();
-			~UIComponent();
+			TestWindow();
+			~TestWindow();
 
 	};
 
