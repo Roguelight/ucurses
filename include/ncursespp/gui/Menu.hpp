@@ -21,37 +21,36 @@ namespace ncursespp { namespace gui {
 	{
 		public:
 
-            Menu(coord2d size, coord2d position);
+            Menu(coord2d size, coord2d pos);
 
-            void addItem(string label);
-            void removeItem(index id);
-            void removeSelectedItem();
-            string& getItem(index id);      // Performs bounds checking
-
-            inline void selectItem(index id)           { selection = id;            }
-            inline string& getSelectedItem()           { if (selection != NONE) return getItem(selection); }
-            inline index getSelectedIndex()            { if (selection != NONE) return selection; }
+            string getSelectedItem();           
+            index getSelectedIndex()            { return selection; }
 
         protected:
 
+            /* Items */
             std::vector<string> items; 
-            index               selection;
-            /*
-             * Selection ranges from -1 - (items.size - 1)
-             * -1 indicates no item selected
-             */
+
+            void addItem(string label);
+            void removeItem(index id);
+            string& getItem(index id);      // Performs bounds checking
+    
+            /* Selection */
+            
+            index selection;
+            bool last()                                { return (selection + 1) == items.size(); }
             
             virtual void Update();
-            virtual void addCommands();
 
-            virtual void Select() = 0; 
-            /*
-             * Different behaviour for selecting an item, mapped to enter
-             */
-
-            void selectNext();
-            void selectPrevious();
-            bool last()            { return (selection + 1) == items.size(); }
+            // Command Functions:
+            
+            virtual void bindDefault();
+            virtual void printCommands();
+            
+            virtual void Select() = 0; // * Different behaviour for selecting an item, mapped to enter
+            void removeSelectedItem(); // *->BACKSPACE
+            void selectNext();         // *->j
+            void selectPrevious();     // *->k
 	};
 
 }}

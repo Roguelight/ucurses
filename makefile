@@ -8,7 +8,7 @@ OBJEXT :=
 
 #*****************  Pre-processor  ****************************************
 
-INCDIR = -I ./include
+INCDIR = -I ./include -I src/
 
 #*****************  Compiler  *********************************************
 
@@ -80,7 +80,7 @@ TARGETLIB := lib/$(TARGET)/$(LIB)
 
 #*****************  Rules *************************************************
 
-.PHONY: depend clean cleandep shared program install appinstall appuninstall uninstall variables args help 
+.PHONY: depend clean cleandep shared program install appinstall appuninstall uninstall variables args help rebuild repack
 
 all:    $(OBJ)
 	@echo
@@ -162,7 +162,9 @@ program: $(TARGETAPP)
 	@echo Program $(TARGETAPP) is up to date.
 	@echo
 
-profile: 
+rebuild: clean program
+
+repack: clean shared
 
 $(TARGETAPP): $(OBJ)
 	@echo Linking objects and dependencies into executable: $(TARGETAPP)

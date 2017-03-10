@@ -2,7 +2,12 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * File description
+ * Window provides an interface for manipulating NCurses WINDOW 
+ * structure and mapping commands to keys
+ *
+ * Children of window are responsible for constructing appropriate
+ * UIComponents (Non polymorphic) and mapping appropriate commands
+ * to achieve desired interface behaviour.
  */
 
 #pragma once
@@ -35,97 +40,67 @@ namespace ncursespp { namespace gui {
 
 		public:
 
-            Window(); //default constructor for stdscr
-            Window(coord2d size, coord2d position);
+            Window(); // Default constructor initialises H_Window to NCurses stdscr
+            Window(coord2d size, coord2d position); // Specifies size and position within NCurses stdscr
 			virtual ~Window();
 
-            //inline
-            
-            void     setPosition(coord x, coord y)      { wmove(H_Window, y, x);        }
-            void     print(string inString)             { waddstr(H_Window, inString.c_str());  }
-            
-            WINDOW*  getHandle() const      { return H_Window;  }
-            string   getTitle() const       { return title;     }
-            void     setTitle(string s);
-
-            coord2d  getSize() const;
-            coord2d  getPos() const;
-            void     move(coord x, coord y);
-
         protected:
+    
+            /* Update */
+            
+            virtual void Update();
+            void printBorder();
 
-            void addBorder();
+            /* Construction */
+
             void resize(coord2d size, coord2d position);
+            void setTitle(string s);
 
-            string requestString(string subject);
-            // Prints "Enter <subject>"  and returns entered text before <BREAK>
+            /* Manipulation */
 
-            
-            const ColorContainer* S_Colors;
-            void  EnableColor(ColorContainer* s_ptr) { S_Colors = s_ptr; }
-            
-            void setAttributes(int attributes)      { wattrset(H_Window, attributes); }
-            void setAttribute(int attributes)       { wattron(H_Window, attributes);  } 
-            void attributeOff(int attributes)       { wattroff(H_Window, attributes); }
-            
+            void  setPosition(coord x, coord y); // Sets cursor to absolute position
+            void  move(coord x, coord y);        // Moves cursor to relative to current position      
+            void  print(string inString);        // Prints from current cursor position
+
+            // Attributes
+            void setAttributes(int attributes);
+            void attributeOn(int attributes);
+            void attributeOff(int attributes);
+           
+            // Highlighting
             void highlightWord(coord2d wordpos, int size);                  
             void highlightRow(coord row);                  
             void highlightColumn(coord column);                  
-            
-            string title;
-
-            virtual void Update();
-
-            CommandArray Commands;
-
-        private:
-
-            WINDOW* H_Window;
-            /*
-             * Use prefix H_ to indicate the pointer is a handler of some
-             * data. This indicates this object is the sole owner of the
-             * object on the heap and should be responsible for initialisation
-             * and clean up of data.
-             */
-            bool std; // Destructor variable, does not free space to prevent double deletion.
-            void defaultCommands() {};
-	};
-
-
-    class WindowContainer 
-    {
-        friend class ncursespp::application::GUI;
-        
-        using WindowMap = std::map<string, Window*>;  // map of pointers allows needed flexibility for GUI hierarchy
 
         public:
+
+            /* Retrieval Methods */
             
-            WindowContainer();
-            virtual ~WindowContainer();
+            coord2d  getSize() const;
+            coord2d  getPos() const;
+            coord2d  getMiddle() const; 
             
-            void Update();
-            void Refresh();
-            void Add(string ID, Window* win);
-            void Remove(string ID);
+            WINDOW*  getHandle() const;
+            string   getTitle() const;
 
-            /*
-             * Sets active window to next window in map
-             */ void Next();
+        protected:
 
-
-            Window* Get(string ID) const;
-            Window* getActive() const       { return active.second; }
+            /* Commands */
+            
+            CommandArray Commands;
+           
+            virtual void printCommands(); // Override for child Windows 
+            void printGuiCommands();      // Prints application commands to Standard Screen 
 
         private:
 
-            WindowMap M_Windows;
-            std::pair<string, Window*> active;
-            
+            WINDOW* H_Window; // Directly handle to NCurses WINDOW data
 
-            ColorContainer Colors;
+            string title;
+            bool std; // Destructor variable, does not free space to prevent double deletion.
+            const ColorContainer* S_Colors;
+            void  EnableColor(ColorContainer* s_ptr) { S_Colors = s_ptr; }
 
-            void Parse(int input);
-
-    };
+	};
 
 }}

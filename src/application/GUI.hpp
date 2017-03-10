@@ -14,7 +14,7 @@
 #include <string>
 
 #include <ctk/log/GlobalLogger.hpp>
-#include <ncursespp/gui/Window.hpp>
+#include <ncursespp/gui/WindowContainer.hpp>
 #include <ncursespp/gui/Color.hpp>
 #include <ncursespp/application/types.hpp>
 
@@ -34,17 +34,22 @@ namespace ncursespp { namespace application {
             
             coord2d getSize()                          { return Windows.Get("Standard Screen")->getSize(); }
 
+        protected:
+
+            void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
+
         private:
 
             WindowContainer Windows;
+            Window stdscreen;
             
             CommandArray Commands;
 
             void Parse(int input);
             Window& getActiveWindow()                  { return *(Windows.getActive()); }
-            void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
             void Render();
-            void Update();
+            void UpdateAll();
+            void UpdateActive();
             
 	};
 

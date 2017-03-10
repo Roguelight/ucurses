@@ -21,16 +21,20 @@ namespace ncursespp { namespace gui {
 
         protected:
 
-            string directory;
+            void Update();
 
-            string last;
-            // History of one to enable backtracking
-            
+            string directory; // File directory from which files are displayed
+            string last;      // History of one to enable backtracking
             void setDirectory(string inString);
-            void backTrack();
             
-            virtual void Select();
+
+            // Command functions
             virtual void addCommands();
+            void         printCommands();
+
+            void         backTrack(); // Backtrack to last visited directory
+            void         toParent();  // Navigate to parent directory
+            virtual void Select();
 
 	};
 

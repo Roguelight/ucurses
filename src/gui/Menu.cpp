@@ -6,16 +6,16 @@
 
 namespace ncursespp { namespace gui {
 
-    Menu::Menu(coord2d size, coord2d position) : Window(size,position) 
+    Menu::Menu(coord2d size, coord2d pos) : Window(size, pos) 
     {
         GlobalLogger::log(TRACE, "NCursespp::Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
         selection = NONE;
         setTitle("Menu");
         items.reserve(40);
-        addCommands();
+        bindDefault();
     }
 
-    void Menu::addCommands()
+    void Menu::bindDefault()
     {
         Commands.Add(bind( &Menu::addItem, this, string("Connect")), 'a');   // Test add item
         Commands.Add(bind( &Menu::removeSelectedItem, this), KEY_BACKSPACE); // Remove highlighted item
@@ -23,31 +23,46 @@ namespace ncursespp { namespace gui {
         Commands.Add(bind( &Menu::selectPrevious, this), 'k');               // Move up Menu 
         Commands.Add(bind( &Menu::Select, this),  10);                       // Select highlighted item <Enter>
     }
+
+    void Menu::printCommands()
+    {
+        Window::printCommands();
+        attributeOn(A_REVERSE);
+        print("Enter:");
+        attributeOff(A_REVERSE);
+        print(" Select ");
+    }
     
-    /*
-     * Prints all items in a menu and highlights selected.
-     * Considered only changing the highlight of the items
-     * in update but makes the loop more unpredictable
-     */
     void Menu::Update()
     {
-        werase(getHandle());
         Window::Update();
+        printCommands();
         GlobalLogger::log(TRACE, "NCursespp::Menu") << "Updating menu, redrawing items" << Sentinel::END;
-        coord xcenter = (getSize().x / 2) - 4;
-        int size = getItem(selection).length();
-        setPosition(xcenter, 1); //Initial position
+        coord xcenter = getMiddle().x - 4;
+        coord ymargin = 2;
+        setPosition(xcenter, ymargin); //Initial position
 
         for (auto& item : items)
         {
-            move(0, 1);
+            GlobalLogger::log(TRACE, "NCursespp::Menu") << "Printing item: " << item <<  Sentinel::END;
+            setPosition(xcenter, getPos().y + 1);
             print(item);
-            wclrtoeol(getHandle());
         }
 
-        highlightWord(coord2d(xcenter, selection + 1), size);
+        if (selection != NONE)
+        {
+            int size = getSelectedItem().length();
+            highlightWord(coord2d(xcenter, selection + ymargin), size);
+        }
     }
     
+    string Menu::getSelectedItem()
+    {
+        if (selection != NONE) 
+            return getItem(selection); 
+        else
+            return string("");
+    }
 
     void Menu::addItem(string label)
     {
@@ -114,9 +129,9 @@ namespace ncursespp { namespace gui {
         if (selection != NONE)
         {
             GlobalLogger::log(TRACE, "NCursespp::Menu") << "Removing item at index " << id << Sentinel::END;
-            items.erase(items.begin() + id);
             if (last()) 
                 selection--;
+            items.erase(items.begin() + id);
             if (items.empty())
                 selection = NONE;
         }

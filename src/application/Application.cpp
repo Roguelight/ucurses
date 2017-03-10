@@ -6,7 +6,7 @@
 
 namespace ncursespp { namespace application {
 
-	Application::Application() : running(true) 
+	Application::Application(GUI* init) : running(true), C_GUI(init)
 	{
         GlobalLogger::log(TRACE, "NCursespp:App") << "Initialising C++ ncurses application" << Sentinel::END;
 
@@ -14,8 +14,6 @@ namespace ncursespp { namespace application {
         noecho();
         raw();
         curs_set(0);                    /* Invisible cursor     */
-        C_GUI = new GUI();
-
         addCommand(std::bind( &Application::End, this), KEY_F(1));
 	}
 
@@ -34,9 +32,9 @@ namespace ncursespp { namespace application {
         GlobalLogger::log(TRACE, "NCursespp:App") << "Starting application loop" << Sentinel::END;
         while (running)
         {
-            C_GUI->Update();
-            C_GUI->Render();
-            Parse();
+            C_GUI->UpdateAll(); // Write everything to screens
+            C_GUI->Render(); // Render screen
+            Parse();         // Parse new commands
         }
     }
 

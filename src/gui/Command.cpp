@@ -34,13 +34,18 @@ namespace ncursespp { namespace gui {
 
     bool CommandArray::Parse(int key) 
     {
-        auto it = std::find(keys.begin(), keys.end(), key);
-        if (it != keys.end())
+        if (!(keys.empty())) 
         {
-            GlobalLogger::log(TRACE) << "Executing function" << Sentinel::END;
-            index keyindex = it - keys.begin();
-            functions[keyindex]();
-            return true;
+            auto it = std::find(keys.begin(), keys.end(), key);
+            if (it != keys.end())
+            {
+                GlobalLogger::log(TRACE) << "Executing function" << Sentinel::END;
+                index keyindex = it - keys.begin();
+                functions[keyindex]();
+                return true;
+            }
+            else
+                return false;
         }
         else
             return false;

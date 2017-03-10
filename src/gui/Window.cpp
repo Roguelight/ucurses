@@ -2,6 +2,7 @@
 // Liam Rogers, All rights reserved.
 
 #include <ncursespp/gui/Window.hpp>
+#include <ncursespp/gui/Component.hpp>
 #include <ncursespp/application/GUI.hpp>
 
 namespace ncursespp { namespace gui {
@@ -11,20 +12,20 @@ namespace ncursespp { namespace gui {
         GlobalLogger::log(TRACE,"NCursespp::Window") << "Initialising ncurses application Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
-        addBorder();
-        defaultCommands();
 	}
     
-    Window::Window() : std(true), title("")
+    Window::Window() : std(true), title("Main")
     {
         GlobalLogger::log(TRACE,"NCursespp::Window") << "Initialising ncurses stdscr Window" << Sentinel::END;
         H_Window = stdscr;
         keypad(H_Window, TRUE);
-        addBorder();
-        defaultCommands();
+        printBorder();          // Call printBorder() in constructor because stdscreen doesnt get updated
+        setPosition(1,1);
+        print(title);
+        printGuiCommands();
     }
 
-	Window::~Window()
+    Window::~Window()
 	{
         if (!std)
         {
@@ -35,180 +36,141 @@ namespace ncursespp { namespace gui {
             GlobalLogger::log(TRACE,"NCursespp::Window") << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
 	}
 
-    void Window::setTitle(string s)
-    { 
-        title = s;        
-    }
-
-    string Window::requestString(string subject)
+    void Window::printCommands()
     {
-        print("Enter " + subject + ": ");
-        echo();
-        char input[10];
-        getnstr(input, 10);
-        noecho();
-        if (input)
-        {
-            string temp(input);
-            move(0,1);
-            print("You entered: " + temp);
-        }
+        setPosition(2, getSize().y - 2);
+    }
+    
+    void Window::printGuiCommands()
+    {
+        printCommands(); // Move to appropriate location (bottom left)
+        attributeOn(A_REVERSE);
+        print("Tab:");
+        attributeOff(A_REVERSE);
+        print(" Switch Active Window ");
+        attributeOn(A_REVERSE);
+        print("F1:");
+        attributeOff(A_REVERSE);
+        print(" Close Application");
     }
 
-    void Window::move(coord x, coord y)
-    { 
-        coord2d curpos = getPos();
-        wmove(H_Window, curpos.y + y, curpos.x + x);        
-    }
+    /* Update */
 
     void Window::Update()
     {
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window " << title << Sentinel::END;
-        setAttributes(A_NORMAL);
-        setPosition(1,1);
+        werase(getHandle());
+        printBorder();
+        GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window -> " << title << Sentinel::END;
+        setPosition(2,0);
         print(title);
     }
+	
+    void Window::printBorder()
+    {
+        GlobalLogger::log(TRACE,"NCursespp::Window") << "Rendering border -> " << title << Sentinel::END;
+        box(H_Window, '|', '-');
+    }
+
+    /* Construction */
 
     void Window::resize(coord2d size, coord2d position)
     {
         if (!std)
         {
-            GlobalLogger::log(WARNING,"NCursespp::Window") << "Resizing window" << Sentinel::END;
+            GlobalLogger::log(TRACE,"NCursespp::Window") << "Resizing window-> " << title << Sentinel::END;
             delwin(H_Window);
         }
         else
-        {
-            H_Window = newwin(size.y, size.x, position.y, position.x);
-            GlobalLogger::log(WARNING,"NCursespp::Window") << "Tried to resize ncurses stdscr, creating sub window instead" << Sentinel::END;
-        }
+            GlobalLogger::log(WARNING,"NCursespp::Window") << "Tried to resize ncurses stdscr!" << Sentinel::END;
     }
 
+    void Window::setTitle(string s)
+    {
+        title = s;        
+    }
+
+    /* Manipulation */
+
+    void Window::move(coord x, coord y)
+    { 
+        coord2d curpos = getPos();
+        wmove(H_Window, curpos.y + y, curpos.x + x);
+    }
+
+    void Window::print(string inString)
+    {
+        waddstr(H_Window, inString.c_str());
+    }
+            
+    void Window::setPosition(coord x, coord y)
+    {
+        wmove(H_Window, y, x);
+    }
+            
+    // Attributes        
+    void Window::setAttributes(int attributes)      
+    {
+        wattrset(H_Window, attributes); 
+    }
+
+    void Window::attributeOn(int attributes)
+    { 
+        wattron(H_Window, attributes);  
+    } 
+
+    void Window::attributeOff(int attributes)
+    { 
+        wattroff(H_Window, attributes); 
+    }
+
+    // Highlighting
+
+    void Window::highlightRow(coord row)
+    {
+        mvwchgat(H_Window, row, 0, -1, A_REVERSE, S_Colors->Get("BW"), NULL);
+    }
+
+    void Window::highlightColumn(coord column)
+    {
+        mvwchgat(H_Window, 0, column, -1, A_REVERSE, S_Colors->Get("Inverse"), NULL);
+    }    
+
+    void Window::highlightWord(coord2d wordpos, int size)
+    {
+        mvwchgat(H_Window, wordpos.y + 1, wordpos.x, size, A_REVERSE, S_Colors->Get("Inverse"), NULL);
+    }
+
+    /* Retrieval methods */
+    
     coord2d Window::getSize() const
     {
         coord2d size;
         getmaxyx(H_Window, size.y, size.x);
         return size;
     }
+
+    coord2d Window::getMiddle() const
+    {
+        coord2d size = getSize(); 
+        coord2d middle(size.x / 2, size.y / 2);
+        return middle;
+    }
     
+    WINDOW* Window::getHandle() const
+    { 
+        return H_Window;  
+    }
+
+    string Window::getTitle() const
+    {
+        return title;     
+    }
+
     coord2d Window::getPos() const
     {
         coord2d pos;
         getyx(H_Window, pos.y, pos.x);
         return pos;
     }
-
-    void Window::addBorder()
-    {
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Creating border for Window" << Sentinel::END;
-        box(H_Window, '|', '-');
-    }
-
-    void Window::highlightRow(coord row)
-    {
-        mvwchgat(H_Window, row, 0, -1, A_STANDOUT, S_Colors->Get("Inverse"), NULL);
-    }
-
-    void Window::highlightColumn(coord column)
-    {
-        mvwchgat(H_Window, 0, column, -1, A_STANDOUT, S_Colors->Get("Inverse"), NULL);
-    }    
-
-    void Window::highlightWord(coord2d wordpos, int size)
-    {
-        mvwchgat(H_Window, wordpos.y + 1, wordpos.x, size, A_STANDOUT, S_Colors->Get("Inverse"), NULL);
-    }
-
-    WindowContainer::WindowContainer()
-    {
-        GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Constructing smart window container" << Sentinel::END;
-    }
-
-    WindowContainer::~WindowContainer()
-    {
-        for (auto& element : M_Windows)
-        {
-            delete element.second;
-            element.second = nullptr;
-        }
-    }
     
-    void WindowContainer::Add(string ID, Window* win)
-    {
-        GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Adding new window to ncursespp container with ID: " << ID <<  Sentinel::END;
-        win->EnableColor(&Colors);
-        active.first = ID;
-        active.second = win;
-        M_Windows.insert(std::pair<string, Window*>(ID, win));
-    }
-
-    Window* WindowContainer::Get(string ID) const
-    {
-        auto window = M_Windows.find(ID); 
-        if (window != M_Windows.end())
-            return window->second;
-        else
-            GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Failed to find window. ID " << ID << " not valid" <<  Sentinel::END;
-    }
-
-    void WindowContainer::Remove(string ID)
-    {
-        GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Removing window from ncursespp GUI storage with ID: " << ID <<  Sentinel::END;
-        auto win = M_Windows.find(ID);
-        if (win != M_Windows.end())
-        {
-            delete win->second;
-            win->second = nullptr;
-            M_Windows.erase(win);
-        }
-        else
-            GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Couldn't find window to erase with ID: " << ID <<  Sentinel::END;
-    }
-
-    void WindowContainer::Update()
-    {
-        for (auto& element : M_Windows)
-            element.second->Update();
-    }
-
-    void WindowContainer::Refresh()
-    {
-        for (auto& element : M_Windows)
-        {
-            wnoutrefresh(element.second->getHandle());
-        }
-    }
-
-    void WindowContainer::Next()
-    {
-        if (M_Windows.empty())
-        {
-            GlobalLogger::log(WARNING, "WindowContainer") << "Window map empty, Next() called, doing nothing" << Sentinel::END;
-            active.first = nullptr;
-        }
-        else
-        {
-            GlobalLogger::log(TRACE, "WindowContainer") << "Selecting next active window: ";
-            auto activeit = M_Windows.find(active.first);
-            if ((++activeit) == M_Windows.end())
-            {
-                active.first = M_Windows.begin()->first;
-                active.second = M_Windows.begin()->second;
-                GlobalLogger::log(TRACE, "WindowContainer") << active.first << Sentinel::END;
-            }
-            else
-            {
-                active.first = activeit->first;
-                active.second = activeit->second;
-                GlobalLogger::log(TRACE, "WindowContainer") << active.first << Sentinel::END;
-            }
-        }
-    }
-
-    void WindowContainer::Parse(int input)
-    { 
-        GlobalLogger::log(TRACE, "WindowContainer") << "Delegating command to active window " << active.first <<  Sentinel::END;
-        active.second->Commands.Parse(input);
-    }
-
-
 }}

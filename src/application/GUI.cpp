@@ -7,17 +7,14 @@ namespace ncursespp { namespace application {
 
 	GUI::GUI()
 	{
-        GlobalLogger::log(TRACE) << "Initialising ncursespp GUI" << Sentinel::END;
-
+        GlobalLogger::log(TRACE, "GUI:") << "Initialising ncursespp GUI" << Sentinel::END;
         Commands.Add(std::bind( &WindowContainer::Next, &Windows), 9); 
-        Windows.Add("Standard Screen", new Window());
-
         keypad(stdscr, TRUE);
 	}
 
 	GUI::~GUI()
 	{
-        GlobalLogger::log(TRACE) << "Destroying ncursespp GUI" << Sentinel::END;
+        GlobalLogger::log(TRACE, "GUI:") << "Destroying ncursespp GUI" << Sentinel::END;
 	}
 
     void GUI::Render()
@@ -26,13 +23,21 @@ namespace ncursespp { namespace application {
          * screen increases efficiency by minimising the redundant calls to hidden
          * doupdate() function which is called by wrefresh() */
 
+        wrefresh(stdscr);
         Windows.Refresh(); // Copies windows to virtual window
         doupdate();        // Compares virtual to physical and updates screen
     }
 
-    void GUI::Update()
+    void GUI::UpdateAll()
     {
-        Windows.Update(); // Virtual function called on each window to update display
+        GlobalLogger::log(TRACE, "GUI:") << "Updating all windows" << Sentinel::END;
+        Windows.UpdateAll(); // Virtual function called on each window to update display
+    }
+
+    void GUI::UpdateActive()
+    {
+        GlobalLogger::log(TRACE, "GUI:") << "Updating active window" << Sentinel::END;
+        Windows.UpdateActive(); 
     }
 
     void GUI::Parse(int input)
