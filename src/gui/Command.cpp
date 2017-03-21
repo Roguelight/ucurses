@@ -25,7 +25,7 @@ namespace ncursespp { namespace gui {
     * from all vectors
     */
     
-    void CommandArray::Add(delegate func, int key)
+    void CommandArray::Add(int key, delegate func)
     { 
         keys.push_back(key); 
         functions.push_back(func); 
@@ -39,7 +39,7 @@ namespace ncursespp { namespace gui {
             auto it = std::find(keys.begin(), keys.end(), key);
             if (it != keys.end())
             {
-                GlobalLogger::log(TRACE) << "Executing function" << Sentinel::END;
+                GlobalLogger::log(TRACE, "Command") << "Executing function at key: " << key << Sentinel::END;
                 index keyindex = it - keys.begin();
                 functions[keyindex]();
                 return true;

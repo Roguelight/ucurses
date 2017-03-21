@@ -6,17 +6,16 @@
  */
 
 #pragma once
+#include <ncursespp/gui/Window.hpp>
 
 namespace ncursespp { namespace gui {
 
-	class TestWindow
+	class TestWindow : public Window
 	{
 
-        class enum { T
 		public:
 
 			TestWindow();
-			~TestWindow();
 
 	};
 

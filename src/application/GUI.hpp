@@ -36,6 +36,7 @@ namespace ncursespp { namespace application {
         protected:
 
             void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
+            void removeAll()                           { Windows.RemoveAll(); }
 
         private:
 

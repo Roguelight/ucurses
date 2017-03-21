@@ -6,22 +6,34 @@
  */
 
 #pragma once
+#include <ncursespp/gui/Component.hpp>
 
 namespace ncursespp { namespace gui {
 
+    class Window;
+
     class ComponentArray
     {
+        friend class Window;
 
         public:
 
+            ComponentArray();
             ComponentArray(size_t n); // Size supplied by the window host
+            ~ComponentArray();
 
             void Add(Component* component);
+            void Update();
 
         protected:
 
-            vector<Component*, size_t> M_Components;
+            vector<Component*> M_Components;
+            /* 
+             * Prefix M_ indicates owner of this data is responsible
+             * for memory management of every instance of this data
+             */
+            
 
-    }
+    };
 
 }}

@@ -20,7 +20,7 @@
 #include <ncursespp/gui/types.hpp>
 #include <ncursespp/gui/Color.hpp>
 #include <ncursespp/gui/Command.hpp>
-#include <ncursespp/gui/Component.hpp>
+#include <ncursespp/gui/Components.hpp>
 
 #include <ncurses.h>
 
@@ -43,7 +43,7 @@ namespace ncursespp { namespace gui {
 		public:
 
             Window(); // Default constructor initialises H_Window to NCurses stdscr
-            Window(coord2d size, coord2d position); // Specifies size and position within NCurses stdscr
+            Window(coord2d size, coord2d position, size_t nComponents); // Specifies size and position within NCurses stdscr
 			virtual ~Window();
 
         protected:
@@ -53,6 +53,10 @@ namespace ncursespp { namespace gui {
             virtual void Update();
             void printBorder();
             WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
+            /*
+             * H_ prefix indicates handle ownership and thus the data should be 
+             * manage elsewhere
+             */
 
             /* Construction */
 
@@ -79,12 +83,13 @@ namespace ncursespp { namespace gui {
 
             /* Retrieval Methods */
             
-            coord2d  getSize() const;
-            coord2d  getPos() const;
-            coord2d  getMiddle() const; 
+            coord2d   getSize()   const;
+            coord2d   getPos()    const;
+            coord2d   getMiddle() const; 
             
-            WINDOW*  getHandle() const;
-            string   getTitle() const;
+            WINDOW*  getHandle()  const;
+            string   getTitle()   const;
+            void addCommand(int key, delegate func);
 
         protected:
 

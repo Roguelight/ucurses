@@ -14,18 +14,22 @@ namespace ncursespp { namespace gui {
 	{
 		public:
 
-			TextEntry(coord x, coord y, string subject); //Default size is small
+			TextEntry(coord x, coord y, Window* host); 
+
+            void bindDefault();
 
         protected:
 
             void Update();
 
+            void setSubject(string inString);
 
             string subject;
             string input;
             coord2d pos;
 
             // Commands
+            
             void getInput(); // *->E
             void printCommands();
 

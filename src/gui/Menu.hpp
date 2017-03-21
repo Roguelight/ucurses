@@ -20,6 +20,8 @@ namespace ncursespp { namespace gui {
 		public:
 
             Menu(coord x, coord y, Window* host);
+            
+            virtual void bindDefault();
 
             string getSelectedItem();           
             index getSelectedIndex();
@@ -42,10 +44,8 @@ namespace ncursespp { namespace gui {
 
             // Command Functions:
             
-            virtual void bindDefault();
             virtual void printCommands();
             
-            virtual void Select() {} // * Different behaviour for selecting an item, mapped to enter
             void removeSelectedItem(); // *->BACKSPACE
             void selectNext();         // *->j
             void selectPrevious();     // *->k

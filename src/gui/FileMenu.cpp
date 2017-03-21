@@ -1,19 +1,16 @@
 // Copyright Thu Feb 23 23:12:00 2017
 // Liam Rogers, All rights reserved.
 
-#include "FileMenu.hpp"
-#include <ncursespp/application/GUI.hpp>
+#include <ncursespp/gui/FileMenu.hpp>
 
 namespace ncursespp { namespace gui {
 
             
-    FileMenu::FileMenu(coord2d size, coord2d position) : Menu(size, position)
+    FileMenu::FileMenu(coord x, coord y, Window* host) : Menu(x, y, host)
     {
         GlobalLogger::log(TRACE, "Filemenu::") << "Initialising FileMenu" <<  Sentinel::END;
-        setTitle("Filemenu");
         setDirectory(boost::filesystem::current_path().string());
         last = directory;
-        addCommands();
     }
 
     void FileMenu::Update()
@@ -22,10 +19,10 @@ namespace ncursespp { namespace gui {
         printCommands();
     }
 
-    void FileMenu::addCommands()
+    void FileMenu::bindDefault()
     {
-        Commands.Add(bind( &FileMenu::backTrack, this), 'b'); 
-        Commands.Add(bind( &FileMenu::toParent, this), 'p'); 
+        addCommand('b', bind( &FileMenu::backTrack, this)); 
+        addCommand('p', bind( &FileMenu::toParent, this)); 
     }
 
     void FileMenu::printCommands()

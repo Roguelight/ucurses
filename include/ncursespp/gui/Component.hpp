@@ -10,14 +10,24 @@
  */
 
 #pragma once
-#include <ncursespp/gui/Window.hpp>
+#include <ncurses.h>
+
+#include <string>
+
+#include <ncursespp/gui/types.hpp>
+#include <ncursespp/gui/Command.hpp>
+
+using namespace std;
 
 namespace ncursespp { namespace gui {
-
+    class Window;
 	class Component
 	{
+        friend class Window;
+        friend class ComponentArray;
 		public:
-
+            
+            /* Constructor */ // Default sizes are set by children
 			Component(coord x, coord y, Window* host);
 
         protected:
@@ -31,9 +41,10 @@ namespace ncursespp { namespace gui {
 
             void print(string inString); 
             void move(coord x, coord y);        // Move relative to current position
-            void setPostiion(coord x, coord y); // Set absolute position
+            void setPosition(coord x, coord y); // Set absolute position
             void setSize(coord x, coord y);
             coord2d  getMiddle() const; 
+            coord2d  getPos()    const;
 
             coord2d position;
             coord2d size;
@@ -42,6 +53,13 @@ namespace ncursespp { namespace gui {
 
             void attributeOn(int attributes);
             void attributeOff(int attributes);
+            
+            // Highlighting
+            void highlightWord(coord2d wordpos, int size);                  
+            void highlightRow(coord row);                  
+            void highlightColumn(coord column);                  
+
+        public:
 
             /* Commands : Windows parse the commands of all their components */
 
@@ -49,7 +67,7 @@ namespace ncursespp { namespace gui {
 
             // Hosts have the option of constructing their own bindings or using default
             virtual void bindDefault() = 0;
-            void commandPrintPos();
+            void printPosition();
 	};
 
     

@@ -2,30 +2,29 @@
 // Liam Rogers, All rights reserved.
 
 #include <ncursespp/gui/Menu.hpp>
+#include <ncursespp/gui/Window.hpp>
 
 
 namespace ncursespp { namespace gui {
 
-    Menu::Menu(coord x, coord y, Window* host) : Component(size, pos, host) 
+    Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
         setSize(40,20);
-        GlobalLogger::log(TRACE, "NCursespp::Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
+        GlobalLogger::log(TRACE,"Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
         selection = NONE;
         items.reserve(24);
     }
 
     void Menu::bindDefault()
     {
-        addCommand('a', bind( &Menu::addItem, this, string("Connect")));   // Test add item
-        addCommand(KEY_BACKSPACE, bind( &Menu::removeSelectedItem, this)); // Remove highlighted item
         addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
         addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
-        addCommand(10, bind( &Menu::Select, this));                        // Select highlighted item <Enter>
     }
 
     void Menu::printCommands()
     {
-        commandPrintPos();
+        GlobalLogger::log(TRACE,"Menu") << "Printing commands:" << Sentinel::END;
+        printPosition();
         attributeOn(A_REVERSE);
         print("Enter:");
         attributeOff(A_REVERSE);
@@ -35,14 +34,15 @@ namespace ncursespp { namespace gui {
     void Menu::Update()
     {
         printCommands();
-        GlobalLogger::log(TRACE, "NCursespp::Menu") << "Updating menu, redrawing items" << Sentinel::END;
         coord xcenter = getMiddle().x - 4;
         coord ymargin = 2;
+        
+        GlobalLogger::log(TRACE,"Menu") << "Updating menu, redrawing items at center: " << xcenter << Sentinel::END;
         setPosition(xcenter, ymargin); //Initial position
 
         for (auto& item : items)
         {
-            GlobalLogger::log(TRACE, "NCursespp::Menu") << "Printing item: " << item <<  Sentinel::END;
+            GlobalLogger::log(TRACE,"Menu") << "Printing item: " << item <<  Sentinel::END;
             setPosition(xcenter, getPos().y + 1);
             print(item);
         }
@@ -70,7 +70,7 @@ namespace ncursespp { namespace gui {
     void Menu::addItem(string label)
     {
         selection  = items.size();
-        GlobalLogger::log(TRACE,"NCursespp::Menu") << "Adding item " << label << " to menu at index: " << selection <<  Sentinel::END;
+        GlobalLogger::log(TRACE,"Menu") << "Adding item " << label << " to menu at index: " << selection <<  Sentinel::END;
         items.push_back(label);
     }
 
@@ -78,11 +78,11 @@ namespace ncursespp { namespace gui {
     {
         if (id < items.size())
         {
-            GlobalLogger::log(WARNING, "NCursespp::Menu") << "Fetching item at index: " << id << Sentinel::END;
+            GlobalLogger::log(WARNING,"Menu") << "Fetching item at index: " << id << Sentinel::END;
             return items.at(id);
         }
         else
-            GlobalLogger::log(WARNING, "NCursespp::Menu") << "Please specify index in range" << Sentinel::END;
+            GlobalLogger::log(WARNING,"Menu") << "Please specify index in range" << Sentinel::END;
     }
 
     void Menu::selectNext()
@@ -91,17 +91,17 @@ namespace ncursespp { namespace gui {
         {
             if (last()) 
             {
-                GlobalLogger::log(TRACE, "NCursespp::Menu") << "At last element, not modifying selection" << Sentinel::END;
+                GlobalLogger::log(TRACE,"Menu") << "At last element, not modifying selection" << Sentinel::END;
             }
             else
             {
                 ++selection;
-                GlobalLogger::log(TRACE, "NCursespp::Menu") << "Selecting next item at index: " << selection << Sentinel::END;
+                GlobalLogger::log(TRACE,"Menu") << "Selecting next item at index: " << selection << Sentinel::END;
             }
         }
         else
         {
-            GlobalLogger::log(TRACE, "NCursespp::Menu") << "Menu empty, selecting 0" << Sentinel::END;
+            GlobalLogger::log(TRACE,"Menu") << "Menu empty, selecting 0" << Sentinel::END;
             selection = -1;
         }
     }
@@ -112,17 +112,17 @@ namespace ncursespp { namespace gui {
         {
             if (selection <= 0)
             {
-                GlobalLogger::log(TRACE, "NCursespp::Menu") << "At first element, not modifying selection" << Sentinel::END;
+                GlobalLogger::log(TRACE,"Menu") << "At first element, not modifying selection" << Sentinel::END;
             }
             else
             {
                 --selection;
-                GlobalLogger::log(TRACE, "NCursespp::Menu") << "Decreasing selection to index: " << selection << Sentinel::END;
+                GlobalLogger::log(TRACE,"Menu") << "Decreasing selection to index: " << selection << Sentinel::END;
             }
         }
         else
         {
-            GlobalLogger::log(TRACE, "NCursespp::Menu") << "Menu empty, selecting 0" << Sentinel::END;
+            GlobalLogger::log(TRACE,"Menu") << "Menu empty, selecting 0" << Sentinel::END;
             selection = NONE;
         } 
     }
@@ -131,7 +131,7 @@ namespace ncursespp { namespace gui {
     {
         if (selection != NONE)
         {
-            GlobalLogger::log(TRACE, "NCursespp::Menu") << "Removing item at index " << id << Sentinel::END;
+            GlobalLogger::log(TRACE,"Menu") << "Removing item at index " << id << Sentinel::END;
             if (last()) 
                 selection--;
             items.erase(items.begin() + id);
@@ -143,7 +143,7 @@ namespace ncursespp { namespace gui {
     void Menu::removeSelectedItem()
     {
         index id = getSelectedIndex();
-        GlobalLogger::log(TRACE, "NCursespp::Menu") << "Removing selected item" << Sentinel::END;
+        GlobalLogger::log(TRACE,"Menu") << "Removing selected item" << Sentinel::END;
         removeItem(id);
     }
 

@@ -26,6 +26,8 @@ namespace ncursespp { namespace gui {
         coord2d(coord inX, coord inY) : x(inX), y(inY)  {}
         coord2d(const coord2d& src) : x(src.x), y(src.y)  {}
         coord2d() : x(0), y(0)  {}
+        coord2d operator-(coord2d other) { return coord2d(x - other.x, y - other.y); }
+        coord2d operator+(coord2d other) { return coord2d(x + other.x, y + other.y); }
     };
     
     

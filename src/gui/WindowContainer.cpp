@@ -7,7 +7,7 @@ namespace ncursespp { namespace gui {
 
     WindowContainer::WindowContainer()
     {
-        GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Constructing smart window container" << Sentinel::END;
+        GlobalLogger::log(TRACE,"WinMap") << "Constructing smart window container" << Sentinel::END;
     }
 
     WindowContainer::~WindowContainer()
@@ -21,7 +21,7 @@ namespace ncursespp { namespace gui {
     
     void WindowContainer::Add(string ID, Window* win)
     {
-        GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Adding new window to ncursespp container with ID: " << ID <<  Sentinel::END;
+        GlobalLogger::log(TRACE,"WinMap") << "Adding new window to ncursespp container with ID: " << ID <<  Sentinel::END;
         win->EnableColor(&Colors);
         active.first = ID;
         active.second = win;
@@ -34,12 +34,12 @@ namespace ncursespp { namespace gui {
         if (window != M_Windows.end())
             return window->second;
         else
-            GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Failed to find window. ID " << ID << " not valid" <<  Sentinel::END;
+            GlobalLogger::log(TRACE,"WinMap") << "Failed to find window. ID " << ID << " not valid" <<  Sentinel::END;
     }
 
     void WindowContainer::Remove(string ID)
     {
-        GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Removing window from ncursespp GUI storage with ID: " << ID <<  Sentinel::END;
+        GlobalLogger::log(TRACE,"WinMap") << "Removing window from ncursespp GUI storage with ID: " << ID <<  Sentinel::END;
         auto win = M_Windows.find(ID);
         if (win != M_Windows.end())
         {
@@ -48,7 +48,16 @@ namespace ncursespp { namespace gui {
             M_Windows.erase(win);
         }
         else
-            GlobalLogger::log(TRACE,"NCursespp::WindowContainer") << "Couldn't find window to erase with ID: " << ID <<  Sentinel::END;
+            GlobalLogger::log(TRACE,"WinMap") << "Couldn't find window to erase with ID: " << ID <<  Sentinel::END;
+    }
+
+    void WindowContainer::RemoveAll()
+    {
+        for (auto& element : M_Windows)
+        {
+            delete element.second;
+            element.second = nullptr;
+        }
     }
 
     void WindowContainer::UpdateActive()
@@ -86,7 +95,7 @@ namespace ncursespp { namespace gui {
         if (M_Windows.empty())
         {
             GlobalLogger::log(WARNING, "WindowContainer") << "Window map empty, Next() called, doing nothing" << Sentinel::END;
-            active.first = nullptr;
+            active.second = nullptr;
         }
         else
         {
@@ -110,7 +119,10 @@ namespace ncursespp { namespace gui {
     void WindowContainer::Parse(int input)
     { 
         GlobalLogger::log(TRACE, "WindowContainer") << "Delegating command to active window " << active.first <<  Sentinel::END;
-        active.second->Commands.Parse(input);
+        if (active.second != nullptr)
+            active.second->Commands.Parse(input);
+        else
+            GlobalLogger::log(WARNING, "WindowContainer::") << "Active window is null, cannot handle command" << Sentinel::END;
     }
 
 

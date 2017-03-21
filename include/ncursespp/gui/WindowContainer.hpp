@@ -26,6 +26,7 @@ namespace ncursespp { namespace gui {
             void Refresh();
             void Add(string ID, Window* win);
             void Remove(string ID);
+            void RemoveAll();
 
             /*
              * Sets active window to next window in map

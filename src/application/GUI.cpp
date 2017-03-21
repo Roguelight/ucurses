@@ -42,8 +42,11 @@ namespace ncursespp { namespace application {
 
     void GUI::Parse(int input)
     {
+        GlobalLogger::log(TRACE, "GUI:") << "Passing command to gui..." << Sentinel::END;
         if (!(Commands.Parse(input)))
             Windows.Parse(input);
+        else
+            GlobalLogger::log(TRACE, "NCursespp:App") << "Command caught by GUI " << input << Sentinel::END;
     }
 
 }}

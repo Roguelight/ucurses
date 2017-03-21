@@ -2,21 +2,20 @@
 // Liam Rogers, All rights reserved.
 
 #include <ncursespp/gui/Window.hpp>
-#include <ncursespp/gui/Component.hpp>
 #include <ncursespp/application/GUI.hpp>
 
 namespace ncursespp { namespace gui {
 
-	Window::Window(coord2d size, coord2d position) : std(false)
+	Window::Window(coord2d size, coord2d position, size_t nComponents) : std(false), Components(nComponents)
 	{
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Initialising ncurses application Window" << Sentinel::END;
+        GlobalLogger::log(TRACE,"Win") << "Initialising ncurses application Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
     
     Window::Window() : std(true), title("Main")
     {
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Initialising ncurses stdscr Window" << Sentinel::END;
+        GlobalLogger::log(TRACE,"Win") << "Initialising ncurses stdscr Window" << Sentinel::END;
         H_Window = stdscr;
         keypad(H_Window, TRUE);
         printBorder();          // Call printBorder() in constructor because stdscreen doesnt get updated
@@ -29,13 +28,11 @@ namespace ncursespp { namespace gui {
 	{
         if (!std)
         {
-            GlobalLogger::log(TRACE,"NCursespp::Window") << "Destroying default ncurses application Window" << Sentinel::END;
+            GlobalLogger::log(TRACE,"Win") << "Destroying default ncurses application Window" << Sentinel::END;
             delwin(H_Window);
-            for (auto& component : M_Components)
-                delete component;
         }
         else
-            GlobalLogger::log(TRACE,"NCursespp::Window") << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
+            GlobalLogger::log(TRACE,"Win") << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
 	}
 
     void Window::printCommands()
@@ -56,20 +53,26 @@ namespace ncursespp { namespace gui {
         print(" Close Application");
     }
 
+    void Window::addCommand(int key, delegate func)
+    {
+        Commands.Add(key,func);
+    }
+
     /* Update */
 
     void Window::Update()
     {
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Updating window -> " << title << Sentinel::END;
+        GlobalLogger::log(TRACE,"Win") << "Updating window -> " << title << Sentinel::END;
         werase(getHandle());
         printBorder();
         setPosition(2,0);
         print(title);
+        Components.Update();
     }
 	
     void Window::printBorder()
     {
-        GlobalLogger::log(TRACE,"NCursespp::Window") << "Rendering border -> " << title << Sentinel::END;
+        GlobalLogger::log(TRACE,"Win") << "Rendering border -> " << title << Sentinel::END;
         box(H_Window, '|', '-');
     }
 
@@ -79,14 +82,14 @@ namespace ncursespp { namespace gui {
     {
         if (!std)
         {
-            GlobalLogger::log(TRACE,"NCursespp::Window") << "Resizing window-> " << title << Sentinel::END;
+            GlobalLogger::log(TRACE,"Win") << "Resizing window-> " << title << Sentinel::END;
             delwin(H_Window);
         }
         else
-            GlobalLogger::log(WARNING,"NCursespp::Window") << "Tried to resize ncurses stdscr!" << Sentinel::END;
+            GlobalLogger::log(WARNING,"Win") << "Tried to resize ncurses stdscr!" << Sentinel::END;
     }
 
-    void EnableColor(ColorContainer* s_ptr) 
+    void Window::EnableColor(ColorContainer* s_ptr) 
     {
         S_Colors = s_ptr;
     }
@@ -111,6 +114,7 @@ namespace ncursespp { namespace gui {
             
     void Window::setPosition(coord x, coord y)
     {
+        GlobalLogger::log(TRACE,"Win") << "Setting position: " << x << ", " << y << Sentinel::END;
         wmove(H_Window, y, x);
     }
             
@@ -177,6 +181,7 @@ namespace ncursespp { namespace gui {
     {
         coord2d pos;
         getyx(H_Window, pos.y, pos.x);
+        GlobalLogger::log(TRACE,"Win") << "Returning cursor position: " << pos.x << ", " << pos.y << Sentinel::END;
         return pos;
     }
 

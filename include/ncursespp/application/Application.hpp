@@ -23,7 +23,7 @@ namespace ncursespp { namespace application {
 	{
 		public:
 
-			Application();
+			Application(GUI* Component = new GUI());
 			virtual ~Application();
 
             void Run();
@@ -36,13 +36,13 @@ namespace ncursespp { namespace application {
             /* 
              * The prefix C_ indicates the variable points to an important component that 
              * is a part of this class. This distinguishes pointers to shared objects
-             * from pointers to components that should be constructed once.
+             * from pointers to components that should be constructed and destroyed by owner.
              */ 
 
             CommandArray Commands;
 
             bool running;
-            void addCommand(delegate function, int key);
+            void addCommand(int key, delegate function);
             /*
              * Called in children class to customise application functionality
              */
@@ -53,4 +53,4 @@ namespace ncursespp { namespace application {
 
 	};
 
-}};
+}}

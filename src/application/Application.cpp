@@ -6,9 +6,9 @@
 
 namespace ncursespp { namespace application {
 
-	Application::Application() : running(true)
+	Application::Application(GUI* Component) : running(true)
 	{
-        GlobalLogger::log(TRACE, "NCursespp:App") << "Initialising C++ ncurses application" << Sentinel::END;
+        GlobalLogger::log(TRACE,"App") << "Initialising C++ ncurses application" << Sentinel::END;
 
         initscr();                      /* Start curses mode    */
         noecho();
@@ -16,23 +16,23 @@ namespace ncursespp { namespace application {
         curs_set(0);                    /* Invisible cursor     */
         keypad(stdscr, TRUE);
 
-        C_GUI = new GUI();
-        addCommand(std::bind( &Application::End, this), KEY_F(1));
+        C_GUI = Component;
+        addCommand(KEY_F(1), std::bind( &Application::End, this));
 	}
 
 	Application::~Application()
 	{
-        GlobalLogger::log(TRACE, "NCursespp:App") << "Calling application destructor, cleaning up resources" << Sentinel::END;
+        GlobalLogger::log(TRACE,"App") << "Calling application destructor, cleaning up resources" << Sentinel::END;
         delete C_GUI;
         C_GUI = nullptr;
 
         endwin();                       /* End curses mode                */
-        GlobalLogger::log(TRACE, "NCursespp:App") << "Successfully cleaned up, exiting main\n" << Sentinel::END;
+        GlobalLogger::log(TRACE,"App") << "Successfully cleaned up, exiting main\n" << Sentinel::END;
 	}
 
     void Application::Run()
     {
-        GlobalLogger::log(TRACE, "NCursespp:App") << "Starting application loop" << Sentinel::END;
+        GlobalLogger::log(TRACE,"App") << "Starting application loop" << Sentinel::END;
         while (running)
         {
             C_GUI->UpdateAll(); // Write everything to screens
@@ -51,18 +51,20 @@ namespace ncursespp { namespace application {
         C_GUI->addWindow(ID, win);
     }
     
-    void Application::addCommand(delegate function, int key)
+    void Application::addCommand(int key, delegate function)
     {
-        Commands.Add(function, key);
+        Commands.Add(key, function);
     }
 
     void Application::Parse()
     {
-            GlobalLogger::log(TRACE, "NCursespp:App") << "Waiting for input..." << Sentinel::END;
+            GlobalLogger::log(TRACE,"App") << "Waiting for input..." << Sentinel::END;
             int input = getch();
-            GlobalLogger::log(TRACE, "NCursespp:App") << "Passing key... " << input << Sentinel::END;
+            GlobalLogger::log(TRACE,"App") << "Passing key... " << input << Sentinel::END;
             if (!(Commands.Parse(input)))
                 C_GUI->Parse(input);
+            else
+                GlobalLogger::log(TRACE,"App") << "Command caught by application " << input << Sentinel::END;
     }
 
 

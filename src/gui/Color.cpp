@@ -37,7 +37,7 @@ namespace ncursespp { namespace gui {
             return COLOR_PAIR(indices[keyindex]);
         }
         else
-            GlobalLogger::log(TRACE, "ColorContainer") << "Couldn't find color pair with ID: " << ID << Sentinel::END;
+            GlobalLogger::log(TRACE, "Color") << "Couldn't find color pair with ID: " << ID << Sentinel::END;
     }
 
 }}

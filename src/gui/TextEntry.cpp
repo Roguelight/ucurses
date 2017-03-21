@@ -2,18 +2,22 @@
 // Liam Rogers, All rights reserved.
 
 #include <ncursespp/gui/TextEntry.hpp>
-
+#include <ncursespp/gui/Window.hpp>
 
 namespace ncursespp { namespace gui {
 
     // 2 rows for text input/output, one top and bottom for border = 4
-	TextEntry::TextEntry(coord x, coord y, string subject) : Window(coord2d(40,6), coord2d(x,y)) 
+	TextEntry::TextEntry(coord x, coord y, Window* host) : Component(x, y, host)  
 	{
+        setSize(20, 4);
         input = "";
-        this->subject = subject;
-        setTitle("Text Entry");
-        Commands.Add(std::bind( &TextEntry::getInput, this), 'E');
+        subject = "Enter Text";
 	}
+
+    void TextEntry::bindDefault()
+    {
+        addCommand('E', std::bind( &TextEntry::getInput, this));
+    }
 
     void TextEntry::Update()
     {
@@ -31,7 +35,7 @@ namespace ncursespp { namespace gui {
         print("*");
         move(-1, 0);
         attributeOn(A_STANDOUT);
-        wgetnstr(getHandle(), in, 10);
+        wgetnstr(H_Window->getHandle(), in, 10);
         attributeOff(A_STANDOUT);
         noecho();
         input = in;
@@ -39,11 +43,10 @@ namespace ncursespp { namespace gui {
 
     void TextEntry::printCommands()
     {
-        commandPrintPos();
+        printPosition();
         attributeOn(A_REVERSE);
         print("E:");
         attributeOff(A_REVERSE);
         print(" Input ");
-    
     }
 }}

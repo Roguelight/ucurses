@@ -17,7 +17,7 @@ namespace ncursespp { namespace gui {
 	{
 		public:
 
-            FileMenu(coord2d size, coord2d position);
+            FileMenu(coord x, coord y, Window* host);
 
         protected:
 
@@ -29,7 +29,7 @@ namespace ncursespp { namespace gui {
             
 
             // Command functions
-            virtual void addCommands();
+            virtual void bindDefault();
             void         printCommands();
 
             void         backTrack(); // Backtrack to last visited directory
