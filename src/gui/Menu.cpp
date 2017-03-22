@@ -9,7 +9,7 @@ namespace ncursespp { namespace gui {
 
     Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
-        setSize(40,20);
+        setSize(40,10);
         GlobalLogger::log(TRACE,"Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
         selection = NONE;
         items.reserve(24);

@@ -8,7 +8,7 @@ namespace ncursespp { namespace application {
 	GUI::GUI()
 	{
         GlobalLogger::log(TRACE, "GUI:") << "Initialising ncursespp GUI" << Sentinel::END;
-        Commands.Add(std::bind( &WindowContainer::Next, &Windows), 9); 
+        Commands.Add(9, std::bind( &WindowContainer::Next, &Windows)); 
         keypad(stdscr, TRUE);
 	}
 
