@@ -7,6 +7,7 @@ namespace ncursespp { namespace gui {
 
 	CommandArray::CommandArray()
     { 
+        GlobalLogger::log(TRACE, "Command:") << "Constructing Command Array with default size: " << size << Sentinel::END;
         functions.reserve(size); 
         keys.reserve(size); 
         active.reserve(size);
@@ -30,6 +31,14 @@ namespace ncursespp { namespace gui {
         keys.push_back(key); 
         functions.push_back(func); 
         active.push_back(true);
+    }
+
+    void CommandArray::Clear()
+    {
+        GlobalLogger::log(TRACE, "Command:") << "Clearing commands from Command array" << Sentinel::END;
+        keys.clear();
+        functions.clear();
+        active.clear();
     }
 
     bool CommandArray::Parse(int key) 

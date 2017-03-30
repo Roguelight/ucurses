@@ -21,8 +21,10 @@ namespace ncursespp { namespace gui {
 
     void FileMenu::bindDefault()
     {
+        Menu::bindDefault();
         addCommand('b', bind( &FileMenu::backTrack, this)); 
-        addCommand('p', bind( &FileMenu::toParent, this)); 
+        // addCommand('p', bind( &FileMenu::toParent, this)); Not desirable for most filemenus
+        
     }
 
     void FileMenu::printCommands()
@@ -36,14 +38,6 @@ namespace ncursespp { namespace gui {
         print("k:");
         attributeOff(A_REVERSE);
         print(" Up ");
-        attributeOn(A_REVERSE);
-        print("p:");
-        attributeOff(A_REVERSE);
-        print(" To parent ");
-        attributeOn(A_REVERSE);
-        print("b:");
-        attributeOff(A_REVERSE);
-        print(" Back ");
     }
 
     void FileMenu::setDirectory(string inString)

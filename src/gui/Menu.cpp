@@ -9,7 +9,7 @@ namespace ncursespp { namespace gui {
 
     Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
-        setSize(40,10);
+        setSize(40,15);
         GlobalLogger::log(TRACE,"Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
         selection = NONE;
         items.reserve(24);
@@ -42,8 +42,10 @@ namespace ncursespp { namespace gui {
 
         for (auto& item : items)
         {
-            GlobalLogger::log(TRACE,"Menu") << "Printing item: " << item <<  Sentinel::END;
             setPosition(xcenter, getPos().y + 1);
+            GlobalLogger::log(TRACE,"Menu") << "Printing item: " << item << " at position: ";
+            GlobalLogger::log(TRACE,"Menu") << getPos().x << ", " << getPos().y << Sentinel::END;
+
             print(item);
         }
 
@@ -72,6 +74,11 @@ namespace ncursespp { namespace gui {
         selection  = items.size();
         GlobalLogger::log(TRACE,"Menu") << "Adding item " << label << " to menu at index: " << selection <<  Sentinel::END;
         items.push_back(label);
+    }
+
+    void Menu::removeAll()
+    {
+        items.clear(); 
     }
 
     string& Menu::getItem(index id)

@@ -49,4 +49,9 @@ namespace ncursespp { namespace gui {
         attributeOff(A_REVERSE);
         print(" Input ");
     }
+
+    void TextEntry::setSubject(string inString)
+    {
+        subject = inString;
+    }
 }}

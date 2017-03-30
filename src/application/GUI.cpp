@@ -7,14 +7,14 @@ namespace ncursespp { namespace application {
 
 	GUI::GUI()
 	{
-        GlobalLogger::log(TRACE, "GUI:") << "Initialising ncursespp GUI" << Sentinel::END;
+        GlobalLogger::log(TRACE, "GUI:CTOR") << "Initialising ncursespp GUI" << Sentinel::END;
         Commands.Add(9, std::bind( &WindowContainer::Next, &Windows)); 
         keypad(stdscr, TRUE);
 	}
 
 	GUI::~GUI()
 	{
-        GlobalLogger::log(TRACE, "GUI:") << "Destroying ncursespp GUI" << Sentinel::END;
+        GlobalLogger::log(TRACE, "GUI:DTOR") << "Destroying ncursespp GUI" << Sentinel::END;
 	}
 
     void GUI::Render()

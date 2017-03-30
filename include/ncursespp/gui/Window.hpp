@@ -17,6 +17,7 @@
 #include <algorithm>
 
 #include <ctk/log/GlobalLogger.hpp>
+
 #include <ncursespp/gui/types.hpp>
 #include <ncursespp/gui/Color.hpp>
 #include <ncursespp/gui/Command.hpp>
@@ -43,7 +44,7 @@ namespace ncursespp { namespace gui {
 		public:
 
             Window(); // Default constructor initialises H_Window to NCurses stdscr
-            Window(coord2d size, coord2d position, size_t nComponents); // Specifies size and position within NCurses stdscr
+            Window(coord2d size, coord2d position); // Specifies size and position within NCurses stdscr
 			virtual ~Window();
 
         protected:
@@ -103,6 +104,8 @@ namespace ncursespp { namespace gui {
             /* Components */
 
             ComponentArray Components;
+
+            void Clear(); // Destroys all components and commands
 
         private:
 

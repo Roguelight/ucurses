@@ -25,10 +25,10 @@ namespace ncursespp { namespace gui {
     class CommandArray
     {
         public:
-            CommandArray() ;
+            CommandArray();
 
             void Add(int key, delegate func) ;
-
+            void Clear();
             void Disable(int key); 
             
 

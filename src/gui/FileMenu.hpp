@@ -18,6 +18,9 @@ namespace ncursespp { namespace gui {
 		public:
 
             FileMenu(coord x, coord y, Window* host);
+            
+            virtual void bindDefault();
+            void setDirectory(string inString);
 
         protected:
 
@@ -25,11 +28,9 @@ namespace ncursespp { namespace gui {
 
             string directory; // File directory from which files are displayed
             string last;      // History of one to enable backtracking
-            void setDirectory(string inString);
             
-
             // Command functions
-            virtual void bindDefault();
+            //
             void         printCommands();
 
             void         backTrack(); // Backtrack to last visited directory

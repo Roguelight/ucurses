@@ -17,12 +17,11 @@ namespace ncursespp { namespace gui {
 			TextEntry(coord x, coord y, Window* host); 
 
             void bindDefault();
+            void setSubject(string inString);
 
         protected:
 
             void Update();
-
-            void setSubject(string inString);
 
             string subject;
             string input;

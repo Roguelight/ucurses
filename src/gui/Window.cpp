@@ -6,7 +6,7 @@
 
 namespace ncursespp { namespace gui {
 
-	Window::Window(coord2d size, coord2d position, size_t nComponents) : std(false), Components(nComponents)
+	Window::Window(coord2d size, coord2d position) : std(false) 
 	{
         GlobalLogger::log(TRACE,"Win") << "Initialising ncurses application Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
@@ -38,6 +38,12 @@ namespace ncursespp { namespace gui {
     void Window::printCommands()
     {
         setPosition(2, getSize().y - 2);
+    }
+
+    void Window::Clear()
+    {
+        Commands.Clear();
+        Components.RemoveAll();
     }
     
     void Window::printGuiCommands()
@@ -181,7 +187,6 @@ namespace ncursespp { namespace gui {
     {
         coord2d pos;
         getyx(H_Window, pos.y, pos.x);
-        GlobalLogger::log(TRACE,"Win") << "Returning cursor position: " << pos.x << ", " << pos.y << Sentinel::END;
         return pos;
     }
 

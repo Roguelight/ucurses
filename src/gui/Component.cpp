@@ -10,7 +10,8 @@ namespace ncursespp { namespace gui {
 	{
         position.x = x;
         position.y = y;
-        GlobalLogger::log(TRACE,"NCursespp::Component") << "Constructing component" << Sentinel::END;
+        GlobalLogger::log(TRACE,"Component:") << "Constructing component at postion: " << x << ", " << y;
+        GlobalLogger::log(TRACE,"Component:") << " -> Attaching to host " << host->getTitle() << Sentinel::END;
 	}
 
     void Component::print(string inString)

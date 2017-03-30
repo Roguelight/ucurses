@@ -19,11 +19,11 @@ namespace ncursespp { namespace gui {
         public:
 
             ComponentArray();
-            ComponentArray(size_t n); // Size supplied by the window host
             ~ComponentArray();
 
             void Add(Component* component);
             void Update();
+            void RemoveAll();
 
         protected:
 

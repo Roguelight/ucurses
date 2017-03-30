@@ -34,6 +34,7 @@ namespace ncursespp { namespace gui {
 
             void removeItem(index id);
             string& getItem(index id);      // Performs bounds checking
+            void removeAll();
     
             /* Selection */
             

@@ -8,14 +8,7 @@ namespace ncursespp { namespace gui {
 
     ComponentArray::ComponentArray()
     {
-        GlobalLogger::log(WARNING,"NCursespp::ComponentArray") << "Constructing component array without reserving space" << Sentinel::END;
-    
-    }
-
-    ComponentArray::ComponentArray(size_t n)
-    {
-        GlobalLogger::log(TRACE,"NCursespp::ComponentArray") << "Constructing component array and allocating space for " << n << " elements" << Sentinel::END;
-        M_Components.reserve(n);
+        M_Components.reserve(8);
     }
 
     ComponentArray::~ComponentArray()
@@ -37,6 +30,18 @@ namespace ncursespp { namespace gui {
     {
         for (auto& component : M_Components)
             component->Update();
+    }
+
+    void ComponentArray::RemoveAll()
+    {
+        GlobalLogger::log(TRACE,"NCursespp::ComponentArray") << "Removing all components from array" << Sentinel::END;
+        for (auto& component : M_Components)
+        {
+            delete component;
+            component = nullptr;
+        }
+        M_Components.clear();
+    
     }
 
 }}
