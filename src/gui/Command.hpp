@@ -25,6 +25,7 @@ namespace ncursespp { namespace gui {
     class CommandArray
     {
         public:
+
             CommandArray();
 
             void Add(int key, delegate func) ;

@@ -31,22 +31,24 @@ namespace ncursespp { namespace application {
 			GUI();
 			virtual ~GUI();
             
-            coord2d getSize()                          { return Windows.Get("Standard Screen")->getSize(); }
+            coord2d getSize() const;                          
 
         protected:
 
-            void addWindow(string ID, Window* win)     { Windows.Add(ID, win);          }
-            void removeAll()                           { Windows.RemoveAll(); }
+            void addWindow(string ID, Window* win);
+            void removeAll();
+            Window& getActiveWindow();
+
+            CommandArray Commands; // GUI level commands. Default is TAB to cycle active window
+            Window stdscreen;      // Handle to the curses stdscr through a nice C++ class
+            
+            virtual void Load() {}
 
         private:
 
             WindowContainer Windows;
-            Window stdscreen;
-            
-            CommandArray Commands;
 
             void Parse(int input);
-            Window& getActiveWindow()                  { return *(Windows.getActive()); }
             void Render();
             void UpdateAll();
             void UpdateActive();

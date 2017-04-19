@@ -109,7 +109,7 @@ namespace ncursespp { namespace gui {
         else
         {
             GlobalLogger::log(TRACE,"Menu") << "Menu empty, selecting 0" << Sentinel::END;
-            selection = -1;
+            selection = NONE;
         }
     }
     

@@ -78,6 +78,7 @@ namespace ncursespp { namespace gui {
 
         // Highlight active window
         Window* active = getActive();
+        active->Update();
         if (active) // Only update active window; this means a windows display will not change unless active
             active->highlightRow(0);
     }
@@ -88,6 +89,7 @@ namespace ncursespp { namespace gui {
 
         for (auto& element : M_Windows)
             wnoutrefresh(element.second->getHandle());
+        
     }
 
     void WindowContainer::Next()

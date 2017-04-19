@@ -41,15 +41,12 @@ namespace ncursespp { namespace application {
 
             CommandArray Commands;
 
-            bool running;
-            void addCommand(int key, delegate function);
-            /*
-             * Called in children class to customise application functionality
-             */
+            void addCommand(int key, delegate function); // F1->End(); Ends program
 
         private:
 
             void Parse();
+            bool running;
 
 	};
 

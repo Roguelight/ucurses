@@ -28,12 +28,6 @@
 using namespace std;
 using namespace ctk::log;
 
-namespace ncursespp { namespace application {
-    class GUI;
-}}
-
-using namespace ncursespp::application;
-
 namespace ncursespp { namespace gui {
 
 	class Window

@@ -23,15 +23,35 @@ namespace ncursespp { namespace application {
          * screen increases efficiency by minimising the redundant calls to hidden
          * doupdate() function which is called by wrefresh() */
 
-        wrefresh(stdscr);
+        wnoutrefresh(stdscr);
         Windows.Refresh(); // Copies windows to virtual window
         doupdate();        // Compares virtual to physical and updates screen
     }
-
+            
     void GUI::UpdateAll()
     {
         GlobalLogger::log(TRACE, "GUI:") << "Updating all windows" << Sentinel::END;
         Windows.UpdateAll(); // Virtual function called on each window to update display
+    }
+
+    Window& GUI::getActiveWindow()
+    {
+        return *(Windows.getActive()); 
+    }
+
+    coord2d GUI::getSize() const
+    { 
+        return stdscreen.getSize(); 
+    }
+            
+    void GUI::addWindow(string ID, Window* win)
+    {
+        Windows.Add(ID, win);          
+    }
+
+    void GUI::removeAll()
+    {
+        Windows.RemoveAll(); 
     }
 
     void GUI::UpdateActive()

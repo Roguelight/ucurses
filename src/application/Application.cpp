@@ -1,4 +1,4 @@
-//Copyright Fri Feb 17 22:34:14 2017
+// Copyright Fri Feb 17 22:34:14 2017
 // Liam Rogers, All rights reserved.
 
 #include <ncursespp/application/Application.hpp>
@@ -6,17 +6,17 @@
 
 namespace ncursespp { namespace application {
 
-	Application::Application(GUI* Component) : running(true)
+	Application::Application(GUI* Component) : running(true), C_GUI(Component)
 	{
         GlobalLogger::log(TRACE,"NCursespp:CTOR:") << "Initialising C++ ncurses application" << Sentinel::END;
 
         initscr();                      /* Start curses mode    */
         noecho();
         raw();
-        curs_set(0);                    /* Invisible cursor     */
+        curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
         keypad(stdscr, TRUE);
+        C_GUI->Load();
 
-        C_GUI = Component;
         addCommand(KEY_F(1), std::bind( &Application::End, this));
 	}
 

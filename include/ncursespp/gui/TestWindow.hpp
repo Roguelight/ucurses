@@ -15,7 +15,7 @@ namespace ncursespp { namespace gui {
 
 		public:
 
-			TestWindow();
+			TestWindow(coord2d pos);
 
 	};
 

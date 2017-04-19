@@ -23,7 +23,7 @@ namespace ncursespp { namespace gui {
     {
         Menu::bindDefault();
         addCommand('b', bind( &FileMenu::backTrack, this)); 
-        // addCommand('p', bind( &FileMenu::toParent, this)); Not desirable for most filemenus
+        addCommand('p', bind( &FileMenu::toParent, this));
         
     }
 
