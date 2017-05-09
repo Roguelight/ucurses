@@ -15,7 +15,7 @@
 using namespace ctk::log;
 using namespace std;
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     using colorindex = uint8_t; // used to identify an initialised pair; 1 byte 
     using color = short; // ncurses uses 16bit integers for COLOR_PAIR

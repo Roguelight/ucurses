@@ -1,11 +1,11 @@
 // Copyright Sun Feb 19 02:12:50 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/Menu.hpp>
-#include <ncursespp/gui/Window.hpp>
+#include <ucurses/gui/Menu.hpp>
+#include <ucurses/gui/Window.hpp>
 
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
@@ -23,7 +23,6 @@ namespace ncursespp { namespace gui {
 
     void Menu::printCommands()
     {
-        GlobalLogger::log(TRACE,"Menu") << "Printing commands:" << Sentinel::END;
         printPosition();
         attributeOn(A_REVERSE);
         print("Enter:");

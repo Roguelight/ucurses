@@ -1,10 +1,10 @@
 // Copyright Fri Mar 10 18:04:52 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/ComponentArray.hpp>
+#include <ucurses/gui/ComponentArray.hpp>
 
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     ComponentArray::ComponentArray()
     {
@@ -13,7 +13,7 @@ namespace ncursespp { namespace gui {
 
     ComponentArray::~ComponentArray()
     {
-        GlobalLogger::log(TRACE,"NCursespp::ComponentArray") << "Destroying component array" << Sentinel::END;
+        GlobalLogger::log(TRACE,"ucurses::ComponentArray") << "Destroying component array" << Sentinel::END;
         for (auto& component : M_Components)
         {
             delete component;
@@ -34,7 +34,7 @@ namespace ncursespp { namespace gui {
 
     void ComponentArray::RemoveAll()
     {
-        GlobalLogger::log(TRACE,"NCursespp::ComponentArray") << "Removing all components from array" << Sentinel::END;
+        GlobalLogger::log(TRACE,"ucurses::ComponentArray") << "Removing all components from array" << Sentinel::END;
         for (auto& component : M_Components)
         {
             delete component;

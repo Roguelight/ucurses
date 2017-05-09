@@ -1,9 +1,9 @@
 // Copyright Fri Mar 10 01:47:42 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/WindowContainer.hpp>
+#include <ucurses/gui/WindowContainer.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     WindowContainer::WindowContainer()
     {
@@ -21,7 +21,7 @@ namespace ncursespp { namespace gui {
     
     void WindowContainer::Add(string ID, Window* win)
     {
-        GlobalLogger::log(TRACE,"WinMap") << "Adding new window to ncursespp container with ID: " << ID <<  Sentinel::END;
+        GlobalLogger::log(TRACE,"WinMap") << "Adding new window to ucurses container with ID: " << ID <<  Sentinel::END;
         win->EnableColor(&Colors);
         active.first = ID;
         active.second = win;
@@ -39,7 +39,7 @@ namespace ncursespp { namespace gui {
 
     void WindowContainer::Remove(string ID)
     {
-        GlobalLogger::log(TRACE,"WinMap") << "Removing window from ncursespp GUI storage with ID: " << ID <<  Sentinel::END;
+        GlobalLogger::log(TRACE,"WinMap") << "Removing window from ucurses GUI storage with ID: " << ID <<  Sentinel::END;
         auto win = M_Windows.find(ID);
         if (win != M_Windows.end())
         {

@@ -1,3 +1,15 @@
+# Standard workflow makefile, a few notes on the build process
+
+# This makefile is created to be compatible with the workflow environment
+#
+# This makefile only specifies rules for building the software, and thus does not handle external
+# directories that are system specific as workflow understands each platform/developer has their own
+# preferences for managing files. Developers who have downloaded workflow can use the programs provided
+# to install their programs and libraries
+#
+# Workflow aims to keep developer libraries, headers, and executable scripts seperate from the system's
+# for easier maintainability and generic, cross-platform install rules.
+
 #*****************  Alias  ************************************************
 
 STATIC :=-Wl,-Bstatic
@@ -7,78 +19,74 @@ comma :=,
 
 #*****************  User Config ********************************************
 
-BRANCHES := algorithm application file log memory misc pattern random
+MAIN := ucurses
+BRANCHES :=app gui
 
-LIBRARIES :=boost 
-LIBFILES :=$(DYNAMIC) -lboost_system -lboost_filesystem -Wl,--as-needed
+LIBRARIES := boost ctk
+LIBFILES := -lctk -lboost_filesystem -lboost_system
+
+CXX := g++
+CXXFLAGS := -g -std=c++17
 
 #*****************  Pre-processor  ****************************************
 
-INCDIR = -I include/ -I src/
+INCDIR = -I include -I src
 
-#*****************  Compiler  *********************************************
-
-CXX := # 
-CXXFLAGS := -g -std=c++17 -fpermissive 
+#*****************  Linux  ************************************************
 
 ifeq ($(OS),Linux)
-	ifeq ($(target), windows) # Cross compiler support
-	endif
-endif
-
-#*****************  Commands  *********************************************
-
-comma :=,
-
-#*****************  Environment  ******************************************
-
-APPEXT := # Depends on target OS
-
-ifeq ($(OS),Linux)
-	ifeq ($(target), windows) # Cross compiler support
-		CXX := x86_64-w64-mingw32-g++
-		CXXFLAGS += -static-libgcc -static-libstdc++ 
-		LIBEXT := .dll
-		APPEXT := .exe
-		OBJEXT := .obj
-	else
-		CXX := g++
+	CXX := g++
+	TARGET := gcc
+	ifeq ($(strip $(target)),)
 		CXXFLAGS += -fPIC
-		LIBEXT := .so
-		OBJEXT := .o
 	endif
+	LIBEXT := .so
+	OBJEXT := .o
+	LIBDIR := $(foreach l,$(LIBRARIES),-L$(WORKFLOW_LIB)/C++/$(l)/$(TARGET))
+	RPATH :=$(subst -L,-Wl$(comma)-rpath=,$(LIBDIR))
 endif
+
+#*****************  Windows  ******************************************
 
 ifeq ($(OS),Windows_NT)
+	CXX := g++
+	LIBEXT := .dll
+	APPEXT := .exe
+	OBJEXT := .obj
+	TARGET := mingw64
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
+endif
+
+ifeq ($(target), w32)
+	CXX := x86_64-w64-mingw32-g++-win32
+	LIBEXT := .dll
+	APPEXT := .exe
+	OBJEXT := .obj
+	TARGET := mingw32
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
+endif
+	
+ifeq ($(target), w64)
 	CXX := x86_64-w64-mingw32-g++
 	LIBEXT := .dll
 	APPEXT := .exe
 	OBJEXT := .obj
-endif
-
-#*****************  Linker  ***********************************************
-
-LIBDIR := $(foreach l,$(LIBRARIES),-L$(WORKFLOW_LIB)/C++/$(l)/$(CXX))
-ifeq ($(OS),Linux)
-	RPATH :=$(subst -L,-Wl$(comma)-rpath=,$(LIBDIR))
-endif
-
-ifeq ($(OS),Windows_NT)
-	RPATH := Windows executables can not store rpath 
+	TARGET := mingw64
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
 endif
 
 #*****************  Build  ************************************************
 
-MAIN := ctk
+LIBPATH :=lib/$(TARGET)
+BUILDPATH :=bin/$(TARGET)
 
-LIBPATH := lib/$(CXX)
-BUILDPATH := #
+#*****************  Branching  ********************************************
 
 ifeq ($(strip $(branch)),)
 	SRC := $(foreach b, $(BRANCHES), $(wildcard src/$(b)/*.cpp))
 	LIB := lib$(MAIN)
 else
-	SRC := $(wildcard src$(DIR)$(branch)$(DIR)*.cpp) # Pass $branch for linking objects from one branch only
+	SRC := $(wildcard src/$(branch)/*.cpp) # Pass $branch for linking objects from one branch only
 	LIB := lib$(MAIN)$(branch)
 endif
 
@@ -87,20 +95,38 @@ else
 	SRC := 
 endif
 
+#*****************  Testing  ********************************************
+
 ifeq ($(strip $(test)),)
-	ifeq ($(strip $(name)),)
-		TARGETAPP := $(MAIN)
-		BUILDPATH := ./
-	else
-		TARGETAPP := $(name)
-		SRC += src$(DIR)main$(DIR)$(name).cpp
-		BUILDPATH := bin/$(CXX)/
-	endif
 else
-	BUILDPATH := bin/$(CXX)/test/
+	BUILDPATH :=$(BUILDPATH)/test
 	SRC += src/test/$(test).cpp
 	TARGETAPP :=$(test)
 endif
+
+#*****************  Release  **********************************************
+	
+ifeq ($(strip $(name)),)
+else
+	SRC += src/main/$(name).cpp
+	TARGETAPP := $(name)
+endif
+
+#*****************  Optimization  *****************************************
+
+ifeq ($(strip $(optimize)),)
+else
+	ifeq ($(optimize),size)
+		CXXFLAGS += -Os
+	else
+		CXXFLAGS += -O2 -flto
+	endif
+	BUILDPATH :=$(BUILDPATH)/optimized
+	LIBPATH :=$(LIBPATH)/optimized
+endif
+
+
+#*****************  Build  *****************************************
 
 OBJ := $(SRC:.cpp=$(OBJEXT)) # Objects used in linking differ on compiler/target
 
@@ -110,36 +136,16 @@ LIBRARY := $(LIB)$(LIBEXT)$(ver)
 ARCHIVE := $(LIB).a
 APP := $(TARGETAPP)$(ver)$(APPEXT) # Isolate the executable and library filenames on their own
 
-TARGETAPP := $(BUILDPATH)$(APP)
+TARGETAPP := $(BUILDPATH)/$(APP)
 TARGETARCHIVE := $(LIBPATH)/$(ARCHIVE)
 TARGETLIB := $(LIBPATH)/$(LIBRARY)
-
-#*****************  Install  **********************************************
-
-ifeq ($(OS),Windows_NT)
-	LIBINSTALL := $(WORKFLOW_LIB)/C++/$(CXX) # All libraries are bundled together on windows
-endif
-
-ifeq ($(OS),Linux)
-	LIBINSTALL := $(WORKFLOW_LIB)/C++/$(MAIN)
-endif
-
-INSTALLEDLIB:= $(LIBINSTALL)/$(CXX)/$(LIBRARY)
-APPINSTALL := $(WORKFLOW)/bin
-
-ifeq ($(strip $(dest)),)
-	
-else
-	APPINSTALL :=$(APPINSTALL)/$(dest)
-endif
 
 #*****************  Rules *************************************************
 
 .PHONY: depend clean cleandep \
 		compile shared archive link \
-		install uninstall \
-		appinstall appuninstall \
-		variables args help 
+		variables args help cleanbin \
+		cleanlib
 
 all:
 	@printf "\nUse make help for a list of functions this makefile is capable of.\n\n"
@@ -149,18 +155,16 @@ compile: $(OBJ)
 
 help:
 	@printf "\nWelcome to the standard makefile for Roguelight C++ applications.\n"
-	@printf "This program is capable of many functions to assist in the production of\n"
-	@printf "and libraries for your programs.\n\n"
+	@printf "This program is capable of many functions to assist in the production,\n"
+	@printf "installation and organisation of your libraries for your programs.\n\n"
 	@printf "The list of functions is as follows:\n\n"
 	@printf "make compile		| Compile objects without linking.\n"
 	@printf "make link		| Link object files into executable. Default name is $(MAIN)\n"
 	@printf "make shared		| Link object files into dynamic library\n"
 	@printf "make variables		| Print out list of variables used in this makefile.\n"
-	@printf "make install		| Install project library files to $(WORKFLOW_LIB)\n"
-	@printf "make uninstall		| Remove project library files from system\n"
-	@printf "make appinstall		| Install project executable to $(APPINSTALL).\n"
-	@printf "make appuninstall 	| Remove project executable from $(APPINSTALL)\n"
 	@printf "make clean 		| Removes object files for target\n"
+	@printf "make cleanbin 		| Cleaning local binaries from $(BUILDPATH)\n"
+	@printf "make cleanlib 		| Cleaning local libraries from $(LIBPATH)\n"
 	@printf "make args 		| list all optional arguments that can be passed to this makefile for advanced functionality\n\n"
 	@printf "Functions can be linked together, for example 'make clean compile program name=mario' is a valid command\n"
 	@printf "that will remove all objects, re-compile them and then link the program named mario\n\n"
@@ -175,8 +179,6 @@ variables:
 	@printf "TARGETAPP: 	| $(TARGETAPP)\n"
 	@printf "TARGETLIB: 	| $(TARGETLIB)\n"
 	@printf "TARGETARCHIVE:	| $(TARGETARCHIVE)\n\n"
-	@printf "APPINSTALL: 	| $(APPINSTALL)\n"
-	@printf "LIBINSTALL: 	| $(LIBINSTALL)\n\n"
 	@printf "INCDIR: 	| $(INCDIR)\n"
 	@printf "LIBDIR:		| $(LIBDIR)\n"
 	@printf "RPATH: 		| $(RPATH)\n\n"
@@ -202,13 +204,13 @@ archive: $(TARGETARCHIVE)
 $(TARGETAPP): $(OBJ)
 	@printf "\nLinking objects and dependencies into executable $(APP) in dir $(BUILDPATH)\n\n"
 	$(CXX) $(CXXFLAGS) $(INCDIR) $(LIBDIR) -o $(TARGETAPP) $(OBJ) $(LIBFILES) $(RPATH)
-	@printf "\nSuccessful\n\n"
+	@printf "\nSuccessful\n"
 
 $(TARGETARCHIVE): $(OBJ)
 	@printf "\nPackaging objects into executable static library $(LIB).a in dir $(BUILDPATH)\n"
 	rm -f $(TARGETARCHIVE)
 	ar -cvq $(TARGETARCHIVE) $(OBJ)
-	@printf "\nSuccessful\n\n"
+	@printf "\nSuccessful\n"
 
 %.obj:%.cpp
 	$(CXX) $(CXXFLAGS) $(INCDIR) -c $<  -o $@
@@ -225,31 +227,17 @@ clean:
 cleandep:
 	rm -f $(DEP)
 
+cleanbin:
+	@printf "\nCleaning local binaries from $(BUILDPATH)\n"
+	rm -f $(BUILDPATH)*$(APPEXT)
+	@printf "\nSuccessful\n\n"
+
+cleanlib:
+	@printf "\nCleaning local libraries from $(LIBPATH)\n"
+	rm -f $(LIBPATH)/*
+	@printf "\nSuccessful\n\n"
+
 $(TARGETLIB): $(OBJ) 
 	@printf "\nLinking objects for shared library $(TARGETLIB)\n"
 	$(CXX) $(LIBDIR) --shared -o $@ $(OBJ) $(LIBFILES)
-	@printf "\nSuccessful\n\n"
-
-install: # Consumers run scripts or executables, Devs use make install
-	@printf "\nInstalling $(MAIN) header files to system path $(WORKFLOW)/include\n"
-	cp -r include/$(MAIN) $(WORKFLOW)/include 
-	@printf "\nInstalling $(LIBPATH) to $(LIBINSTALL)\n"
-	cp -r $(LIBPATH) $(LIBINSTALL) 
-	@printf "\nSuccessful\n\n"
-
-appinstall:
-	@printf "\nInstalling $(TARGETAPP) to directory $(APPINSTALL)\n"
-	cp $(TARGETAPP) $(APPINSTALL)
-	@printf "\nMake sure $(APPINSTALL) is include in PATH for execution from shell\n\n"
-
-uninstall:
-	@printf "\nRemoving $(MAIN) header files from system path $(SYSINC)\n"
-	rm -r $(WORKFLOW)/include/$(MAIN)
-	@printf "\nRemoving  $(LIB) from system path $(SYSLIB)\n"
-	rm  $(LIBINSTALL)/$(LIBRARY)
-	@printf "\nSuccessful\n\n"
-
-appuninstall:
-	@printf "\nRemoving $(APP) from $(APPINSTALL)\n"
-	$(RM) $(APPINSTALL)/$(APP)
-	@printf "\nSuccessful\n\n"
+	@printf "\nSuccessful\n"

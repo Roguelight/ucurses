@@ -5,7 +5,7 @@
  * Handles window storage and color manipulation.
  * Parses input and delegates to the active window.
  *      Input should be passed on like a chain of command
- *      Application->GUI->ActiveWindow
+ *      app->GUI->ActiveWindow
  *
  */
 
@@ -13,18 +13,18 @@
 #include <string>
 
 #include <ctk/log/GlobalLogger.hpp>
-#include <ncursespp/gui/WindowContainer.hpp>
-#include <ncursespp/gui/Color.hpp>
-#include <ncursespp/application/types.hpp>
 
-using namespace ctk::log;
-using namespace ncursespp::gui;
+#include <ucurses/gui/Color.hpp>
+#include <ucurses/gui/WindowContainer.hpp>
+#include <ucurses/gui/types.hpp>
 
-namespace ncursespp { namespace application {
+using namespace ucurses::gui;
+
+namespace ucurses { namespace app {
 
 	class GUI
 	{
-        friend class Application;
+        friend class App;
 
 		public:
 

@@ -10,21 +10,21 @@
 
 #include <ncurses.h>
 
-#include <ncursespp/application/GUI.hpp>
-#include <ncursespp/gui/Command.hpp>
-#include <ncursespp/gui/Window.hpp>
+#include <ucurses/app/GUI.hpp>
+#include <ucurses/gui/Command.hpp>
+#include <ucurses/gui/Window.hpp>
 
 using namespace ctk::log;
 using namespace std;
 
-namespace ncursespp { namespace application {
+namespace ucurses { namespace app {
 
-	class Application
+	class App
 	{
 		public:
 
-			Application(GUI* Component = new GUI());
-			virtual ~Application();
+			App(GUI* Component = new GUI());
+			virtual ~App();
 
             void Run();
             void End(); 

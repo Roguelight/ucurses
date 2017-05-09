@@ -6,9 +6,9 @@
  */
 
 #pragma once
-#include <ncursespp/gui/Component.hpp>
+#include <ucurses/gui/Component.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
 	class TextEntry : public Component
 	{

@@ -10,7 +10,7 @@
 #include <functional>
 #include <algorithm>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     /*
      * Coordinates in ncurses a passed with the y axis first

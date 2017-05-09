@@ -6,14 +6,12 @@
  */
 
 #pragma once
-#include <ncursespp/gui/Window.hpp>
+#include <ucurses/gui/Window.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     class WindowContainer 
     {
-        friend class ncursespp::application::GUI;
-        
         using WindowMap = std::map<string, Window*>;  // map of pointers allows needed flexibility for GUI hierarchy
 
         public:
@@ -27,14 +25,16 @@ namespace ncursespp { namespace gui {
             void Add(string ID, Window* win);
             void Remove(string ID);
             void RemoveAll();
-
+            
+            void Next();
             /*
              * Sets active window to next window in map
-             */ void Next();
+             */ 
 
 
             Window* Get(string ID) const;
             Window* getActive() const       { return active.second; }
+            void Parse(int input);
 
         private:
 
@@ -44,7 +44,6 @@ namespace ncursespp { namespace gui {
 
             ColorContainer Colors;
 
-            void Parse(int input);
 
     };
 

@@ -6,7 +6,7 @@
  */
 
 #pragma once
-#include <ncursespp/gui/types.hpp>
+#include <ucurses/gui/types.hpp>
 #include <functional>
 #include <algorithm>
 #include <vector>
@@ -18,7 +18,7 @@ using namespace ctk::log;
 
 using delegate = std::function<void()>;
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     using index = short;
 

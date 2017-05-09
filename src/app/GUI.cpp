@@ -1,20 +1,22 @@
 // Copyright Sun Feb 19 02:16:35 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/application/GUI.hpp>
+#include <ucurses/gui/WindowContainer.hpp>
+#include <ucurses/gui/Window.hpp>
+#include <ucurses/app/GUI.hpp>
 
-namespace ncursespp { namespace application {
+namespace ucurses { namespace app {
 
 	GUI::GUI()
 	{
-        GlobalLogger::log(TRACE, "GUI:CTOR") << "Initialising ncursespp GUI" << Sentinel::END;
+        GlobalLogger::log(TRACE, "GUI:CTOR") << "Initialising ucurses GUI" << Sentinel::END;
         Commands.Add(9, std::bind( &WindowContainer::Next, &Windows)); 
         keypad(stdscr, TRUE);
 	}
 
 	GUI::~GUI()
 	{
-        GlobalLogger::log(TRACE, "GUI:DTOR") << "Destroying ncursespp GUI" << Sentinel::END;
+        GlobalLogger::log(TRACE, "GUI:DTOR") << "Destroying ucurses GUI" << Sentinel::END;
 	}
 
     void GUI::Render()
@@ -66,7 +68,7 @@ namespace ncursespp { namespace application {
         if (!(Commands.Parse(input)))
             Windows.Parse(input);
         else
-            GlobalLogger::log(TRACE, "NCursespp:App") << "Command caught by GUI " << input << Sentinel::END;
+            GlobalLogger::log(TRACE, "ucurses:App") << "Command caught by GUI " << input << Sentinel::END;
     }
 
 }}

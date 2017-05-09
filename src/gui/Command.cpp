@@ -1,9 +1,9 @@
 // Copyright Wed Mar  1 02:51:59 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/Command.hpp>
+#include <ucurses/gui/Command.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
 	CommandArray::CommandArray()
     { 

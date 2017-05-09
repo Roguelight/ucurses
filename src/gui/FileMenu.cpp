@@ -1,9 +1,9 @@
 // Copyright Thu Feb 23 23:12:00 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/FileMenu.hpp>
+#include <ucurses/gui/FileMenu.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
             
     FileMenu::FileMenu(coord x, coord y, Window* host) : Menu(x, y, host)
@@ -22,9 +22,6 @@ namespace ncursespp { namespace gui {
     void FileMenu::bindDefault()
     {
         Menu::bindDefault();
-        addCommand('b', bind( &FileMenu::backTrack, this)); 
-        addCommand('p', bind( &FileMenu::toParent, this));
-        
     }
 
     void FileMenu::printCommands()
@@ -52,23 +49,6 @@ namespace ncursespp { namespace gui {
             selection = 0;
         else
             selection = -1;
-    }
-
-    void FileMenu::Select()
-    {
-        if (selection != NONE)
-        {
-            string dir(directory + "/" + items.at(selection));
-            if (boost::filesystem::is_directory(dir))
-            {
-                last = directory;
-                setDirectory(dir);
-            }
-            else
-                GlobalLogger::log(WARNING, "Filemenu:") << "Selected file is not a directory" << dir << Sentinel::END;
-        }
-        else
-            GlobalLogger::log(ERROR, "Filemenu:") << "Please make a valid selection!" << Sentinel::END;
     }
 
     void FileMenu::toParent()

@@ -14,12 +14,12 @@
 
 #include <string>
 
-#include <ncursespp/gui/types.hpp>
-#include <ncursespp/gui/Command.hpp>
+#include <ucurses/gui/types.hpp>
+#include <ucurses/gui/Command.hpp>
 
 using namespace std;
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
     class Window;
 	class Component
 	{

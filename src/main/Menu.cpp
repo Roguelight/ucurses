@@ -1,12 +1,12 @@
-#include <ncursespp/application/Application.hpp>
-#include <ncursespp/gui/Menu.hpp>
+#include <ucurses/app/app.hpp>
+#include <ucurses/gui/Menu.hpp>
 
-using namespace ncursespp::application;
-using namespace ncursespp::gui;
+using namespace ucurses::app;
+using namespace ucurses::gui;
 
 int main(int argc, char* argv[])
 {
-    Application app;
+    App app;
     app.addWindow("Name Entry", new TextEntry(75,5,"Entity Name"));
     app.Run();
 }

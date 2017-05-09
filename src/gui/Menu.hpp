@@ -6,11 +6,11 @@
  */
 
 #pragma once
-#include <ncursespp/gui/Component.hpp>
+#include <ucurses/gui/Component.hpp>
 #include <vector>
         
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
     #define NONE -1
     using index = short;

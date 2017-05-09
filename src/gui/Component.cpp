@@ -1,10 +1,10 @@
 // Copyright Fri Mar 10 15:36:09 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/Component.hpp>
-#include <ncursespp/gui/Window.hpp>
+#include <ucurses/gui/Component.hpp>
+#include <ucurses/gui/Window.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
 	Component::Component(coord x, coord y, Window* host) : H_Window(host)
 	{

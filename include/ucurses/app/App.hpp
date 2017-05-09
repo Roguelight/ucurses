@@ -10,21 +10,21 @@
 
 #include <ncurses.h>
 
-#include <ncursespp/application/GUI.hpp>
-#include <ncursespp/gui/Command.hpp>
-#include <ncursespp/gui/Window.hpp>
+#include <ucurses/app/GUI.hpp>
+#include <ucurses/gui/Command.hpp>
+#include <ucurses/gui/Window.hpp>
 
 using namespace ctk::log;
 using namespace std;
 
-namespace ncursespp { namespace application {
+namespace ucurses { namespace app {
 
-	class Application
+	class App
 	{
 		public:
 
-			Application(GUI* Component = new GUI());
-			virtual ~Application();
+			App(GUI* Component = new GUI());
+			virtual ~App();
 
             void Run();
             void End(); 
@@ -41,15 +41,12 @@ namespace ncursespp { namespace application {
 
             CommandArray Commands;
 
-            bool running;
-            void addCommand(int key, delegate function);
-            /*
-             * Called in children class to customise application functionality
-             */
+            void addCommand(int key, delegate function); // F1->End(); Ends program
 
         private:
 
             void Parse();
+            bool running;
 
 	};
 

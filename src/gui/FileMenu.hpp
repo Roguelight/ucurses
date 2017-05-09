@@ -6,12 +6,12 @@
  */
 
 #pragma once
-#include <ncursespp/gui/Menu.hpp>
+#include <ucurses/gui/Menu.hpp>
 #include <ctk/file/Directory.hpp>
 
 using namespace ctk::file;
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
 	class FileMenu : public Menu
 	{
@@ -35,7 +35,6 @@ namespace ncursespp { namespace gui {
 
             void         backTrack(); // Backtrack to last visited directory
             void         toParent();  // Navigate to parent directory
-            virtual void Select();
 
 	};
 

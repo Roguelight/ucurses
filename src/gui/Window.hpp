@@ -18,17 +18,18 @@
 
 #include <ctk/log/GlobalLogger.hpp>
 
-#include <ncursespp/gui/types.hpp>
-#include <ncursespp/gui/Color.hpp>
-#include <ncursespp/gui/Command.hpp>
-#include <ncursespp/gui/Components.hpp>
+#include <ucurses/gui/types.hpp>
+#include <ucurses/gui/Color.hpp>
+#include <ucurses/gui/Command.hpp>
+#include <ucurses/gui/Components.hpp>
+#include <ucurses/gui/ComponentArray.hpp>
 
 #include <ncurses.h>
 
 using namespace std;
 using namespace ctk::log;
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
 	class Window
 	{
@@ -93,7 +94,7 @@ namespace ncursespp { namespace gui {
             CommandArray Commands;
            
             virtual void printCommands(); // Override for child Windows 
-            void printGuiCommands();      // Prints application commands to Standard Screen 
+            void printGuiCommands();      // Prints app commands to Standard Screen 
 
             /* Components */
 

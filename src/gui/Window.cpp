@@ -1,14 +1,14 @@
 // Copyright Sat Feb 18 14:42:55 2017
 // Liam Rogers, All rights reserved.
 
-#include <ncursespp/gui/Window.hpp>
-#include <ncursespp/application/GUI.hpp>
+#include <ucurses/gui/Window.hpp>
+#include <ucurses/app/GUI.hpp>
 
-namespace ncursespp { namespace gui {
+namespace ucurses { namespace gui {
 
 	Window::Window(coord2d size, coord2d position) : std(false) 
 	{
-        GlobalLogger::log(TRACE,"Win") << "Initialising ncurses application Window" << Sentinel::END;
+        GlobalLogger::log(TRACE,"Win") << "Initialising ncurses app Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
@@ -28,7 +28,7 @@ namespace ncursespp { namespace gui {
 	{
         if (!std)
         {
-            GlobalLogger::log(TRACE,"Win") << "Destroying default ncurses application Window" << Sentinel::END;
+            GlobalLogger::log(TRACE,"Win") << "Destroying default ncurses app Window" << Sentinel::END;
             delwin(H_Window);
         }
         else
@@ -73,6 +73,9 @@ namespace ncursespp { namespace gui {
         printBorder();
         setPosition(2,0);
         print(title);
+        printCommands();
+        if (std)
+            printGuiCommands();
         Components.Update();
     }
 	
