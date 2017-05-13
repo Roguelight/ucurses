@@ -26,7 +26,7 @@ LIBRARIES := boost ctk
 LIBFILES := -lctk -lboost_filesystem -lboost_system
 
 CXX := g++
-CXXFLAGS := -g -std=c++17
+CXXFLAGS := -g -std=c++17 -O2 -flto
 
 #*****************  Pre-processor  ****************************************
 
@@ -111,20 +111,6 @@ else
 	SRC += src/main/$(name).cpp
 	TARGETAPP := $(name)
 endif
-
-#*****************  Optimization  *****************************************
-
-ifeq ($(strip $(optimize)),)
-else
-	ifeq ($(optimize),size)
-		CXXFLAGS += -Os
-	else
-		CXXFLAGS += -O2 -flto
-	endif
-	BUILDPATH :=$(BUILDPATH)/optimized
-	LIBPATH :=$(LIBPATH)/optimized
-endif
-
 
 #*****************  Build  *****************************************
 
