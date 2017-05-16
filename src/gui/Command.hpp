@@ -44,7 +44,7 @@ namespace ucurses { namespace gui {
             vector<int> keys; 
             vector<bool> active;
 
-            const size_t size = 16;
+            const size_t size = 8;
     };
 
 }}
