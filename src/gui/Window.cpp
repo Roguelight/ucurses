@@ -6,16 +6,18 @@
 
 namespace ucurses { namespace gui {
 
+
 	Window::Window(coord2d size, coord2d position) : std(false) 
 	{
-        GlobalLogger::log(TRACE,"Win") << "Initialising ncurses app Window" << Sentinel::END;
+		logger.setDestination("./log/ucurses.log");
+		logger.log(TRACE) << "Initialising ncurses app Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
     
     Window::Window() : std(true), title("Main")
     {
-        GlobalLogger::log(TRACE,"Win") << "Initialising ncurses stdscr Window" << Sentinel::END;
+		logger.log(TRACE) << "Initialising ncurses stdscr Window" << Sentinel::END;
         H_Window = stdscr;
         keypad(H_Window, TRUE);
         printBorder();          // Call printBorder() in constructor because stdscreen doesnt get updated
@@ -28,11 +30,11 @@ namespace ucurses { namespace gui {
 	{
         if (!std)
         {
-            GlobalLogger::log(TRACE,"Win") << "Destroying default ncurses app Window" << Sentinel::END;
+			logger.log(TRACE) << "Destroying default ncurses app Window" << Sentinel::END;
             delwin(H_Window);
         }
         else
-            GlobalLogger::log(TRACE,"Win") << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
+            logger.log(TRACE) << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
 	}
 
     void Window::printCommands()
@@ -68,7 +70,7 @@ namespace ucurses { namespace gui {
 
     void Window::Update()
     {
-        GlobalLogger::log(TRACE,"Win") << "Updating window -> " << title << Sentinel::END;
+        logger.log(TRACE) << "Updating window -> " << title << Sentinel::END;
         werase(getHandle());
         printBorder();
         setPosition(2,0);
@@ -81,7 +83,7 @@ namespace ucurses { namespace gui {
 	
     void Window::printBorder()
     {
-        GlobalLogger::log(TRACE,"Win") << "Rendering border -> " << title << Sentinel::END;
+        logger.log(TRACE) << "Rendering border -> " << title << Sentinel::END;
         box(H_Window, '|', '-');
     }
 
@@ -91,11 +93,11 @@ namespace ucurses { namespace gui {
     {
         if (!std)
         {
-            GlobalLogger::log(TRACE,"Win") << "Resizing window-> " << title << Sentinel::END;
+            logger.log(TRACE) << "Resizing window-> " << title << Sentinel::END;
             delwin(H_Window);
         }
         else
-            GlobalLogger::log(WARNING,"Win") << "Tried to resize ncurses stdscr!" << Sentinel::END;
+            logger.log(TRACE) << "Tried to resize ncurses stdscr!" << Sentinel::END;
     }
 
     void Window::EnableColor(ColorContainer* s_ptr) 
@@ -123,7 +125,7 @@ namespace ucurses { namespace gui {
             
     void Window::setPosition(coord x, coord y)
     {
-        GlobalLogger::log(TRACE,"Win") << "Setting position: " << x << ", " << y << Sentinel::END;
+        logger.log(TRACE) << "Setting position: " << x << ", " << y << Sentinel::END;
         wmove(H_Window, y, x);
     }
             

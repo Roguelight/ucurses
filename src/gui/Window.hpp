@@ -16,7 +16,7 @@
 #include <functional>
 #include <algorithm>
 
-#include <ctk/log/GlobalLogger.hpp>
+#include <ctk/log/Logger.hpp>
 
 #include <ucurses/gui/types.hpp>
 #include <ucurses/gui/Color.hpp>
@@ -86,6 +86,8 @@ namespace ucurses { namespace gui {
             WINDOW*  getHandle()  const;
             string   getTitle()   const;
             void addCommand(int key, delegate func);
+			
+			static Logger logger;
 
         protected:
 
