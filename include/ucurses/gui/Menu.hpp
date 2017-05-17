@@ -43,10 +43,6 @@ namespace ucurses { namespace gui {
             
             virtual void Update();
 
-            // Command Functions:
-            
-            virtual void printCommands();
-            
             void removeSelectedItem(); // *->BACKSPACE
             void selectNext();         // *->j
             void selectPrevious();     // *->k

@@ -30,7 +30,6 @@ namespace ucurses { namespace gui {
             // Commands
             
             void getInput(); // *->E
-            void printCommands();
 
 	};
 

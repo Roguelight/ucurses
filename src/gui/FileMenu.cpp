@@ -16,25 +16,11 @@ namespace ucurses { namespace gui {
     void FileMenu::Update()
     {
         Menu::Update();
-        printCommands();
     }
 
     void FileMenu::bindDefault()
     {
         Menu::bindDefault();
-    }
-
-    void FileMenu::printCommands()
-    {
-        Menu::printCommands();
-        attributeOn(A_REVERSE);
-        print("j:");
-        attributeOff(A_REVERSE);
-        print(" Down ");
-        attributeOn(A_REVERSE);
-        print("k:");
-        attributeOff(A_REVERSE);
-        print(" Up ");
     }
 
     void FileMenu::setDirectory(string inString)

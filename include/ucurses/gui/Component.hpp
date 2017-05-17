@@ -15,7 +15,7 @@
 #include <string>
 
 #include <ucurses/gui/types.hpp>
-#include <ucurses/gui/Command.hpp>
+#include <ucurses/command/Command.hpp>
 
 using namespace std;
 
@@ -64,10 +64,10 @@ namespace ucurses { namespace gui {
             /* Commands : Windows parse the commands of all their components */
 
             void addCommand(int key, delegate func);
+            void addTip(string keyID, string funcID);
 
             // Hosts have the option of constructing their own bindings or using default
             virtual void bindDefault() = 0;
-            void printPosition();
 	};
 
     

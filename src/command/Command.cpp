@@ -1,16 +1,15 @@
 // Copyright Wed Mar  1 02:51:59 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/Command.hpp>
+#include <ucurses/command/Command.hpp>
 
-namespace ucurses { namespace gui {
+namespace ucurses { namespace command {
 
 	CommandArray::CommandArray()
     { 
-        GlobalLogger::log(TRACE, "Command:") << "Constructing Command Array with default size: " << size << Sentinel::END;
-        functions.reserve(size); 
-        keys.reserve(size); 
-        active.reserve(size);
+        functions.reserve(8); 
+        keys.reserve(8); 
+        active.reserve(8);
     }
 
     void CommandArray::Disable(int key)

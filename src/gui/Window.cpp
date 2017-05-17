@@ -6,10 +6,12 @@
 
 namespace ucurses { namespace gui {
 
+    Logger Window::logger;
 
 	Window::Window(coord2d size, coord2d position) : std(false) 
 	{
-		logger.setDestination("./log/ucurses.log");
+		logger.setDestination("./log/uwindow.log");
+		logger.setHeader("UCursesGUI");
 		logger.log(TRACE) << "Initialising ncurses app Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
@@ -21,9 +23,10 @@ namespace ucurses { namespace gui {
         H_Window = stdscr;
         keypad(H_Window, TRUE);
         printBorder();          // Call printBorder() in constructor because stdscreen doesnt get updated
+        CommandMap.Add("Tab:", " Switch Active ");
+        CommandMap.Add("F1:", " Close Application ");
         setPosition(1,1);
         print(title);
-        printGuiCommands();
     }
 
     Window::~Window()
@@ -40,6 +43,13 @@ namespace ucurses { namespace gui {
     void Window::printCommands()
     {
         setPosition(2, getSize().y - 2);
+        for (auto& it : CommandMap.tips)
+        {
+            attributeOn(A_REVERSE);
+            print(it.first);
+            attributeOff(A_REVERSE);
+            print(it.second);
+        }
     }
 
     void Window::Clear()
@@ -48,22 +58,14 @@ namespace ucurses { namespace gui {
         Components.RemoveAll();
     }
     
-    void Window::printGuiCommands()
-    {
-        printCommands(); // Move to appropriate location (bottom left)
-        attributeOn(A_REVERSE);
-        print("Tab:");
-        attributeOff(A_REVERSE);
-        print(" Switch Active Window ");
-        attributeOn(A_REVERSE);
-        print("F1:");
-        attributeOff(A_REVERSE);
-        print(" Close Application");
-    }
-
     void Window::addCommand(int key, delegate func)
     {
         Commands.Add(key,func);
+    }
+
+    void Window::addTip(string keyID, string funcID)
+    {
+        CommandMap.Add(keyID, funcID);
     }
 
     /* Update */
@@ -76,8 +78,6 @@ namespace ucurses { namespace gui {
         setPosition(2,0);
         print(title);
         printCommands();
-        if (std)
-            printGuiCommands();
         Components.Update();
     }
 	
@@ -125,7 +125,6 @@ namespace ucurses { namespace gui {
             
     void Window::setPosition(coord x, coord y)
     {
-        logger.log(TRACE) << "Setting position: " << x << ", " << y << Sentinel::END;
         wmove(H_Window, y, x);
     }
             
@@ -193,6 +192,11 @@ namespace ucurses { namespace gui {
         coord2d pos;
         getyx(H_Window, pos.y, pos.x);
         return pos;
+    }
+
+    Logger& Window::getLogger() const
+    {
+        return logger;
     }
 
 }}

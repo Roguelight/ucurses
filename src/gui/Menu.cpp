@@ -10,7 +10,6 @@ namespace ucurses { namespace gui {
     Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
         setSize(40,15);
-        GlobalLogger::log(TRACE,"Menu") << "Inititalising new menu with selection at index -1" << Sentinel::END;
         selection = NONE;
         items.reserve(24);
     }
@@ -19,32 +18,20 @@ namespace ucurses { namespace gui {
     {
         addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
         addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
+        addTip("j:", " Down ");
+        addTip("k:", " Up ");
     }
 
-    void Menu::printCommands()
-    {
-        printPosition();
-        attributeOn(A_REVERSE);
-        print("Enter:");
-        attributeOff(A_REVERSE);
-        print(" Select ");
-    }
-    
     void Menu::Update()
     {
-        printCommands();
         coord xcenter = getMiddle().x - 4;
         coord ymargin = 2;
         
-        GlobalLogger::log(TRACE,"Menu") << "Updating menu, redrawing items at center: " << xcenter << Sentinel::END;
         setPosition(xcenter, ymargin); //Initial position
 
         for (auto& item : items)
         {
             setPosition(xcenter, getPos().y + 1);
-            GlobalLogger::log(TRACE,"Menu") << "Printing item: " << item << " at position: ";
-            GlobalLogger::log(TRACE,"Menu") << getPos().x << ", " << getPos().y << Sentinel::END;
-
             print(item);
         }
 
@@ -71,7 +58,6 @@ namespace ucurses { namespace gui {
     void Menu::addItem(string label)
     {
         selection  = items.size();
-        GlobalLogger::log(TRACE,"Menu") << "Adding item " << label << " to menu at index: " << selection <<  Sentinel::END;
         items.push_back(label);
     }
 
@@ -84,11 +70,10 @@ namespace ucurses { namespace gui {
     {
         if (id < items.size())
         {
-            GlobalLogger::log(WARNING,"Menu") << "Fetching item at index: " << id << Sentinel::END;
             return items.at(id);
         }
         else
-            GlobalLogger::log(WARNING,"Menu") << "Please specify index in range" << Sentinel::END;
+            H_Window->getLogger().log(WARNING) << "Please specify index in range" << Sentinel::END;
     }
 
     void Menu::selectNext()
@@ -97,17 +82,17 @@ namespace ucurses { namespace gui {
         {
             if (last()) 
             {
-                GlobalLogger::log(TRACE,"Menu") << "At last element, not modifying selection" << Sentinel::END;
+                H_Window->getLogger().log(TRACE) << "At last element, not modifying selection" << Sentinel::END;
             }
             else
             {
                 ++selection;
-                GlobalLogger::log(TRACE,"Menu") << "Selecting next item at index: " << selection << Sentinel::END;
+                H_Window->getLogger().log(TRACE) << "Selecting next item at index: " << selection << Sentinel::END;
             }
         }
         else
         {
-            GlobalLogger::log(TRACE,"Menu") << "Menu empty, selecting 0" << Sentinel::END;
+            H_Window->getLogger().log(TRACE) << "Menu empty, selecting 0" << Sentinel::END;
             selection = NONE;
         }
     }

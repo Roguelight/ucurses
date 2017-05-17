@@ -11,17 +11,17 @@ namespace ucurses { namespace gui {
 	{
         setSize(20, 4);
         input = "";
-        subject = "Enter Text";
+        subject = "Text";
 	}
 
     void TextEntry::bindDefault()
     {
         addCommand('E', std::bind( &TextEntry::getInput, this));
+        addTip("E:", " Input " + subject + " ");
     }
 
     void TextEntry::Update()
     {
-        printCommands();
         setPosition(2,2);
         print(subject + ": " + input);
     }
@@ -39,15 +39,6 @@ namespace ucurses { namespace gui {
         attributeOff(A_STANDOUT);
         noecho();
         input = in;
-    }
-
-    void TextEntry::printCommands()
-    {
-        printPosition();
-        attributeOn(A_REVERSE);
-        print("E:");
-        attributeOff(A_REVERSE);
-        print(" Input ");
     }
 
     void TextEntry::setSubject(string inString)

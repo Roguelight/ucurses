@@ -10,8 +10,8 @@ namespace ucurses { namespace gui {
 	{
         position.x = x;
         position.y = y;
-        GlobalLogger::log(TRACE,"Component:") << "Constructing component at postion: " << x << ", " << y;
-        GlobalLogger::log(TRACE,"Component:") << " -> Attaching to host " << host->getTitle() << Sentinel::END;
+        H_Window->getLogger().log(TRACE) << "Constructing component at postion: " << x << ", " << y;
+        H_Window->getLogger().log(TRACE) << " -> Attaching to host " << host->getTitle() << Sentinel::END;
 	}
 
     void Component::print(string inString)
@@ -34,16 +34,16 @@ namespace ucurses { namespace gui {
         H_Window->Commands.Add(key, func);
     }
 
+    void Component::addTip(string keyID, string funcID)
+    {
+        H_Window->addTip(keyID, funcID);
+    }
+
     coord2d Component::getMiddle() const
     {
         return coord2d(size.x / 2, size.y / 2);
     }
 
-    void Component::printPosition()
-    {
-        setPosition(0, (position.y + size.y) - 2);
-    }
-    
     void Component::attributeOn(int attributes)
     { 
         H_Window->attributeOn(attributes);

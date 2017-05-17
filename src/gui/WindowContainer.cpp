@@ -79,7 +79,7 @@ namespace ucurses { namespace gui {
         // Highlight active window
         Window* active = getActive();
         active->Update();
-        if (active) // Only update active window; this means a windows display will not change unless active
+        if (active) 
             active->highlightRow(0);
     }
 

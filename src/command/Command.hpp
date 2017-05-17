@@ -18,7 +18,7 @@ using namespace ctk::log;
 
 using delegate = std::function<void()>;
 
-namespace ucurses { namespace gui {
+namespace ucurses { namespace command {
 
     using index = short;
 
@@ -43,8 +43,6 @@ namespace ucurses { namespace gui {
             vector<delegate> functions;
             vector<int> keys; 
             vector<bool> active;
-
-            const size_t size = 8;
     };
 
 }}

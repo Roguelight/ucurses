@@ -20,7 +20,8 @@
 
 #include <ucurses/gui/types.hpp>
 #include <ucurses/gui/Color.hpp>
-#include <ucurses/gui/Command.hpp>
+#include <ucurses/command/Command.hpp>
+#include <ucurses/command/Display.hpp>
 #include <ucurses/gui/Components.hpp>
 #include <ucurses/gui/ComponentArray.hpp>
 
@@ -28,6 +29,7 @@
 
 using namespace std;
 using namespace ctk::log;
+using namespace ucurses::command;
 
 namespace ucurses { namespace gui {
 
@@ -46,14 +48,9 @@ namespace ucurses { namespace gui {
     
             /* Update */
             
-            virtual void Update();
+            void Update();
             void printBorder();
-            WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
-            /*
-             * H_ prefix indicates handle ownership and thus the data should be 
-             * manage elsewhere
-             */
-
+            
             /* Construction */
 
             void resize(coord2d size, coord2d position);
@@ -65,12 +62,12 @@ namespace ucurses { namespace gui {
             void  move(coord x, coord y);        // Moves cursor to relative to current position      
             void  print(string inString);        // Prints from current cursor position
 
-            // Attributes
+            /* Attributes */
             void setAttributes(int attributes);
             void attributeOn(int attributes);
             void attributeOff(int attributes);
            
-            // Highlighting
+            /*  Highlighting */
             void highlightWord(coord2d wordpos, int size);                  
             void highlightRow(coord row);                  
             void highlightColumn(coord column);                  
@@ -85,26 +82,30 @@ namespace ucurses { namespace gui {
             
             WINDOW*  getHandle()  const;
             string   getTitle()   const;
-            void addCommand(int key, delegate func);
-			
-			static Logger logger;
-
+            Logger&  getLogger()  const;
+   
         protected:
 
             /* Commands */
             
             CommandArray Commands;
-           
-            virtual void printCommands(); // Override for child Windows 
-            void printGuiCommands();      // Prints app commands to Standard Screen 
+            command::Map CommandMap;
+
+            void addCommand(int key, delegate func);
+            void addTip(string keyID, string funcID);
+            void printCommands(); // Override for child Windows 
 
             /* Components */
 
             ComponentArray Components;
 
             void Clear(); // Destroys all components and commands
-
+			
+            static Logger logger;
+            
         private:
+
+            WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
 
             string title;
             bool   std; // Destructor variable, does not free space to prevent double deletion.

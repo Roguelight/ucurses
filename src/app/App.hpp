@@ -11,7 +11,7 @@
 #include <ncurses.h>
 
 #include <ucurses/app/GUI.hpp>
-#include <ucurses/gui/Command.hpp>
+#include <ucurses/command/Command.hpp>
 #include <ucurses/gui/Window.hpp>
 
 using namespace ctk::log;
@@ -39,7 +39,7 @@ namespace ucurses { namespace app {
              * from pointers to components that should be constructed and destroyed by owner.
              */ 
 
-            CommandArray Commands;
+            command::CommandArray Commands;
 
             void addCommand(int key, delegate function); // F1->End(); Ends program
 
