@@ -17,6 +17,7 @@ namespace ucurses { namespace command {
         std::vector<commandmap> tips;
 
         void Add(std::string keyID, std::string funcID);
+        void Clear();
     };
 
 }}

@@ -12,4 +12,9 @@ namespace ucurses { namespace command {
     {
         tips.push_back(commandmap(keyID, funcID));
     }
+
+    void Map::Clear()
+    {
+        tips.clear();
+    }
 }}

@@ -55,6 +55,7 @@ namespace ucurses { namespace gui {
     void Window::Clear()
     {
         Commands.Clear();
+        CommandMap.Clear();
         Components.RemoveAll();
     }
     
