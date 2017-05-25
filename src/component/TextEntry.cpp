@@ -1,10 +1,10 @@
 // Copyright Wed Mar  8 22:49:41 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/TextEntry.hpp>
+#include <ucurses/component/TextEntry.hpp>
 #include <ucurses/gui/Window.hpp>
 
-namespace ucurses { namespace gui {
+namespace ucurses {
 
     // 2 rows for text input/output, one top and bottom for border = 4
 	TextEntry::TextEntry(coord x, coord y, Window* host) : Component(x, y, host)  
@@ -45,4 +45,4 @@ namespace ucurses { namespace gui {
     {
         subject = inString;
     }
-}}
+}

@@ -1,10 +1,9 @@
 // Copyright Thu Feb 23 23:12:00 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/FileMenu.hpp>
-
-namespace ucurses { namespace gui {
-
+#include <ucurses/component/FileMenu.hpp>
+using namespace ctk::log;
+namespace ucurses { 
             
     FileMenu::FileMenu(coord x, coord y, Window* host) : Menu(x, y, host)
     {
@@ -52,6 +51,4 @@ namespace ucurses { namespace gui {
         setDirectory(last);
         last = temp;
     }
-
-
-}}
+}

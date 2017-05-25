@@ -3,22 +3,20 @@
 
 #include <ucurses/command/Command.hpp>
 
-namespace ucurses { namespace command {
+namespace ucurses { 
 
 	CommandArray::CommandArray()
     { 
-        functions.reserve(8); 
-        keys.reserve(8); 
-        active.reserve(8);
+        commands.reserve(8); 
+        switches.reserve(8); 
     }
 
     void CommandArray::Disable(int key)
     { 
-        auto it = std::find(keys.begin(), keys.end(), key);
-        if (it != keys.end())
+        auto it = std::find(commands.begin(), commands.end(), key);
+        if (it != commands.end())
         {
-            index keyindex = it - keys.begin();
-            active[keyindex] = false;
+            switches[it - commands.begin()] = false;
         }
     }/*
     * Less expensive to access a single bit than remove the index
@@ -27,29 +25,24 @@ namespace ucurses { namespace command {
     
     void CommandArray::Add(int key, delegate func)
     { 
-        keys.push_back(key); 
-        functions.push_back(func); 
-        active.push_back(true);
+        commands.push_back(Command(key, func)); 
+        switches.push_back(true);
     }
 
     void CommandArray::Clear()
     {
-        GlobalLogger::log(TRACE, "Command:") << "Clearing commands from Command array" << Sentinel::END;
-        keys.clear();
-        functions.clear();
-        active.clear();
+        commands.clear();
+        switches.clear();
     }
 
     bool CommandArray::Parse(int key) 
     {
-        if (!(keys.empty())) 
+        if (!(commands.empty())) 
         {
-            auto it = std::find(keys.begin(), keys.end(), key);
-            if (it != keys.end())
+            auto it = std::find(commands.begin(), commands.end(), key);
+            if (it != commands.end())
             {
-                GlobalLogger::log(TRACE, "Command") << "Executing function at key: " << key << Sentinel::END;
-                index keyindex = it - keys.begin();
-                functions[keyindex]();
+                commands[it - commands.begin()].execute();
                 return true;
             }
             else
@@ -58,4 +51,4 @@ namespace ucurses { namespace command {
         else
             return false;
     }
-}}
+}

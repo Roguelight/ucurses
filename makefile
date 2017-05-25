@@ -20,7 +20,7 @@ comma :=,
 #*****************  User Config ********************************************
 
 MAIN := ucurses
-BRANCHES :=app gui command
+BRANCHES :=app gui command component
 
 LIBRARIES := boost ctk
 LIBFILES := -lctk -lboost_filesystem -lboost_system

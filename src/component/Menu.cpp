@@ -1,11 +1,11 @@
 // Copyright Sun Feb 19 02:12:50 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/Menu.hpp>
+#include <ucurses/component/Menu.hpp>
 #include <ucurses/gui/Window.hpp>
 
 
-namespace ucurses { namespace gui {
+namespace ucurses {
 
     Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
@@ -24,6 +24,7 @@ namespace ucurses { namespace gui {
 
     void Menu::Update()
     {
+        
         coord xcenter = getMiddle().x - 4;
         coord ymargin = 2;
         
@@ -31,7 +32,7 @@ namespace ucurses { namespace gui {
 
         for (auto& item : items)
         {
-            setPosition(xcenter, getPos().y + 1);
+            setPosition(xcenter, getPosition().y + 1);
             print(item);
         }
 
@@ -73,7 +74,7 @@ namespace ucurses { namespace gui {
             return items.at(id);
         }
         else
-            H_Window->getLogger().log(WARNING) << "Please specify index in range" << Sentinel::END;
+            GlobalLogger::instance().log(WARNING) << "Please specify index in range" << Sentinel::END;
     }
 
     void Menu::selectNext()
@@ -82,17 +83,17 @@ namespace ucurses { namespace gui {
         {
             if (last()) 
             {
-                H_Window->getLogger().log(TRACE) << "At last element, not modifying selection" << Sentinel::END;
+                GlobalLogger::instance().log(TRACE) << "At last element, not modifying selection" << Sentinel::END;
             }
             else
             {
                 ++selection;
-                H_Window->getLogger().log(TRACE) << "Selecting next item at index: " << selection << Sentinel::END;
+                GlobalLogger::instance().log(TRACE) << "Selecting next item at index: " << selection << Sentinel::END;
             }
         }
         else
         {
-            H_Window->getLogger().log(TRACE) << "Menu empty, selecting 0" << Sentinel::END;
+            GlobalLogger::instance().log(TRACE) << "Menu empty, selecting 0" << Sentinel::END;
             selection = NONE;
         }
     }
@@ -138,4 +139,4 @@ namespace ucurses { namespace gui {
         removeItem(id);
     }
 
-}}
+}

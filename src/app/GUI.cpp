@@ -5,70 +5,97 @@
 #include <ucurses/gui/Window.hpp>
 #include <ucurses/app/GUI.hpp>
 
-namespace ucurses { namespace app {
+namespace ucurses { 
 
-	GUI::GUI()
+	GUI::GUI() : running(true)
 	{
-        GlobalLogger::log(TRACE, "GUI:CTOR") << "Initialising ucurses GUI" << Sentinel::END;
-        Commands.Add(9, std::bind( &WindowContainer::Next, &Windows)); 
+        GlobalLogger::log(TRACE) << "Initialising ucurses GUI" << Sentinel::END;
+        initscr();                      /* Start curses mode    */
+        noecho();
+        raw();
+        curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
         keypad(stdscr, TRUE);
+
+        Commands.Add(9, std::bind( &WindowContainer::Next, &Windows)); 
+        Commands.Add(KEY_F(1), std::bind( &GUI::End, this));
 	}
 
 	GUI::~GUI()
 	{
-        GlobalLogger::log(TRACE, "GUI:DTOR") << "Destroying ucurses GUI" << Sentinel::END;
+        GlobalLogger::log(TRACE) << "Destroying ucurses GUI" << Sentinel::END;
+        endwin();                       /* End curses mode                */
 	}
+    
+    void GUI::Run()
+    {
+        GlobalLogger::log(TRACE) << "Starting application" << Sentinel::END;
+        while (running)
+        {
+            Windows.UpdateAll(); 
+            Render();       // Render screen
+            Parse();        // Parse new commands
+        }
+    } 
+    
+    void GUI::End()
+    {
+        running = false;
+    }
 
     void GUI::Render()
     {
         /* Seperating refreshing individual windows from updating the virtual 
          * screen increases efficiency by minimising the redundant calls to hidden
          * doupdate() function which is called by wrefresh() */
-
-        wnoutrefresh(stdscr);
         Windows.Refresh(); // Copies windows to virtual window
         doupdate();        // Compares virtual to physical and updates screen
     }
             
-    void GUI::UpdateAll()
+    const Window& GUI::getActiveWindow()
     {
-        GlobalLogger::log(TRACE, "GUI:") << "Updating all windows" << Sentinel::END;
-        Windows.UpdateAll(); // Virtual function called on each window to update display
-    }
-
-    Window& GUI::getActiveWindow()
-    {
-        return *(Windows.getActive()); 
+        return Windows.getActive(); 
     }
 
     coord2d GUI::getSize() const
     { 
-        return stdscreen.getSize(); 
+        return Windows[0].getSize(); 
     }
             
-    void GUI::addWindow(string ID, Window* win)
+    Window* GUI::createWindow(coord2d size, coord2d pos)
     {
-        Windows.Add(ID, win);          
+        return Windows.Create(size, pos);          
+    }
+    
+    Window* GUI::createWindow()
+    {
+        return Windows.Create();          
     }
 
     void GUI::removeAll()
     {
         Windows.RemoveAll(); 
     }
+    
+    void GUI::addCommand(int key, delegate function)
+    {
+        GlobalLogger::instance().log(TRACE) << "Adding command to UCurses GUI command vector" << Sentinel::END;
+        Commands.Add(key, function);
+    }
 
     void GUI::UpdateActive()
     {
-        GlobalLogger::log(TRACE, "GUI:") << "Updating active window" << Sentinel::END;
+        GlobalLogger::instance().log(TRACE) << "Updating active window" << Sentinel::END;
         Windows.UpdateActive(); 
     }
 
-    void GUI::Parse(int input)
+    void GUI::Parse()
     {
-        GlobalLogger::log(TRACE, "GUI:") << "Passing command to gui..." << Sentinel::END;
+        int input = getch();
+        GlobalLogger::instance().log(TRACE) << input << " key recieved, looking for matching command..." << Sentinel::newl;
         if (!(Commands.Parse(input)))
             Windows.Parse(input);
         else
-            GlobalLogger::log(TRACE, "ucurses:App") << "Command caught by GUI " << input << Sentinel::END;
+            GlobalLogger::instance().log(TRACE) << "Found command in GUI command array" << input << Sentinel::END;
     }
 
-}}
+}

@@ -1,17 +1,17 @@
 // Copyright Fri Mar 10 15:36:09 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/Component.hpp>
+#include <ucurses/component/Component.hpp>
 #include <ucurses/gui/Window.hpp>
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
 
 	Component::Component(coord x, coord y, Window* host) : H_Window(host)
 	{
         position.x = x;
         position.y = y;
-        H_Window->getLogger().log(TRACE) << "Constructing component at postion: " << x << ", " << y;
-        H_Window->getLogger().log(TRACE) << " -> Attaching to host " << host->getTitle() << Sentinel::END;
+        GlobalLogger::instance().log(TRACE) << "Constructing component at postion: " << x << ", " << y;
+        GlobalLogger::instance().log(TRACE) << " -> Attaching to host " << host->getTitle() << Sentinel::END;
 	}
 
     void Component::print(string inString)
@@ -60,9 +60,9 @@ namespace ucurses { namespace gui {
         size.y = y;
     }
 
-    coord2d Component::getPos() const
+    coord2d Component::getPosition() const
     {
-        return H_Window->getPos() - position;
+        return H_Window->getPosition() - position;
     }
             
     // Highlighting
@@ -81,4 +81,4 @@ namespace ucurses { namespace gui {
         H_Window->highlightColumn(column + position .x);
     }
     
-}}
+}

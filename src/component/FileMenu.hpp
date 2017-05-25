@@ -2,16 +2,16 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * File description
+ * UCurses menu that displays files in a specified directory
  */
 
 #pragma once
-#include <ucurses/gui/Menu.hpp>
+#include <ucurses/component/Menu.hpp>
 #include <ctk/file/Directory.hpp>
+#include <ctk/log/GlobalLogger.hpp>
 
-using namespace ctk::file;
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
 
 	class FileMenu : public Menu
 	{
@@ -30,12 +30,10 @@ namespace ucurses { namespace gui {
             string last;      // History of one to enable backtracking
             
             // Command functions
-            //
-            void         printCommands();
 
-            void         backTrack(); // Backtrack to last visited directory
-            void         toParent();  // Navigate to parent directory
+            void backTrack(); // Backtrack to last visited directory
+            void toParent();  // Navigate to parent directory
 
 	};
 
-}};
+};

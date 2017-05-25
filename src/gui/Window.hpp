@@ -16,45 +16,47 @@
 #include <functional>
 #include <algorithm>
 
-#include <ctk/log/Logger.hpp>
+#include <ctk/log/GlobalLogger.hpp>
 
 #include <ucurses/gui/types.hpp>
 #include <ucurses/gui/Color.hpp>
+
 #include <ucurses/command/Command.hpp>
 #include <ucurses/command/Display.hpp>
-#include <ucurses/gui/Components.hpp>
-#include <ucurses/gui/ComponentArray.hpp>
+
+#include <ucurses/Components.hpp>
+#include <ucurses/component/ComponentArray.hpp>
 
 #include <ncurses.h>
 
 using namespace std;
 using namespace ctk::log;
-using namespace ucurses::command;
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
 
 	class Window
 	{
         friend class WindowContainer;
         friend class Component;
 
-		public:
-
-            Window(); // Default constructor initialises H_Window to NCurses stdscr
-            Window(coord2d size, coord2d position); // Specifies size and position within NCurses stdscr
+        public:
+            
+            using Ptr = Window*;
+           
+            Window(ColorContainer* Handle); // Default constructor initialises H_Window to NCurses stdscr
+            Window(coord2d size, coord2d position, ColorContainer* Handle); // Specifies size and position within NCurses stdscr
 			virtual ~Window();
+
+            void addComponent(Component* component);
+            void addCommand(int key, delegate func);
+            void addTip(string keyID, string funcID);
+            void Clear(); // Destroys all components and commands
 
         protected:
     
-            /* Update */
-            
-            void Update();
-            void printBorder();
-            
             /* Construction */
 
             void resize(coord2d size, coord2d position);
-            void setTitle(string s);
 
             /* Manipulation */
 
@@ -63,46 +65,47 @@ namespace ucurses { namespace gui {
             void  print(string inString);        // Prints from current cursor position
 
             /* Attributes */
+
             void setAttributes(int attributes);
             void attributeOn(int attributes);
             void attributeOff(int attributes);
            
             /*  Highlighting */
+
             void highlightWord(coord2d wordpos, int size);                  
             void highlightRow(coord row);                  
             void highlightColumn(coord column);                  
+            
+            /* Update */
+            
+            void Update();
+            void printBorder();
 
         public:
 
             /* Retrieval Methods */
             
             coord2d   getSize()   const;
-            coord2d   getPos()    const;
+            coord2d   getPosition()    const;
             coord2d   getMiddle() const; 
             
             WINDOW*  getHandle()  const;
             string   getTitle()   const;
-            Logger&  getLogger()  const;
+            void setTitle(string s);
    
         protected:
 
             /* Commands */
             
             CommandArray Commands;
-            command::Map CommandMap;
+            command::Display CommandMap;
 
-            void addCommand(int key, delegate func);
-            void addTip(string keyID, string funcID);
-            void printCommands(); // Override for child Windows 
+            void printCommands(); 
 
             /* Components */
 
             ComponentArray Components;
-
-            void Clear(); // Destroys all components and commands
 			
-            static Logger logger;
-            
         private:
 
             WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
@@ -111,7 +114,15 @@ namespace ucurses { namespace gui {
             bool   std; // Destructor variable, does not free space to prevent double deletion.
             const  ColorContainer* S_Colors;
             void   EnableColor(ColorContainer* s_ptr);
+            
+            friend bool operator==(const Window& lhs, const string& rhs) 
+            { 
+                if (lhs.getTitle() == rhs)
+                    return true;
+                else
+                    return false;
+            }
 
 	};
 
-}}
+}

@@ -12,49 +12,57 @@
 #pragma once
 #include <string>
 
-#include <ctk/log/GlobalLogger.hpp>
-
 #include <ucurses/gui/Color.hpp>
 #include <ucurses/gui/WindowContainer.hpp>
 #include <ucurses/gui/types.hpp>
 
-using namespace ucurses::gui;
+#include <ctk/log/GlobalLogger.hpp>
 
-namespace ucurses { namespace app {
+using namespace ctk::log;
+namespace ucurses { 
 
 	class GUI
 	{
-        friend class App;
-
 		public:
+
+            using Ptr = GUI*;
 
 			GUI();
 			virtual ~GUI();
+            
+            void Run();
+            
+            Window* createWindow(coord2d size, coord2d pos);
+            Window* createWindow();
+            /*
+             * Returns a window of maximum size
+             */
+
+            void addCommand(int key, delegate function);
             
             coord2d getSize() const;                          
 
         protected:
 
-            void addWindow(string ID, Window* win);
             void removeAll();
-            Window& getActiveWindow();
+            const Window& getActiveWindow();
 
             CommandArray Commands; // GUI level commands. Default is TAB to cycle active window
-            Window stdscreen;      // Handle to the curses stdscr through a nice C++ class
-            
-            virtual void Load() {}
 
         private:
 
             WindowContainer Windows;
 
-            void Parse(int input);
+            void Parse();
             void Render();
-            void UpdateAll();
             void UpdateActive();
-            
+
+            void End(); 
+            bool running;
+
+            /* Initialization */
+
+            void initCommands();
+
 	};
-
-}}
-
-
+}

@@ -17,40 +17,51 @@
 #include <ucurses/gui/types.hpp>
 #include <ucurses/command/Command.hpp>
 
-using namespace std;
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
+
+    using namespace std;
     class Window;
+
 	class Component
 	{
         friend class Window;
         friend class ComponentArray;
-		public:
+
+        public:
             
             /* Constructor */ // Default sizes are set by children
 			Component(coord x, coord y, Window* host);
+
+            /* Commands : Stored in host */
+
+            void addCommand(int key, delegate func);
+            void addTip(string keyID, string funcID);
+
+            // Hosts have the option of constructing their own bindings or using default
+            virtual void bindDefault() = 0;
 
         protected:
 
             /* Update */
 
             virtual void Update() = 0;
-            Window*      H_Window;     // Handle to host
 
             /* Manipulation */
 
             void print(string inString); 
             void move(coord x, coord y);        // Move relative to current position
+
+            /* Getters */
+            
             void setPosition(coord x, coord y); // Set absolute position
             void setSize(coord x, coord y);
-            coord2d  getMiddle() const; 
-            coord2d  getPos()    const;
 
-            coord2d position;
-            coord2d size;
+            coord2d  getMiddle() const; 
+            coord2d  getPosition()    const;
+
 
             // Attributes
-
             void attributeOn(int attributes);
             void attributeOff(int attributes);
             
@@ -58,17 +69,13 @@ namespace ucurses { namespace gui {
             void highlightWord(coord2d wordpos, int size);                  
             void highlightRow(coord row);                  
             void highlightColumn(coord column);                  
+           
+            /* State */
 
-        public:
+            coord2d position;
+            coord2d size;
+            Window*      H_Window;     // Handle to host
 
-            /* Commands : Windows parse the commands of all their components */
-
-            void addCommand(int key, delegate func);
-            void addTip(string keyID, string funcID);
-
-            // Hosts have the option of constructing their own bindings or using default
-            virtual void bindDefault() = 0;
 	};
 
-    
-}}
+}

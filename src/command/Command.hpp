@@ -11,16 +11,28 @@
 #include <algorithm>
 #include <vector>
 
-#include <ctk/log/GlobalLogger.hpp>
- 
-using namespace std;
-using namespace ctk::log;
 
-using delegate = std::function<void()>;
+namespace ucurses {
 
-namespace ucurses { namespace command {
-
+    using namespace std;
     using index = short;
+    using delegate = std::function<void()>;
+
+    struct Command
+    {
+        Command(int inKey, delegate inFunction) : key(inKey), function(inFunction) {};
+        void execute() { function(); }
+        delegate function;
+        int key;
+        friend bool operator==(const Command& lhs, const int& rhs) 
+        {
+            if (lhs.key == rhs)
+                return true;
+            else
+                return false;
+        }
+
+    };
 
     class CommandArray
     {
@@ -28,7 +40,7 @@ namespace ucurses { namespace command {
 
             CommandArray();
 
-            void Add(int key, delegate func) ;
+            void Add(int key, delegate func);
             void Clear();
             void Disable(int key); 
             
@@ -40,9 +52,8 @@ namespace ucurses { namespace command {
              */
 
         private:
-            vector<delegate> functions;
-            vector<int> keys; 
-            vector<bool> active;
+            vector<Command> commands;
+            vector<bool> switches;
     };
 
-}}
+}

@@ -6,19 +6,23 @@
  */
 
 #pragma once
-#include <ucurses/gui/Component.hpp>
+#include <ucurses/component/Component.hpp>
 #include <vector>
         
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
 
     #define NONE -1
-    using index = short;
 
 	class Menu : public Component
     {
-		public:
+        using index = short;
 
+		public:
+        
+            using Ptr = Menu*;
+
+            Menu(Window* host);
             Menu(coord x, coord y, Window* host);
             
             virtual void bindDefault();
@@ -48,4 +52,4 @@ namespace ucurses { namespace gui {
             void selectPrevious();     // *->k
 	};
 
-}}
+}

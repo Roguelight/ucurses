@@ -4,9 +4,9 @@
  */
 
 #pragma once
-#include <ucurses/gui/FileMenu.hpp>
+#include <ucurses/component/FileMenu.hpp>
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
 
 	class FileNav : public FileMenu
 	{
@@ -22,4 +22,4 @@ namespace ucurses { namespace gui {
 
 	};
 
-}}
+}

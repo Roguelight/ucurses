@@ -6,9 +6,9 @@
  */
 
 #pragma once
-#include <ucurses/gui/Component.hpp>
+#include <ucurses/component/Component.hpp>
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
 
 	class TextEntry : public Component
 	{
@@ -33,4 +33,4 @@ namespace ucurses { namespace gui {
 
 	};
 
-}}
+}

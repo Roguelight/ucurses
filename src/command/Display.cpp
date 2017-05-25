@@ -1,19 +1,19 @@
-#include <command/Display.hpp>
+#include <ucurses/command/Display.hpp>
 
 
 namespace ucurses { namespace command {
 
-    Map::Map()
+    Display::Display()
     {
         tips.reserve(8);
     }
 
-    void Map::Add(std::string keyID, std::string funcID)
+    void Display::Add(std::string keyID, std::string funcID)
     {
         tips.push_back(commandmap(keyID, funcID));
     }
 
-    void Map::Clear()
+    void Display::Clear()
     {
         tips.clear();
     }

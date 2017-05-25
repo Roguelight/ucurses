@@ -2,27 +2,31 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * File description
+ * Ensures updating of all windows
+ * One per program, tracks active window and delegates commands
  */
 
 #pragma once
 #include <ucurses/gui/Window.hpp>
 
-namespace ucurses { namespace gui {
+namespace ucurses { 
+
+    #define NONE -1
 
     class WindowContainer 
     {
-        using WindowMap = std::map<string, Window*>;  // map of pointers allows needed flexibility for GUI hierarchy
+        friend class GUI;
 
         public:
-            
+           
+            Window& operator[](int index) { return M_Windows[index]; }
+            const Window& operator[](int index) const { return M_Windows[index]; }
             WindowContainer();
             virtual ~WindowContainer();
             
-            void UpdateAll();
-            void UpdateActive();
-            void Refresh();
-            void Add(string ID, Window* win);
+            Window* Create(coord2d size, coord2d pos);
+            Window* Create();
+
             void Remove(string ID);
             void RemoveAll();
             
@@ -31,20 +35,25 @@ namespace ucurses { namespace gui {
              * Sets active window to next window in map
              */ 
 
-
-            Window* Get(string ID) const;
-            Window* getActive() const       { return active.second; }
-            void Parse(int input);
+            const Window& Get(string ID) const;
+            const Window& getActive() const;
 
         private:
-
-            WindowMap M_Windows;
-            std::pair<string, Window*> active;
             
+            void Parse(int input);
+            /*
+             * Only passes input to active window
+             */
+            
+            void UpdateAll();
+            void UpdateActive();
+            void Refresh();
 
+            vector<Window> M_Windows;
+            index active; 
+            
             ColorContainer Colors;
-
 
     };
 
-}}
+}

@@ -10,7 +10,7 @@
 
 #pragma once
 
-#include <ucurses/gui/Color.hpp>
-#include <ucurses/gui/Components.hpp>
-#include <ucurses/gui/ComponentArray.hpp>
+#include <ucurses/app/GUI.hpp>
 #include <ucurses/gui/Window.hpp>
+#include <ucurses/Components.hpp>
+#include <ucurses/component/ComponentArray.hpp>

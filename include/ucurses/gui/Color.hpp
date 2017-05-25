@@ -7,34 +7,34 @@
 
 #pragma once
 #include <vector>
-#include <ncurses.h>
-#include <ctk/log/GlobalLogger.hpp>
 #include <string>
 #include <algorithm>
 
-using namespace ctk::log;
-using namespace std;
+#include <ncurses.h>
 
-namespace ucurses { namespace gui {
 
+namespace ucurses { 
+
+    using namespace std;
     using colorindex = uint8_t; // used to identify an initialised pair; 1 byte 
     using color = short; // ncurses uses 16bit integers for COLOR_PAIR
+            
+    enum class ColorPair : char { DEFAULT, INVERSE, BW, BLUE };
 
     class ColorContainer
     {
             
         public: 
-            
+
             ColorContainer();
 
-            const color Get(string ID) const;
-            void Add(string ID, NCURSES_COLOR_T foreground, NCURSES_COLOR_T background);
+            const color Get(ColorPair ID) const;
+            void Add(ColorPair ID, NCURSES_COLOR_T foreground, NCURSES_COLOR_T background);
 
         private:
 
-            vector<colorindex> indices;
-            vector<string> keys;
+            vector<ColorPair> colors;
 
-            const size_t size = 16;
+            const size_t size = 8;
     };
-}}
+}
