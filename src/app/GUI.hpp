@@ -16,9 +16,6 @@
 #include <ucurses/gui/WindowContainer.hpp>
 #include <ucurses/gui/types.hpp>
 
-#include <ctk/log/GlobalLogger.hpp>
-
-using namespace ctk::log;
 namespace ucurses { 
 
 	class GUI
@@ -37,15 +34,21 @@ namespace ucurses {
             /*
              * Returns a window of maximum size
              */
+            
+            Window* getActiveWindow();
 
             void addCommand(int key, delegate function);
+            /*
+             * UCurses responds to two command arrays.
+             * One for application commands (Close, Window tabbing etc)
+             * and one for the active window
+             */
             
             coord2d getSize() const;                          
 
         protected:
 
             void removeAll();
-            const Window& getActiveWindow();
 
             CommandArray Commands; // GUI level commands. Default is TAB to cycle active window
 

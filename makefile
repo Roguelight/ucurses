@@ -20,17 +20,17 @@ comma :=,
 #*****************  User Config ********************************************
 
 MAIN := ucurses
-BRANCHES :=app gui command component
+BRANCHES :=app gui command component tests
 
-LIBRARIES := boost ctk
-LIBFILES := -lctk -lboost_filesystem -lboost_system
+LIBRARIES := ctk ncurses boost
+LIBFILES := -lctk -lboost_system -lboost_filesystem -lncurses
 
 CXX := g++
 CXXFLAGS := -g -std=c++17 -O2 -flto
 
 #*****************  Pre-processor  ****************************************
 
-INCDIR = -I include -I src
+INCDIR = -I include -I $(WORKFLOW)/include/ncurses
 
 #*****************  Linux  ************************************************
 

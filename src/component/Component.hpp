@@ -11,6 +11,7 @@
 
 #pragma once
 #include <ncurses.h>
+#include <ncurses_dll.h>
 
 #include <string>
 

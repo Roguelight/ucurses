@@ -31,7 +31,7 @@ namespace ucurses {
             void RemoveAll();
             
             const Window& Get(string ID) const;
-            const Window& getActive() const;
+            Window& getActive();
 
         private:
             

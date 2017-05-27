@@ -43,7 +43,7 @@ namespace ucurses {
             GlobalLogger::instance().log(TRACE) << "Failed to find window. ID " << ID << " not valid" <<  Sentinel::END;
     }
                 
-    const Window& WindowContainer::getActive() const
+    Window& WindowContainer::getActive() 
     {
         return M_Windows[active]; 
     }

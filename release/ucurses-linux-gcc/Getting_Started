@@ -1,0 +1,30 @@
+Welcome to UCurses, the elegant and open-source NCurses wrapper written in C++
+
+This GUI library was written to avoid the ugly syntax of ncurses' data structures and C pointers.
+UCurses also provides an API for extending GUI components using inheritance and not worrying about storage of data. 
+This document should get you started with using this awesome library.
+
+Example class for a typical graphical interface.
+
+
+class MainMenu // State object for manipulating a UCurses Window
+{
+    MainMenu(GUI::Ptr gui);
+
+
+    Window::Ptr win;    
+    Menu::Ptr modeselect;
+    GUI::Ptr gui;
+
+    void Settings();
+    
+
+}
+
+MainMenu::MainMenu(GUI::Ptr gui)
+{
+    win = gui->createWindow(coord2d(30, 15), coord2d(5, 5));
+
+    
+    options = new Menu(win); // Components are initialised with a pointer of the host window
+}

@@ -48,9 +48,9 @@ namespace ucurses {
         doupdate();        // Compares virtual to physical and updates screen
     }
             
-    const Window& GUI::getActiveWindow()
+    Window* GUI::getActiveWindow()
     {
-        return Windows.getActive(); 
+        return &(Windows.getActive()); 
     }
 
     coord2d GUI::getSize() const
