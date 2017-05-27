@@ -5,6 +5,7 @@ program.log
 *.lo
 *.o
 *.obj
+release/
 
 # Precompiled Headers
 *.gch
