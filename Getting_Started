@@ -7,24 +7,104 @@ This document should get you started with using this awesome library.
 Example class for a typical graphical interface.
 
 
-class MainMenu // State object for manipulating a UCurses Window
+**************** Example of quick interface in main() ************************
+
+#include <ucurses/ucurses.hpp>
+
+using namespace ucurses;
+
+int main(int argc, char* argv[])
 {
-    MainMenu(GUI::Ptr gui);
+    ucurses::GUI gui; 				/* Initialize ucurses */
 
-
-    Window::Ptr win;    
-    Menu::Ptr modeselect;
-    GUI::Ptr gui;
-
-    void Settings();
+    Window::Ptr win = gui.createWindow();	/* No parameter overload for full screen */
     
+    
+    //Window::Ptr win = gui.createWindow(coord2d(50,20),coord2d(5,5)); 
+    /* Specify size and position x,y coordinates respectively */
+
+    mainScreen(win);				/* Pass window to free function */
+    gui.Run();	
+}
+
+***************** GUI State implemented as free function ********************
+
+ void mainScreen(Window* target)
+    {
+        target->Clear();     				// Clears window for a new state and command interface
+        target->addTip("F1:", " Quit "); 		// Command hint for users
+        
+        short x = target->getMiddle().x - 10; 		// Margin for component alignment
+
+        Label* Title = new Label(x, 10, target); 	// Window is passed into polymorphic component
+        Title->setText("Zombie Dogs and Lava Frogs");
+        target->addComponent(Title);      		// Component MUST be added to host window using this method
+
+        Menu* H_ModeSelect = new Menu(x, 20, target);
+        H_ModeSelect->addItem("New Game");
+        H_ModeSelect->addItem("Load Game");
+        H_ModeSelect->bindDefault();      		// Bind default makes component responsive to keyboard commands
+        target->addComponent(H_ModeSelect);
+    }
+}
+
+***************** Command Binding ******************************************
+
+/* 
+ * Commands are bound to windows using the addCommand(int key, std::function<void()>); function
+ * This can be accessed either through a component or the window itself. Below shows the inner workings
+ * of the Menu::bindDefault() function called in the earlier example. Note that this is only for people
+ * who wish to extend the library by adding modifying components, users can also read the source available
+ * at GitHub at https://github.com/Roguelight/ucurses.git
+ */
+
+    addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
+    addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
+    addTip("j:", " Down ");
+    addTip("k:", " Up ");
+
+**************** Example of Application class *******************************
+
+class TestClass
+{
+	public:
+
+		TestClass();
+
+            	void Run();
+
+    	protected:
+
+            	ucurses::GUI gui;
+};
+
+TestClass::TestClass()
+{
 
 }
 
-MainMenu::MainMenu(GUI::Ptr gui)
+void TestClass::Run() 
 {
-    win = gui->createWindow(coord2d(30, 15), coord2d(5, 5));
+     Window::Ptr main = gui.createWindow();
+     ucurses::mainScreen(gui.getActiveWindow());
 
-    
-    options = new Menu(win); // Components are initialised with a pointer of the host window
+     gui.Run();
 }
+
+#include <ucurses/tests/TestClass.hpp>
+#include <ucurses/ucurses.hpp>
+
+using namespace ucurses;
+
+int main(int argc, char* argv[])
+{
+
+    ucurses::TestClass test;			/* Application class with ucurses::GUI object */	
+
+    Window::Ptr win = gui.createWindow();	/* No parameter overload for full screen */
+    
+    mainScreen(win);
+    
+    test.Run();
+}
+
