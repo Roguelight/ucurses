@@ -7,24 +7,12 @@ namespace ucurses {
             
     FileMenu::FileMenu(coord x, coord y, Window* host) : Menu(x, y, host)
     {
-        GlobalLogger::log(TRACE, "Filemenu::") << "Initialising FileMenu" <<  Sentinel::END;
         setDirectory(boost::filesystem::current_path().string());
         last = directory;
     }
 
-    void FileMenu::Update()
-    {
-        Menu::Update();
-    }
-
-    void FileMenu::bindDefault()
-    {
-        Menu::bindDefault();
-    }
-
     void FileMenu::setDirectory(string inString)
     {
-        GlobalLogger::log(TRACE, "Filemenu:") << "Setting directory to: " << inString <<  Sentinel::END;
         last = directory;
         directory = inString;
         ctk::file::Directory dir(directory);
@@ -40,7 +28,6 @@ namespace ucurses {
     {
         boost::filesystem::path dir(directory);
         string parentpath(dir.parent_path().string());
-        GlobalLogger::log(TRACE) << "Backtracking to directory: " << parentpath <<  Sentinel::END;
         setDirectory(parentpath);
         selection = 0;
     }

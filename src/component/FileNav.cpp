@@ -18,10 +18,7 @@ namespace ucurses {
                 last = directory;
                 setDirectory(dir);
             }
-                //else GlobalLogger::log(WARNING, "Filemenu:") << "Selected file is not a directory" << dir << Sentinel::END;
         }
-        
-            //elseGlobalLogger::log(ERROR, "Filemenu:") << "Please make a valid selection!" << Sentinel::END;
     }
         
     void FileNav::bindDefault()

@@ -54,7 +54,10 @@ namespace ucurses {
 
             /* Getters */
             
-            void setPosition(coord x, coord y); // Set absolute position
+            /* Set position to component position */
+            void setPosition();
+            /* Set absolute position */
+            void setPosition(coord x, coord y);
             void setSize(coord x, coord y);
 
             coord2d  getMiddle() const; 

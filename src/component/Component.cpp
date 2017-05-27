@@ -10,8 +10,6 @@ namespace ucurses {
 	{
         position.x = x;
         position.y = y;
-        GlobalLogger::instance().log(TRACE) << "Constructing component at postion: " << x << ", " << y;
-        GlobalLogger::instance().log(TRACE) << " -> Attaching to host " << host->getTitle() << Sentinel::END;
 	}
 
     void Component::print(string inString)
@@ -27,6 +25,11 @@ namespace ucurses {
     void Component::setPosition(coord x, coord y)
     {
         H_Window->setPosition(position.x + x, position.y + y);
+    }
+
+    void Component::setPosition()
+    {
+        H_Window->setPosition(position.x, position.y);
     }
 
     void Component::addCommand(int key, delegate func)

@@ -30,11 +30,6 @@ namespace ucurses {
             void Remove(string ID);
             void RemoveAll();
             
-            void Next();
-            /*
-             * Sets active window to next window in map
-             */ 
-
             const Window& Get(string ID) const;
             const Window& getActive() const;
 
@@ -44,6 +39,11 @@ namespace ucurses {
             /*
              * Only passes input to active window
              */
+            
+            void Next();
+            /*
+             * Sets active window to next window in map
+             */ 
             
             void UpdateAll();
             void UpdateActive();

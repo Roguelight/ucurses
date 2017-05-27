@@ -54,8 +54,8 @@ namespace ucurses {
             WindowContainer Windows;
 
             void Parse();
+            void Parse(int key);
             void Render();
-            void UpdateActive();
 
             void End(); 
             bool running;
@@ -63,6 +63,5 @@ namespace ucurses {
             /* Initialization */
 
             void initCommands();
-
 	};
 }

@@ -12,6 +12,7 @@ namespace ucurses {
         setSize(40,15);
         selection = NONE;
         items.reserve(24);
+        bindDefault();
     }
 
     void Menu::bindDefault()
@@ -25,21 +26,18 @@ namespace ucurses {
     void Menu::Update()
     {
         
-        coord xcenter = getMiddle().x - 4;
-        coord ymargin = 2;
-        
-        setPosition(xcenter, ymargin); //Initial position
+        setPosition(0, 0); //Initial position
 
         for (auto& item : items)
         {
-            setPosition(xcenter, getPosition().y + 1);
+            setPosition(0, getPosition().y + 1);
             print(item);
         }
 
         if (selection != NONE)
         {
             int size = getSelectedItem().length();
-            highlightWord(coord2d(xcenter, selection + ymargin), size);
+            highlightWord(coord2d(0, selection), size);
         }
     }
     
@@ -71,62 +69,39 @@ namespace ucurses {
     {
         if (id < items.size())
         {
-            return items.at(id);
+            return items[id];
         }
-        else
-            GlobalLogger::instance().log(WARNING) << "Please specify index in range" << Sentinel::END;
     }
 
     void Menu::selectNext()
     {
         if (!(items.empty()))
         {
-            if (last()) 
-            {
-                GlobalLogger::instance().log(TRACE) << "At last element, not modifying selection" << Sentinel::END;
-            }
-            else
-            {
+            if (!last()) 
                 ++selection;
-                GlobalLogger::instance().log(TRACE) << "Selecting next item at index: " << selection << Sentinel::END;
-            }
         }
         else
-        {
-            GlobalLogger::instance().log(TRACE) << "Menu empty, selecting 0" << Sentinel::END;
             selection = NONE;
-        }
     }
     
     void Menu::selectPrevious()
     {
         if (!(items.empty()))
-        {
-            if (selection <= 0)
-            {
-                GlobalLogger::log(TRACE,"Menu") << "At first element, not modifying selection" << Sentinel::END;
-            }
-            else
-            {
+            if (selection > 0)
                 --selection;
-                GlobalLogger::log(TRACE,"Menu") << "Decreasing selection to index: " << selection << Sentinel::END;
-            }
-        }
         else
-        {
-            GlobalLogger::log(TRACE,"Menu") << "Menu empty, selecting 0" << Sentinel::END;
             selection = NONE;
-        } 
     }
 
     void Menu::removeItem(index id)
     {
         if (selection != NONE)
         {
-            GlobalLogger::log(TRACE,"Menu") << "Removing item at index " << id << Sentinel::END;
             if (last()) 
                 selection--;
+
             items.erase(items.begin() + id);
+
             if (items.empty())
                 selection = NONE;
         }
@@ -135,7 +110,6 @@ namespace ucurses {
     void Menu::removeSelectedItem()
     {
         index id = getSelectedIndex();
-        GlobalLogger::log(TRACE,"Menu") << "Removing selected item" << Sentinel::END;
         removeItem(id);
     }
 

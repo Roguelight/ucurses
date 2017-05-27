@@ -91,35 +91,21 @@ namespace ucurses {
         {
             wnoutrefresh(element.getHandle());
         }
-        
-        wnoutrefresh(M_Windows[0].getHandle());
     }
 
     void WindowContainer::Next()
     {
         if (M_Windows.empty())
-        {
-            GlobalLogger::instance().log(WARNING) << "Window map empty, Next() called, doing nothing" << Sentinel::END;
             active = NONE;
-        }
         else
-        {
-            GlobalLogger::instance().log(TRACE) << "Selecting next active window: ";
             if ((++active) == M_Windows.size())
                 active = 0;
-            GlobalLogger::instance().log(TRACE) << M_Windows[active].getTitle() << Sentinel::END;
-        }
     }
 
     void WindowContainer::Parse(int input)
     { 
         if (active != NONE)
-        {
-            GlobalLogger::instance().log(TRACE, "WindowContainer") << "Delegating command to active window " << M_Windows[active].getTitle() <<  Sentinel::END;
             M_Windows[active].Commands.Parse(input);
-        }
-        else 
-            GlobalLogger::instance().log(WARNING, "WindowContainer::") << "Active window is null, cannot handle command" << Sentinel::END;
     }
 
 }

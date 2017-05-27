@@ -74,8 +74,7 @@ namespace ucurses {
 
     void Window::Update()
     {
-        GlobalLogger::instance().log(TRACE) << "Updating window -> " << title << Sentinel::END;
-        werase(getHandle());
+        werase(H_Window);
         printBorder();
         setPosition(2,0);
         print(title);

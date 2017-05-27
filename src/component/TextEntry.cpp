@@ -22,18 +22,18 @@ namespace ucurses {
 
     void TextEntry::Update()
     {
-        setPosition(2,2);
+        setPosition();
         print(subject + ": " + input);
     }
 
     void TextEntry::getInput()
     {
-        coord x = subject.length() + 4;
+        coord x = subject.length() + 1;
         echo();
         char in[10];
-        setPosition(x, 2);
+        setPosition(x, 0);
         print("*");
-        move(-1, 0);
+        //move(-1, 0);
         attributeOn(A_STANDOUT);
         wgetnstr(H_Window->getHandle(), in, 10);
         attributeOff(A_STANDOUT);

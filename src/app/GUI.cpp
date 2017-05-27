@@ -9,7 +9,6 @@ namespace ucurses {
 
 	GUI::GUI() : running(true)
 	{
-        GlobalLogger::log(TRACE) << "Initialising ucurses GUI" << Sentinel::END;
         initscr();                      /* Start curses mode    */
         noecho();
         raw();
@@ -22,13 +21,11 @@ namespace ucurses {
 
 	GUI::~GUI()
 	{
-        GlobalLogger::log(TRACE) << "Destroying ucurses GUI" << Sentinel::END;
         endwin();                       /* End curses mode                */
 	}
     
     void GUI::Run()
     {
-        GlobalLogger::log(TRACE) << "Starting application" << Sentinel::END;
         while (running)
         {
             Windows.UpdateAll(); 
@@ -82,20 +79,10 @@ namespace ucurses {
         Commands.Add(key, function);
     }
 
-    void GUI::UpdateActive()
-    {
-        GlobalLogger::instance().log(TRACE) << "Updating active window" << Sentinel::END;
-        Windows.UpdateActive(); 
-    }
-
     void GUI::Parse()
     {
-        int input = getch();
-        GlobalLogger::instance().log(TRACE) << input << " key recieved, looking for matching command..." << Sentinel::newl;
+        int input = wgetch(Windows.getActive().getHandle());
         if (!(Commands.Parse(input)))
             Windows.Parse(input);
-        else
-            GlobalLogger::instance().log(TRACE) << "Found command in GUI command array" << input << Sentinel::END;
     }
-
 }

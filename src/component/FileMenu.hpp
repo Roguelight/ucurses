@@ -19,12 +19,9 @@ namespace ucurses {
 
             FileMenu(coord x, coord y, Window* host);
             
-            virtual void bindDefault();
             void setDirectory(string inString);
 
         protected:
-
-            void Update();
 
             string directory; // File directory from which files are displayed
             string last;      // History of one to enable backtracking

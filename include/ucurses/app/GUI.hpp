@@ -33,7 +33,6 @@ namespace ucurses {
             void Run();
             
             Window* createWindow(coord2d size, coord2d pos);
-            
             Window* createWindow();
             /*
              * Returns a window of maximum size
@@ -55,8 +54,8 @@ namespace ucurses {
             WindowContainer Windows;
 
             void Parse();
+            void Parse(int key);
             void Render();
-            void UpdateActive();
 
             void End(); 
             bool running;
@@ -64,6 +63,5 @@ namespace ucurses {
             /* Initialization */
 
             void initCommands();
-
 	};
 }

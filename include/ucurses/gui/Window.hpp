@@ -85,9 +85,9 @@ namespace ucurses {
 
             /* Retrieval Methods */
             
-            coord2d   getSize()   const;
-            coord2d   getPosition()    const;
-            coord2d   getMiddle() const; 
+            coord2d   getSize()         const;
+            coord2d   getPosition()     const;
+            coord2d   getMiddle()       const; 
             
             WINDOW*  getHandle()  const;
             string   getTitle()   const;

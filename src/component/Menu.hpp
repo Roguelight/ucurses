@@ -2,13 +2,12 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * Menu interface that is constructed as a Window Component.
+ * UCurses menu interface 
  */
 
 #pragma once
 #include <ucurses/component/Component.hpp>
 #include <vector>
-        
 
 namespace ucurses { 
 
@@ -22,7 +21,6 @@ namespace ucurses {
         
             using Ptr = Menu*;
 
-            Menu(Window* host);
             Menu(coord x, coord y, Window* host);
             
             virtual void bindDefault();
