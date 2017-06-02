@@ -10,7 +10,8 @@
 #include <string>
 #include <algorithm>
 
-#include <ncurses.h>
+//#include <ncurses.h>
+#include <pdcurses/curses.h>
 
 
 namespace ucurses { 
@@ -29,7 +30,7 @@ namespace ucurses {
             ColorContainer();
 
             const color Get(ColorPair ID) const;
-            void Add(ColorPair ID, NCURSES_COLOR_T foreground, NCURSES_COLOR_T background);
+            void Add(ColorPair ID, short foreground, short background);
 
         private:
 
@@ -37,4 +38,5 @@ namespace ucurses {
 
             const size_t size = 8;
     };
+    
 }

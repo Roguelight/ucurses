@@ -21,7 +21,7 @@ namespace ucurses {
         Add(ColorPair::BLUE, COLOR_BLACK, COLOR_BLUE); 
     }
 
-    void ColorContainer::Add(ColorPair ID, NCURSES_COLOR_T foreground, NCURSES_COLOR_T background)
+    void ColorContainer::Add(ColorPair ID, short foreground, short background)
     {
         //GlobalLogger::log(TRACE) << "Initialising color pair: ID = " << ID << " Count = " << indices.size() + 1 << Sentinel::END;
         init_pair(colors.size(), foreground, background);

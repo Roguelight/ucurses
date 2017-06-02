@@ -10,8 +10,8 @@
  */
 
 #pragma once
-#include <ncurses.h>
-#include <ncurses_dll.h>
+//#include <ncurses.h>
+#include <pdcurses/curses.h>
 
 #include <string>
 

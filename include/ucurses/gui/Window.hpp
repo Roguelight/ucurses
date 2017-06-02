@@ -27,7 +27,8 @@
 #include <ucurses/Components.hpp>
 #include <ucurses/component/ComponentArray.hpp>
 
-#include <ncurses.h>
+//#include <ncurses.h>
+#include <pdcurses/curses.h>
 
 using namespace std;
 using namespace ctk::log;
@@ -43,7 +44,7 @@ namespace ucurses {
             
             using Ptr = Window*;
            
-            Window(ColorContainer* Handle); // Default constructor initialises H_Window to NCurses stdscr
+            Window(ColorContainer* Handle); 
             Window(coord2d size, coord2d position, ColorContainer* Handle); // Specifies size and position within NCurses stdscr
 			virtual ~Window();
 

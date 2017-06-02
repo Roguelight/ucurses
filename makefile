@@ -23,14 +23,14 @@ MAIN := ucurses
 BRANCHES :=app gui command component tests
 
 LIBRARIES := ctk ncurses boost
-LIBFILES := -lctk -lboost_system -lboost_filesystem -lncurses
+LIBFILES := -lctk -lboost_system -lboost_filesystem
 
 CXX := g++
-CXXFLAGS := -g -std=c++17 -O2 -flto
+CXXFLAGS := -g -std=c++17 -O2 
 
 #*****************  Pre-processor  ****************************************
 
-INCDIR = -I include -I $(WORKFLOW)/include/ncurses
+INCDIR = -I include 
 
 #*****************  Linux  ************************************************
 
@@ -38,7 +38,8 @@ ifeq ($(OS),Linux)
 	CXX := g++
 	TARGET := gcc
 	ifeq ($(strip $(target)),)
-		CXXFLAGS += -fPIC
+		CXXFLAGS += -fPIC -flto
+		LIBFILES += -lncurses
 	endif
 	LIBEXT := .so
 	OBJEXT := .o
@@ -54,7 +55,8 @@ ifeq ($(OS),Windows_NT)
 	APPEXT := .exe
 	OBJEXT := .obj
 	TARGET := mingw64
-	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
+	LIBFILES += $(WORKFLOW_LIB)/C++/$(TARGET)/pdcurses.a
+	LIBDIR := -L$(WORKFLOW_LIB)\C++\$(TARGET)
 endif
 
 ifeq ($(target), w32)
@@ -63,6 +65,7 @@ ifeq ($(target), w32)
 	APPEXT := .exe
 	OBJEXT := .obj
 	TARGET := mingw32
+	LIBFILES += $(STATIC) $(WORKFLOW_LIB)/C++/$(TARGET)/pdcurses.lib
 	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
 endif
 	
