@@ -1,6 +1,3 @@
-// Copyright Thu Feb 23 23:12:00 2017
-// Liam Rogers, All rights reserved.
-
 /*
  * UCurses menu that displays files in a specified directory
  */
@@ -8,8 +5,6 @@
 #pragma once
 #include <ucurses/component/Menu.hpp>
 #include <ctk/file/Directory.hpp>
-#include <ctk/log/GlobalLogger.hpp>
-
 
 namespace ucurses { 
 

@@ -1,21 +1,19 @@
 // Copyright Sat Feb 18 14:42:55 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/Window.hpp>
+#include <ucurses/window/Window.hpp>
 #include <ucurses/app/GUI.hpp>
 
 namespace ucurses {
 
 	Window::Window(coord2d size, coord2d position, ColorContainer* Handle) : std(false) 
 	{
-        GlobalLogger::instance().log(TRACE) << "Initialising ucurses app Window" << Sentinel::END;
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
     
     Window::Window(ColorContainer* Handle) : std(true), title("Main")
     {
-        GlobalLogger::instance().log(TRACE) << "Initialising UCurses stdscr Window" << Sentinel::END;
         H_Window = stdscr;
         keypad(H_Window, TRUE);
         CommandMap.Add("Tab:", " Switch Active ");
@@ -47,7 +45,6 @@ namespace ucurses {
 
     void Window::Clear()
     {
-        GlobalLogger::instance().log(TRACE) << "Clearing out window component array for " << title << Sentinel::END;
         Commands.Clear();
         CommandMap.Clear();
         Components.RemoveAll();
@@ -55,17 +52,20 @@ namespace ucurses {
 
     void Window::addComponent(Component* component)
     {
-        GlobalLogger::instance().log(TRACE) << "Adding component to window " << title << Sentinel::END;
         Components.Add(component);
     }
     
     void Window::addCommand(int key, delegate func)
     {
-        GlobalLogger::instance().log(TRACE) << "Adding command to window " << title << Sentinel::END;
         Commands.Add(key,func);
     }
 
-    void Window::addTip(string keyID, string funcID)
+    void Window::addTip(string& keyID, string& funcID)
+    {
+        CommandMap.Add(keyID, funcID);
+    }
+
+    void Window::addTip(string&& keyID, string&& funcID)
     {
         CommandMap.Add(keyID, funcID);
     }
@@ -93,11 +93,11 @@ namespace ucurses {
     {
         if (!std)
         {
-            GlobalLogger::instance().log(TRACE) << "Resizing window-> " << title << Sentinel::END;
+            GlobalLogger::instance().log(TRACE) << "Resizing window -> " << title << Sentinel::END;
             delwin(H_Window);
         }
         else
-            GlobalLogger::instance().log(TRACE) << "Tried to resize ncurses stdscr!" << Sentinel::END;
+            GlobalLogger::instance().log(WARNING) << "Tried to resize ncurses stdscr!" << Sentinel::END;
     }
 
     void Window::EnableColor(ColorContainer* s_ptr) 

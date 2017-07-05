@@ -11,6 +11,6 @@
 #pragma once
 
 #include <ucurses/app/GUI.hpp>
-#include <ucurses/gui/Window.hpp>
+#include <ucurses/window/Window.hpp>
 #include <ucurses/Components.hpp>
 #include <ucurses/component/ComponentArray.hpp>

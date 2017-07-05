@@ -20,7 +20,6 @@ comma :=,
 #*****************  User Config ********************************************
 
 MAIN := ucurses
-BRANCHES :=app gui command component tests
 
 LIBRARIES := ctk ncurses boost
 LIBFILES := -lctk -lboost_system -lboost_filesystem
@@ -85,8 +84,9 @@ BUILDPATH :=bin/$(TARGET)
 
 #*****************  Branching  ********************************************
 
+BRANCHES := $(wildcard src/*)
 ifeq ($(strip $(branch)),)
-	SRC := $(foreach b, $(BRANCHES), $(wildcard src/$(b)/*.cpp))
+	SRC := $(foreach b, $(BRANCHES), $(wildcard $(b)/*.cpp))
 	LIB := lib$(MAIN)
 else
 	SRC := $(wildcard src/$(branch)/*.cpp) # Pass $branch for linking objects from one branch only

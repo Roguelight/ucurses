@@ -13,7 +13,7 @@ namespace ucurses {
 
     void CommandArray::Disable(int key)
     { 
-        auto it = std::find(commands.begin(), commands.end(), key);
+        auto it = std::find(commands.begin(), commands.end(), key); // Linear search
         if (it != commands.end())
         {
             switches[it - commands.begin()] = false;

@@ -1,7 +1,7 @@
 // Copyright Sat Feb 25 17:23:15 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/gui/Color.hpp>
+#include <ucurses/window/Color.hpp>
 #include <ctk/log/GlobalLogger.hpp>
 
 using namespace ctk::log;

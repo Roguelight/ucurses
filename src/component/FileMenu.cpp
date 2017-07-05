@@ -2,7 +2,9 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/FileMenu.hpp>
+
 using namespace ctk::log;
+
 namespace ucurses { 
             
     FileMenu::FileMenu(coord x, coord y, Window* host) : Menu(x, y, host)

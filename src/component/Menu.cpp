@@ -2,8 +2,6 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/Menu.hpp>
-#include <ucurses/gui/Window.hpp>
-
 
 namespace ucurses {
 
@@ -87,8 +85,10 @@ namespace ucurses {
     void Menu::selectPrevious()
     {
         if (!(items.empty()))
+        {
             if (selection > 0)
                 --selection;
+        }
         else
             selection = NONE;
     }

@@ -7,7 +7,7 @@
  */
 
 #pragma once
-#include <ucurses/gui/Window.hpp>
+#include <ucurses/window/Window.hpp>
 
 namespace ucurses { 
 

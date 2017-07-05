@@ -4,10 +4,9 @@
 /*
  * Window provides an interface for manipulating NCurses WINDOW 
  * structure and mapping commands to keys
- *
- * Children of window are responsible for constructing appropriate
- * UIComponents (Non polymorphic) and mapping appropriate commands
- * to achieve desired interface behaviour.
+ * 
+ * Constructor is exposed through the ucurses::GUI object. Window* handle = gui.createWindow();
+ * This ensures safe initialization and storage.
  */
 
 #pragma once
@@ -18,17 +17,15 @@
 
 #include <ctk/log/GlobalLogger.hpp>
 
-#include <ucurses/gui/types.hpp>
-#include <ucurses/gui/Color.hpp>
+#include <ucurses/window/types.hpp>
+#include <ucurses/window/Color.hpp>
 
 #include <ucurses/command/Command.hpp>
 #include <ucurses/command/Display.hpp>
 
-#include <ucurses/Components.hpp>
 #include <ucurses/component/ComponentArray.hpp>
 
-//#include <ncurses.h>
-#include <pdcurses/curses.h>
+#include <ncurses.h>
 
 using namespace std;
 using namespace ctk::log;
@@ -50,7 +47,8 @@ namespace ucurses {
 
             void addComponent(Component* component);
             void addCommand(int key, delegate func);
-            void addTip(string keyID, string funcID);
+            void addTip(string& keyID, string& funcID);
+            void addTip(string&& keyID, string&& funcID);
             void Clear(); // Destroys all components and commands
 
         protected:

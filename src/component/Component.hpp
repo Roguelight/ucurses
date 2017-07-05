@@ -10,19 +10,17 @@
  */
 
 #pragma once
-//#include <ncurses.h>
-#include <pdcurses/curses.h>
+#include <ncurses.h>
 
 #include <string>
 
-#include <ucurses/gui/types.hpp>
 #include <ucurses/command/Command.hpp>
-
+#include <ucurses/window/types.hpp>
+#include <ucurses/window/Window.hpp>
 
 namespace ucurses { 
 
     using namespace std;
-    class Window;
 
 	class Component
 	{

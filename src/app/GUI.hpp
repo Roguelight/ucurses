@@ -12,9 +12,9 @@
 #pragma once
 #include <string>
 
-#include <ucurses/gui/Color.hpp>
-#include <ucurses/gui/WindowContainer.hpp>
-#include <ucurses/gui/types.hpp>
+#include <ucurses/window/Color.hpp>
+#include <ucurses/window/WindowContainer.hpp>
+#include <ucurses/window/types.hpp>
 
 namespace ucurses { 
 

@@ -2,7 +2,6 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/Component.hpp>
-#include <ucurses/gui/Window.hpp>
 
 namespace ucurses { 
 

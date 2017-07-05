@@ -1,8 +1,5 @@
-// Copyright Sun Feb 19 02:16:35 2017
-// Liam Rogers, All rights reserved.
-
-#include <ucurses/gui/WindowContainer.hpp>
-#include <ucurses/gui/Window.hpp>
+#include <ucurses/window/WindowContainer.hpp>
+#include <ucurses/window/Window.hpp>
 #include <ucurses/app/GUI.hpp>
 
 namespace ucurses { 

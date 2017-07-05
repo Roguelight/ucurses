@@ -1,16 +1,13 @@
-// Copyright Wed Mar  1 02:51:59 2017
-// Liam Rogers, All rights reserved.
-
 /*
- * DOD Implementation of command system for Ncurses.
+ * Dynamic Command Array that uses C++ std::function objects to encapsulate commands.
+ * This approach does not require new object definition for each command however state
+ * cannot be stored this way to support operations like undo history.
  */
 
 #pragma once
-#include <ucurses/gui/types.hpp>
 #include <functional>
 #include <algorithm>
 #include <vector>
-
 
 namespace ucurses {
 
@@ -21,9 +18,10 @@ namespace ucurses {
     struct Command
     {
         Command(int inKey, delegate inFunction) : key(inKey), function(inFunction) {};
-        void execute() { function(); }
+
         delegate function;
         int key;
+
         friend bool operator==(const Command& lhs, const int& rhs) 
         {
             if (lhs.key == rhs)
@@ -31,6 +29,8 @@ namespace ucurses {
             else
                 return false;
         }
+        
+        void execute() { function(); }
 
     };
 
@@ -45,11 +45,8 @@ namespace ucurses {
             void Disable(int key); 
             
 
-            bool Parse(int key);
-            /*
-             * returns true if match found,
-             * this will allow for a chain of reponsibility
-             */
+            bool Parse(int key); 
+            /* Returns 'true' if match found */
 
         private:
             vector<Command> commands;

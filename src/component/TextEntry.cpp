@@ -2,7 +2,7 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/TextEntry.hpp>
-#include <ucurses/gui/Window.hpp>
+#include <ucurses/window/Window.hpp>
 
 namespace ucurses {
 

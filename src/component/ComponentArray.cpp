@@ -2,7 +2,8 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/ComponentArray.hpp>
-#include <ctk/log/GlobalLogger.hpp>
+#include <ucurses/component/Component.hpp>
+
 using namespace ctk::log;
 
 namespace ucurses { 
@@ -28,7 +29,6 @@ namespace ucurses {
 
     void ComponentArray::Update()
     {
-        GlobalLogger::instance().log(TRACE) << "Updating components" << Sentinel::END;
         for (auto& component : M_Components)
             component->Update();
     }
@@ -36,10 +36,8 @@ namespace ucurses {
     void ComponentArray::RemoveAll()
     {
         for (auto& component : M_Components)
-        {
             delete component;
-            component = nullptr;
-        }
+
         M_Components.clear();
     
     }

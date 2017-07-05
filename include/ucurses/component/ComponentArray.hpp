@@ -6,16 +6,14 @@
  */
 
 #pragma once
-#include <ucurses/component/Component.hpp>
+#include <vector>
 
 namespace ucurses { 
 
-    class Window;
+    class Component;
 
     class ComponentArray
     {
-        friend class Window;
-
         public:
 
             ComponentArray();
@@ -27,13 +25,11 @@ namespace ucurses {
 
         protected:
 
-            vector<Component*> M_Components;
+            std::vector<Component*> M_Components;
             /* 
              * Prefix M_ indicates owner of this data is responsible
              * for memory management of every instance of this data
              */
-            
-
     };
 
 }

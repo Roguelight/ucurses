@@ -10,8 +10,7 @@
 #include <string>
 #include <algorithm>
 
-//#include <ncurses.h>
-#include <pdcurses/curses.h>
+#include <ncurses.h>
 
 
 namespace ucurses { 
