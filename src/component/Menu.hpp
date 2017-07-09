@@ -35,7 +35,7 @@ namespace ucurses {
             std::vector<string> items; 
 
             void removeItem(index id);
-            string& getItem(index id);      // Performs bounds checking
+            string& getItem(index id);  // Performs bounds checking
             void removeAll();
     
             /* Selection */

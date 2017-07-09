@@ -20,6 +20,11 @@ namespace ucurses {
         addTip("E:", " Input " + subject + " ");
     }
 
+	string& TextEntry::getText()
+	{
+		return input;
+	}
+
     void TextEntry::Update()
     {
         setPosition();

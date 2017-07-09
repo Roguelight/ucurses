@@ -63,7 +63,7 @@ namespace ucurses {
         items.clear(); 
     }
 
-    string& Menu::getItem(index id)
+    string& Menu::getItem(index id) 
     {
         if (id < items.size())
         {

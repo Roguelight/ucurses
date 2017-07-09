@@ -18,6 +18,7 @@ namespace ucurses {
 
             void bindDefault();
             void setSubject(string inString);
+			string& getText();
 
         protected:
 
