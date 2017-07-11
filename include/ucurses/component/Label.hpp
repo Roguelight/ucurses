@@ -15,7 +15,7 @@ namespace ucurses {
 
             Label(coord x, coord y, Window* host);
 
-            void setText(std::string inText);
+            void setText(const std::string& inText);
             void appendText(std::string inText);
 
             const std::string& getText() const;

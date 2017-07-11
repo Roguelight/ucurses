@@ -8,7 +8,7 @@ namespace ucurses {
         setSize(30,6);
 	}
 
-    void Label::setText(std::string inText)
+    void Label::setText(const std::string& inText)
     {
         text = inText;
     }
@@ -25,7 +25,7 @@ namespace ucurses {
 
     void Label::Update()
     {
-        setPosition(-(text.size() / 2) + 3, 0);
+        setPosition();
         print(text);
     }
 }
