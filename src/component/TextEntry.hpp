@@ -26,7 +26,6 @@ namespace ucurses {
 
             string subject;
             string input;
-            coord2d pos;
 
             // Commands
             

@@ -10,6 +10,7 @@ namespace ucurses {
     {
         GlobalLogger::log(TRACE) << "Constructing smart window container" << Sentinel::END;
         active = NONE;
+        M_Windows.reserve(5);
     }
 
     WindowContainer::~WindowContainer()
@@ -21,8 +22,7 @@ namespace ucurses {
     {
         active = M_Windows.size();
         M_Windows.emplace_back(size, pos, &Colors);
-        int index = M_Windows.size() - 1;
-        return &(M_Windows[index]);
+        return &(M_Windows[M_Windows.size() - 1]);
     }
     
     Window* WindowContainer::Create()
