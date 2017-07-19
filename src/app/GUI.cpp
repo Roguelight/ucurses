@@ -55,14 +55,14 @@ namespace ucurses {
         return Windows[0].getSize(); 
     }
             
-    Window* GUI::createWindow(coord2d size, coord2d pos)
+    Window* GUI::createWindow(coord2d size, coord2d pos, bool deletable)
     {
-        return Windows.Create(size, pos);          
+        return Windows.Create(size, pos, deletable);          
     }
     
-    Window* GUI::createWindow()
+    Window* GUI::createWindow(bool deletable)
     {
-        return Windows.Create();          
+        return Windows.Create(deletable);          
     }
 
     void GUI::removeAll()
@@ -78,7 +78,7 @@ namespace ucurses {
 
     void GUI::Parse()
     {
-        int input = wgetch(Windows.getActive().getHandle());
+        int input = Windows.getInput();
         if (!(Commands.Parse(input)))
             Windows.Parse(input);
     }

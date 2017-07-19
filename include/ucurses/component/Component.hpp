@@ -39,6 +39,11 @@ namespace ucurses {
 
             // Hosts have the option of constructing their own bindings or using default
             virtual void bindDefault() = 0;
+            
+            /* Set position to component position */
+            void setPosition();
+            /* Set absolute position */
+            void setPosition(coord x, coord y);
 
         protected:
 
@@ -53,10 +58,6 @@ namespace ucurses {
 
             /* Getters */
             
-            /* Set position to component position */
-            void setPosition();
-            /* Set absolute position */
-            void setPosition(coord x, coord y);
             void setSize(coord x, coord y);
 
             coord2d  getMiddle() const; 

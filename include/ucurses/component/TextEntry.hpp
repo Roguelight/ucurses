@@ -19,6 +19,7 @@ namespace ucurses {
             void bindDefault();
             void setSubject(string inString);
 			string& getText();
+            void setText(const std::string& inString);
 
         protected:
 

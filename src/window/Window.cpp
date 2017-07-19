@@ -6,13 +6,13 @@
 
 namespace ucurses {
 
-	Window::Window(coord2d size, coord2d position, ColorContainer* Handle) : std(false) 
+	Window::Window(coord2d size, coord2d position) 
 	{
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
     
-    Window::Window(ColorContainer* Handle) : std(true), title("Main")
+    Window::Window() : title("Main")
     {
         H_Window = stdscr;
         keypad(H_Window, TRUE);
@@ -22,13 +22,7 @@ namespace ucurses {
 
     Window::~Window()
 	{
-        if (!std)
-        {
-            GlobalLogger::instance().log(TRACE) << "Destroying UCurses app Window " << title <<  Sentinel::END;
-            delwin(H_Window);
-        }
-        else
-            GlobalLogger::instance().log(TRACE) << "Window is stdscr, not touching pointer in destructor!" << Sentinel::END;
+        delwin(H_Window);
 	}
 
     void Window::printCommands()
@@ -88,18 +82,14 @@ namespace ucurses {
     }
 
     /* Construction */
-
+    /*
     void Window::resize(coord2d size, coord2d position)
     {
-        if (!std)
-        {
-            GlobalLogger::instance().log(TRACE) << "Resizing window -> " << title << Sentinel::END;
-            delwin(H_Window);
-        }
-        else
-            GlobalLogger::instance().log(WARNING) << "Tried to resize ncurses stdscr!" << Sentinel::END;
+        GlobalLogger::instance().log(TRACE) << "Resizing window -> " << title << Sentinel::END;
+        delwin(H_Window);
+        GlobalLogger::instance().log(WARNING) << "Tried to resize ncurses stdscr!" << Sentinel::END;
     }
-
+    */
     void Window::EnableColor(ColorContainer* s_ptr) 
     {
         S_Colors = s_ptr;

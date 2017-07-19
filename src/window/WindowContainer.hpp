@@ -24,10 +24,11 @@ namespace ucurses {
             WindowContainer();
             virtual ~WindowContainer();
             
-            Window* Create(coord2d size, coord2d pos);
-            Window* Create();
+            Window* Create(coord2d size, coord2d pos, bool deletable = false);
+            Window* Create(bool deletable = false);
 
             void Remove(string ID);
+            void RemoveActive();
             void RemoveAll();
             
             const Window& Get(string ID) const;
@@ -48,6 +49,8 @@ namespace ucurses {
             void UpdateAll();
             void UpdateActive();
             void Refresh();
+
+            int getInput();
 
             vector<Window> M_Windows;
             index active; 

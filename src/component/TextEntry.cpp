@@ -16,14 +16,19 @@ namespace ucurses {
 
     void TextEntry::bindDefault()
     {
-        addCommand('E', std::bind( &TextEntry::getInput, this));
-        addTip("E:", " Input " + subject + " ");
+        addCommand('e', std::bind( &TextEntry::getInput, this));
+        addTip("e:", " Input " + subject + " ");
     }
 
 	string& TextEntry::getText()
 	{
 		return input;
 	}
+
+    void TextEntry::setText(const std::string& inText)
+    {
+        input = inText; 
+    }
 
     void TextEntry::Update()
     {

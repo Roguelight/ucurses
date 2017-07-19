@@ -5,10 +5,10 @@
 
 namespace ucurses { 
 
-	CommandArray::CommandArray()
+	CommandArray::CommandArray(size_t size)
     { 
-        commands.reserve(8); 
-        switches.reserve(8); 
+        commands.reserve(size); 
+        switches.reserve(size); 
     }
 
     void CommandArray::Disable(int key)

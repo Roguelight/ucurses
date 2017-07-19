@@ -29,8 +29,8 @@ namespace ucurses {
             
             void Run();
             
-            Window* createWindow(coord2d size, coord2d pos);
-            Window* createWindow();
+            Window* createWindow(coord2d size, coord2d pos, bool deletable = false);
+            Window* createWindow(bool deletable = false);
             /*
              * Returns a window of maximum size
              */

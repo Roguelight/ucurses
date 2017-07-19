@@ -41,5 +41,10 @@ namespace ucurses {
         M_Components.clear();
     
     }
+    
+    const int ComponentArray::getSize() const
+    {
+        return M_Components.size();
+    }
 
 }

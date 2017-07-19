@@ -41,9 +41,9 @@ namespace ucurses {
             
             using Ptr = Window*;
            
-            Window(ColorContainer* Handle); 
-            Window(coord2d size, coord2d position, ColorContainer* Handle); // Specifies size and position within NCurses stdscr
-			virtual ~Window();
+            Window(); 
+            Window(coord2d size, coord2d position); // Specifies size and position within NCurses stdscr
+			~Window();
 
             void addComponent(Component* component);
             void addCommand(int key, delegate func);
@@ -110,7 +110,7 @@ namespace ucurses {
             WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
 
             string title;
-            bool   std; // Destructor variable, does not free space to prevent double deletion.
+
             const  ColorContainer* S_Colors;
             void   EnableColor(ColorContainer* s_ptr);
             

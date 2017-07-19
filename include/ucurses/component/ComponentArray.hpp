@@ -22,6 +22,7 @@ namespace ucurses {
             void Add(Component* component);
             void Update();
             void RemoveAll();
+            const int getSize() const;
 
         protected:
 

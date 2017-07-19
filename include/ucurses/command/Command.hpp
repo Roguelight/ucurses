@@ -38,7 +38,7 @@ namespace ucurses {
     {
         public:
 
-            CommandArray();
+            CommandArray(size_t size = 8);
 
             void Add(int key, delegate func);
             void Clear();

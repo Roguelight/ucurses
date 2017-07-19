@@ -18,19 +18,27 @@ namespace ucurses {
 
     }
     
-    Window* WindowContainer::Create(coord2d size, coord2d pos)
+    Window* WindowContainer::Create(coord2d size, coord2d pos, bool deletable)
     {
         active = M_Windows.size();
-        M_Windows.emplace_back(size, pos, &Colors);
-        return &(M_Windows[M_Windows.size() - 1]);
+        M_Windows.emplace_back(size, pos);
+
+        if (deletable)
+            M_Windows[active].addCommand(KEY_F(2), std::bind( &WindowContainer::RemoveActive, this));
+
+        return &(M_Windows[active]);
     }
     
-    Window* WindowContainer::Create()
+    Window* WindowContainer::Create(bool deletable)
     {
         active = M_Windows.size();
         coord2d size;
         getmaxyx(stdscr, size.y, size.x);
-        M_Windows.emplace_back(size, coord2d(0,0), &Colors);
+        M_Windows.emplace_back(size, coord2d(0,0));
+
+        if (deletable)
+            M_Windows[active].addCommand(KEY_F(2), std::bind( &WindowContainer::RemoveActive, this));
+
         return &(M_Windows[M_Windows.size() - 1]);
     }
 
@@ -48,6 +56,14 @@ namespace ucurses {
         return M_Windows[active]; 
     }
 
+    int WindowContainer::getInput()
+    {
+        if (active != NONE)
+            return wgetch(getActive().getHandle());
+        else
+            return getch();
+    }
+
     void WindowContainer::Remove(string ID)
     {
         GlobalLogger::instance().log(TRACE) << "Removing window from ucurses GUI storage with ID: " << ID <<  Sentinel::END;
@@ -58,6 +74,16 @@ namespace ucurses {
         }
         else
             GlobalLogger::instance().log(WARNING) << "Couldn't find window to erase with ID: " << ID <<  Sentinel::END;
+    }
+
+    void WindowContainer::RemoveActive()
+    {
+        if (active != NONE)
+        {
+            M_Windows.erase(M_Windows.begin() + active);
+            active = NONE;
+            Next();
+        }
     }
 
     void WindowContainer::RemoveAll()
