@@ -36,9 +36,13 @@ namespace ucurses {
         H_Window->Commands.Add(key, func);
     }
 
-    void Component::addTip(string keyID, string funcID)
+    void Component::addTip(string& tip)
     {
-        H_Window->addTip(keyID, funcID);
+        H_Window->addTip(tip);
+    }
+    void Component::addTip(string&& tip)
+    {
+        H_Window->addTip(tip);
     }
 
     coord2d Component::getMiddle() const

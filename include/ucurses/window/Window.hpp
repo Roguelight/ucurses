@@ -12,7 +12,6 @@
 #pragma once
 #include <string>
 #include <map>
-#include <functional>
 #include <algorithm>
 
 #include <ctk/log/GlobalLogger.hpp>
@@ -21,8 +20,6 @@
 #include <ucurses/window/Color.hpp>
 
 #include <ucurses/command/Command.hpp>
-#include <ucurses/command/Display.hpp>
-
 #include <ucurses/component/ComponentArray.hpp>
 
 #include <ncurses.h>
@@ -32,6 +29,7 @@ using namespace ctk::log;
 
 namespace ucurses { 
 
+	class UCurses;
 	class Window
 	{
         friend class WindowContainer;
@@ -40,16 +38,23 @@ namespace ucurses {
         public:
             
             using Ptr = Window*;
+			static UCurses* ucurses; // Static object for creating new windows
            
-            Window(); 
-            Window(coord2d size, coord2d position); // Specifies size and position within NCurses stdscr
+            Window(bool deletable = false); 
+            Window(coord2d size, coord2d position, bool deletable = false); // Specifies size and position within NCurses stdscr
 			~Window();
 
             void addComponent(Component* component);
             void addCommand(int key, delegate func);
-            void addTip(string& keyID, string& funcID);
-            void addTip(string&& keyID, string&& funcID);
+            void setCallback(int key, delegate func);
+			void setCallbackTip(const string& in)		{ callback_tip = in; }
+            void addTip(string& tip);
+            void addTip(string&& tip);
             void Clear(); // Destroys all components and commands
+            void clearCommands(); 
+            void clearComponents(); 
+
+			Window* subWindow(coord2d size, coord2d pos);
 
         protected:
     
@@ -97,7 +102,9 @@ namespace ucurses {
             /* Commands */
             
             CommandArray Commands;
-            command::Display CommandMap;
+			std::vector<string> tips;
+			Command callback;
+			string callback_tip;
 
             void printCommands(); 
 
@@ -110,8 +117,9 @@ namespace ucurses {
             WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
 
             string title;
+			bool deletable;
 
-            const  ColorContainer* S_Colors;
+            static ColorContainer* S_Colors;
             void   EnableColor(ColorContainer* s_ptr);
             
             friend bool operator==(const Window& lhs, const string& rhs) 

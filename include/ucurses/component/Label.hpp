@@ -19,25 +19,35 @@ namespace ucurses {
 
             /* Safe sets ;) */ 
 
-            // Performs check if line exists, if so performs copy assignment
-            void setTextAt(const std::string& inText, short linepos = 0); 
-            void setText(const std::string& inText);
+            void appendText(const std::string& inText); 
+			/* 
+			 * Appends text at line, 
+			 * if invalid: append to last line 
+			 */
+            void setText(const std::string& inText);    // Sets text at line
+			/* 
+			 * Sets text at line, 
+			 * if invalid: create new line at end 
+			 */
 
-            /* Safe Appendage */
-            
-            // Performs check if line exists, if so applies operator+= 
-            void appendText(const std::string& inText);
-            void appendTextAt(const std::string& inText, short linepos = 0);
-            void appendLine(const std::string& inText = "");
+			void appendLine(const std::string& inText = "");
+			
+			void setCursor(int pos)  	{ cursor = pos; }
+			int getCursor()				{ return cursor; }
+
+			void Next()					{ ++cursor; }
+			void Prev()					{ --cursor; }
 
             const std::string& getText() const;
             const std::string& getTextAt(short linepos = 0) const;
+			void loadFromFile(const std::string& filename);
             
             void Clear();
 
         protected:
 
             std::vector<std::string> text;
+			unsigned int cursor = FIRST;
 
             void bindDefault() {}
             virtual void Update();

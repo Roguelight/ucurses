@@ -1,10 +1,10 @@
 #include <ucurses/window/WindowContainer.hpp>
 #include <ucurses/window/Window.hpp>
-#include <ucurses/app/GUI.hpp>
+#include <ucurses/app/UCurses.hpp>
 
 namespace ucurses { 
 
-	GUI::GUI() : running(true)
+	UCurses::UCurses() : running(false)
 	{
         initscr();                      /* Start curses mode    */
         noecho();
@@ -12,31 +12,45 @@ namespace ucurses {
         curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
         keypad(stdscr, TRUE);
 
-        Commands.Add(9, std::bind( &WindowContainer::Next, &Windows)); 
-        Commands.Add(KEY_F(1), std::bind( &GUI::End, this));
+		// Tab next
+        Commands.Add(9, std::bind( &WindowContainer::Next, &Windows));  
+
+		// End Application
+        Commands.Add(KEY_F(1), std::bind( &UCurses::End, this));
+
+		// Delete active window
+        Commands.Add(KEY_F(2), std::bind( &WindowContainer::RemoveActive, &Windows));
+
+		// Allow windows to create more windows
+		Window::ucurses = this;
 	}
 
-	GUI::~GUI()
+	UCurses::~UCurses()
 	{
-        endwin();                       /* End curses mode                */
+        endwin();	// End curses mode
 	}
     
-    void GUI::Run()
+    void UCurses::Run()
     {
-        while (running)
-        {
-            Windows.UpdateAll(); 
-            Render();       // Render screen
-            Parse();        // Parse new commands
-        }
+		if (running == false) // Protect against recursive running inside loop
+		{
+			running = true;
+
+        	while (running)
+        	{
+            	Windows.UpdateAll(); 
+            	Render();       // Render screen
+            	Parse();        // Parse new commands
+        	}
+		}
     } 
     
-    void GUI::End()
+    void UCurses::End()
     {
         running = false;
     }
 
-    void GUI::Render()
+    void UCurses::Render()
     {
         /* Seperating refreshing individual windows from updating the virtual 
          * screen increases efficiency by minimising the redundant calls to hidden
@@ -45,38 +59,38 @@ namespace ucurses {
         doupdate();        // Compares virtual to physical and updates screen
     }
             
-    Window* GUI::getActiveWindow()
+    Window* UCurses::getActiveWindow()
     {
         return &(Windows.getActive()); 
     }
 
-    coord2d GUI::getSize() const
+    coord2d UCurses::getSize() const
     { 
         return Windows[0].getSize(); 
     }
             
-    Window* GUI::createWindow(coord2d size, coord2d pos, bool deletable)
+    Window* UCurses::createWindow(coord2d size, coord2d pos, bool deletable)
     {
         return Windows.Create(size, pos, deletable);          
     }
     
-    Window* GUI::createWindow(bool deletable)
+    Window* UCurses::createWindow(bool deletable)
     {
         return Windows.Create(deletable);          
     }
 
-    void GUI::removeAll()
+    void UCurses::removeAll()
     {
         Windows.RemoveAll(); 
     }
     
-    void GUI::addCommand(int key, delegate function)
+    void UCurses::addCommand(int key, delegate function)
     {
         GlobalLogger::instance().log(TRACE) << "Adding command to UCurses GUI command vector" << Sentinel::END;
         Commands.Add(key, function);
     }
 
-    void GUI::Parse()
+    void UCurses::Parse()
     {
         int input = Windows.getInput();
         if (!(Commands.Parse(input)))

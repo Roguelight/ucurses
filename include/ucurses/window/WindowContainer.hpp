@@ -15,15 +15,16 @@ namespace ucurses {
 
     class WindowContainer 
     {
-        friend class GUI;
+        friend class UCurses;
 
         public:
            
             Window& operator[](int index) { return M_Windows[index]; }
             const Window& operator[](int index) const { return M_Windows[index]; }
+
             WindowContainer();
-            virtual ~WindowContainer();
-            
+           	~WindowContainer(); 
+
             Window* Create(coord2d size, coord2d pos, bool deletable = false);
             Window* Create(bool deletable = false);
 

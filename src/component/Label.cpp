@@ -1,4 +1,5 @@
 #include <ucurses/component/Label.hpp>
+#include <ctk/std/vector.hpp>
 
 
 namespace ucurses { 
@@ -19,43 +20,42 @@ namespace ucurses {
     }
     
     /* Safe sets ;) */
+
+	/* 
+ 	* Sets text at line, 
+	* if invalid: create new line at end 
+	*/
     void Label::setText(const std::string& inText)
     {
-        if (!text.empty())
-            text[FIRST] = inText;
+        if (text.size() > cursor)
+            text[cursor] = inText;
         else
             text.push_back(inText);
     }
     
-    void Label::setTextAt(const std::string& inText, short linepos)
-    {
-        if (text.size() > linepos) 
-            text[linepos] = inText;
-    }
-    
-    /* Safe Appendage */
+	/* 
+	* Appends text at line, 
+	* if invalid: append to last line 
+	*/
     void Label::appendText(const std::string& inText)
     {
-        if (!text.empty())
-            text[FIRST] += inText;
+        if (text.size() > cursor)
+            text[cursor] += inText;
+		else
+			text[text.size() - 1] += inText;
     }
 
-    void Label::appendTextAt(const std::string& inText, short linepos)
-    {
-        if (text.size() > linepos) 
-            text[linepos] += inText;
-    }
-
-    void Label::appendLine(const std::string& inText)
-    {
-        text.push_back(inText);
-    }
+	void Label::appendLine(const std::string& inText)
+	{
+		text.push_back(inText);
+		++cursor;
+	}
 
     /* Getters */
     const std::string& Label::getText() const
     {
-        if (!text.empty())
-            return text[FIRST];
+        if (text.size() > cursor)
+            return text[cursor];
     }
 
     const std::string& Label::getTextAt(short linepos) const
@@ -68,4 +68,9 @@ namespace ucurses {
     {
         text.clear();
     }
+
+	void Label::loadFromFile(const std::string& filename)
+	{
+		ctk::vector::loadFromFile(text, filename);
+	}
 }

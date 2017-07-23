@@ -19,7 +19,7 @@ namespace ucurses {
 
         protected:
 
-            ucurses::GUI gui;
+            ucurses::UCurses gui;
 	};
 
     void mainScreen(Window* target);

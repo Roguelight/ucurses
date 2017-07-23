@@ -5,8 +5,6 @@
  * Handles window storage and color manipulation.
  * Parses input and delegates to the active window.
  *      Input should be passed on like a chain of command
- *      app->GUI->ActiveWindow
- *
  */
 
 #pragma once
@@ -18,14 +16,14 @@
 
 namespace ucurses { 
 
-	class GUI
+	class UCurses
 	{
 		public:
 
-            using Ptr = GUI*;
+            using Ptr = UCurses*;
 
-			GUI();
-			virtual ~GUI();
+			UCurses();
+			~UCurses();
             
             void Run();
             
@@ -57,14 +55,9 @@ namespace ucurses {
             WindowContainer Windows;
 
             void Parse();
-            void Parse(int key);
             void Render();
-
             void End(); 
+
             bool running;
-
-            /* Initialization */
-
-            void initCommands();
 	};
 }

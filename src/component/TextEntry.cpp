@@ -12,12 +12,13 @@ namespace ucurses {
         setSize(20, 4);
         input = "";
         subject = "Text";
+		bindDefault();
 	}
 
     void TextEntry::bindDefault()
     {
         addCommand('e', std::bind( &TextEntry::getInput, this));
-        addTip("e:", " Input " + subject + " ");
+        addTip("e: Input " + subject);
     }
 
 	string& TextEntry::getText()

@@ -17,8 +17,8 @@ namespace ucurses {
     {
         addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
         addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
-        addTip("j:", " Down ");
-        addTip("k:", " Up ");
+        addTip("j: Down ");
+        addTip("k: Up ");
     }
 
     void Menu::Update()

@@ -35,7 +35,8 @@ namespace ucurses {
             /* Commands : Stored in host */
 
             void addCommand(int key, delegate func);
-            void addTip(string keyID, string funcID);
+            void addTip(string& tip);
+            void addTip(string&& tip);
 
             // Hosts have the option of constructing their own bindings or using default
             virtual void bindDefault() = 0;

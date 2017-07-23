@@ -2,22 +2,23 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/window/Window.hpp>
-#include <ucurses/app/GUI.hpp>
+#include <ucurses/app/UCurses.hpp>
 
 namespace ucurses {
 
-	Window::Window(coord2d size, coord2d position) 
+	UCurses* Window::ucurses = nullptr;
+	ColorContainer* Window::S_Colors = nullptr;
+
+	Window::Window(coord2d size, coord2d position, bool deletable) : deletable(deletable)
 	{
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
     
-    Window::Window() : title("Main")
+    Window::Window(bool deletable)  : deletable(deletable)
     {
-        H_Window = stdscr;
+        H_Window = newwin(0,0,0,0);
         keypad(H_Window, TRUE);
-        CommandMap.Add("Tab:", " Switch Active ");
-        CommandMap.Add("F1:", " Close Application ");
     }
 
     Window::~Window()
@@ -25,24 +26,39 @@ namespace ucurses {
         delwin(H_Window);
 	}
 
+	Window* Window::subWindow(coord2d size, coord2d pos)
+	{
+		return ucurses->createWindow(size, pos, true);
+	}
+
     void Window::printCommands()
     {
         setPosition(2, getSize().y - 2);
-        for (auto& it : CommandMap.tips)
+        for (auto& tip : tips)
         {
-            attributeOn(A_REVERSE);
-            print(it.first);
-            attributeOff(A_REVERSE);
-            print(it.second);
+            print(tip);
+			print("  ");
         }
+		print(callback_tip);
     }
 
     void Window::Clear()
     {
         Commands.Clear();
-        CommandMap.Clear();
+        tips.clear();
         Components.RemoveAll();
     }
+
+	void Window::clearCommands()
+	{
+		Commands.Clear();
+		tips.clear();
+	}
+
+	void Window::clearComponents()
+	{
+		Components.RemoveAll();
+	}
 
     void Window::addComponent(Component* component)
     {
@@ -54,14 +70,20 @@ namespace ucurses {
         Commands.Add(key,func);
     }
 
-    void Window::addTip(string& keyID, string& funcID)
+	void Window::setCallback(int key, delegate func)
+	{
+		callback.function = func;
+		callback.key = key;
+	}
+
+	void Window::addTip(string& tip)
     {
-        CommandMap.Add(keyID, funcID);
+        tips.push_back(tip);
     }
 
-    void Window::addTip(string&& keyID, string&& funcID)
+    void Window::addTip(string&& tip)
     {
-        CommandMap.Add(keyID, funcID);
+        tips.push_back(tip);
     }
 
     /* Update */

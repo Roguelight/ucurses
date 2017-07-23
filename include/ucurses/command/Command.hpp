@@ -18,7 +18,7 @@ namespace ucurses {
     struct Command
     {
         Command(int inKey, delegate inFunction) : key(inKey), function(inFunction) {};
-
+		Command() {}
         delegate function;
         int key;
 

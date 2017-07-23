@@ -21,7 +21,7 @@ namespace ucurses {
     Window* WindowContainer::Create(coord2d size, coord2d pos, bool deletable)
     {
         active = M_Windows.size();
-        M_Windows.emplace_back(size, pos);
+        M_Windows.emplace_back(size, pos, deletable);
 
         if (deletable)
             M_Windows[active].addCommand(KEY_F(2), std::bind( &WindowContainer::RemoveActive, this));
@@ -80,9 +80,12 @@ namespace ucurses {
     {
         if (active != NONE)
         {
-            M_Windows.erase(M_Windows.begin() + active);
-            active = NONE;
-            Next();
+			if (M_Windows[active].deletable)
+			{
+            	M_Windows.erase(M_Windows.begin() + active);
+            	active = NONE;
+            	Next();
+			}
         }
     }
 
@@ -131,7 +134,11 @@ namespace ucurses {
     void WindowContainer::Parse(int input)
     { 
         if (active != NONE)
+		{
             M_Windows[active].Commands.Parse(input);
+			if (M_Windows[active].callback.key == input)
+				M_Windows[active].callback.execute();
+		}
     }
 
 }

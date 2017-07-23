@@ -19,7 +19,7 @@ namespace ucurses {
     void mainScreen(Window* target)
     {
         target->Clear();
-        target->addTip("F1:", " Quit ");
+        target->addTip("F1: Quit");
         
         short x = target->getMiddle().x - 10;
 

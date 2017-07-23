@@ -16,10 +16,7 @@ namespace ucurses {
     ComponentArray::~ComponentArray()
     {
         for (auto& component : M_Components)
-        {
             delete component;
-            component = nullptr;
-        }
     }
 
     void ComponentArray::Add(Component* component)
