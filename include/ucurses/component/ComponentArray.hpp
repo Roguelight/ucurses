@@ -23,6 +23,7 @@ namespace ucurses {
             void Update();
             void RemoveAll();
             const int getSize() const;
+			const int getCapacity() const; 
 
         protected:
 

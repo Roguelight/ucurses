@@ -52,9 +52,9 @@ namespace ucurses {
         return selection;
     }
 
-    void Menu::addItem(string label)
+    void Menu::addItem(const string& label)
     {
-        selection  = items.size();
+		selection = 0;
         items.push_back(label);
     }
 

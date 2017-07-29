@@ -6,6 +6,7 @@ namespace ucurses {
 
 	UCurses::UCurses() : running(false)
 	{
+		help = true;
         initscr();                      /* Start curses mode    */
         noecho();
         raw();
@@ -14,9 +15,11 @@ namespace ucurses {
 
 		// Tab next
         Commands.Add(9, std::bind( &WindowContainer::Next, &Windows));  
+		tips.push_back("Tab: Switch window");
 
 		// End Application
         Commands.Add(KEY_F(1), std::bind( &UCurses::End, this));
+		tips.push_back("F1: Quit");
 
 		// Delete active window
         Commands.Add(KEY_F(2), std::bind( &WindowContainer::RemoveActive, &Windows));
@@ -93,7 +96,7 @@ namespace ucurses {
     void UCurses::Parse()
     {
         int input = Windows.getInput();
-        if (!(Commands.Parse(input)))
-            Windows.Parse(input);
+        Commands.Parse(input);
+        Windows.Parse(input);
     }
 }

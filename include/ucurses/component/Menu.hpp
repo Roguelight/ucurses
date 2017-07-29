@@ -27,7 +27,7 @@ namespace ucurses {
 
             string getSelectedItem();           
             index getSelectedIndex();
-            void addItem(string label);
+            void addItem(const string& label);
 
         protected:
 

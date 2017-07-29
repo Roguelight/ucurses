@@ -44,17 +44,10 @@ namespace ucurses {
             Window(coord2d size, coord2d position, bool deletable = false); // Specifies size and position within NCurses stdscr
 			~Window();
 
-            void addComponent(Component* component);
-            void addCommand(int key, delegate func);
-            void setCallback(int key, delegate func);
-			void setCallbackTip(const string& in)		{ callback_tip = in; }
-            void addTip(string& tip);
-            void addTip(string&& tip);
-            void Clear(); // Destroys all components and commands
-            void clearCommands(); 
-            void clearComponents(); 
-
 			Window* subWindow(coord2d size, coord2d pos);
+             
+            void Clear(); // Destroys all components and commands
+
 
         protected:
     
@@ -80,15 +73,9 @@ namespace ucurses {
             void highlightRow(coord row);                  
             void highlightColumn(coord column);                  
             
-            /* Update */
-            
-            void Update();
-            void printBorder();
-
         public:
 
             /* Retrieval Methods */
-            
             coord2d   getSize()         const;
             coord2d   getPosition()     const;
             coord2d   getMiddle()       const; 
@@ -100,25 +87,36 @@ namespace ucurses {
         protected:
 
             /* Commands */
-            
             CommandArray Commands;
-			std::vector<string> tips;
 			Command callback;
 			string callback_tip;
 
+			std::vector<string> tips;
             void printCommands(); 
+
+		public:
+			void addCommand(int key, delegate func);
+            void setCallback(int key, delegate func = 0);
+			void setCallbackTip(const string& in)		{ callback_tip = in; }
+			void disableCallback();
+            void addTip(string& tip);
+            void addTip(string&& tip);
+            void clearCommands();
+			void Escape()								{ callback.execute(); }
 
             /* Components */
 
             ComponentArray Components;
+            void addComponent(Component* component);
+            void clearComponents(); 
+            void Update(); // Update components
+            void printBorder();
 			
         private:
 
             WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
-
             string title;
 			bool deletable;
-
             static ColorContainer* S_Colors;
             void   EnableColor(ColorContainer* s_ptr);
             

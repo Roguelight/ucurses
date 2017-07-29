@@ -1,2 +1,1 @@
-23/05/17 ColorContainer Get() method causing segmentation fault. Removed code, fix later.
-24/05/17 Screen only shows after first key event.
+24/05/17 Screen only shows after first key event. [Fixed] used wgetch instead of getch in UCurses::Parse()

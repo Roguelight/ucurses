@@ -1,0 +1,14 @@
+Goal: Specify full UI with a single text file. Callbacks might need to be hard coded
+
+static void mainScreen(Window* win)
+{
+	win->loadUIFromFile("mainmenu"); // Specifies layout of widgets and content
+	win->addCommand(10, // How to obtain components from window when loaded from file? std::bind(...));
+}
+
+Example file
+Menu
+20 12 5 5 
+// Should be able to specify relative to left/right/top/bottom. "xd" to specify a ratio of window size
+for example 20 12 2d 5t would mean x = win->getSize().x / 2 and y = 5 from the top
+"New game" "Load Game" "Settings" // Items. Need to find a method to parse a group of var

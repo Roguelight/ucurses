@@ -33,6 +33,11 @@ namespace ucurses {
             text.push_back(inText);
     }
     
+	void Label::setText(const std::vector<string>& inText)
+	{
+		text = inText;
+	}
+    
 	/* 
 	* Appends text at line, 
 	* if invalid: append to last line 

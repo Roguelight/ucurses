@@ -8,7 +8,6 @@ namespace ucurses {
 	CommandArray::CommandArray(size_t size)
     { 
         commands.reserve(size); 
-        switches.reserve(size); 
     }
 
     void CommandArray::Disable(int key)
@@ -16,7 +15,7 @@ namespace ucurses {
         auto it = std::find(commands.begin(), commands.end(), key); // Linear search
         if (it != commands.end())
         {
-            switches[it - commands.begin()] = false;
+            commands[it - commands.begin()].disable();
         }
     }/*
     * Less expensive to access a single bit than remove the index
@@ -26,29 +25,25 @@ namespace ucurses {
     void CommandArray::Add(int key, delegate func)
     { 
         commands.push_back(Command(key, func)); 
-        switches.push_back(true);
     }
 
     void CommandArray::Clear()
     {
         commands.clear();
-        switches.clear();
     }
 
-    bool CommandArray::Parse(int key) 
+    void CommandArray::Parse(int key) 
     {
-        if (!(commands.empty())) 
+		auto parse = [](Command& command, int key) { if (command.key == key) command.execute(); };
+		for (auto& command : commands)
+			parse(command, key);
+    	/*auto it = std::find(commands.begin(), commands.end(), key);
+        if (it != commands.end())
         {
-            auto it = std::find(commands.begin(), commands.end(), key);
-            if (it != commands.end())
-            {
-                commands[it - commands.begin()].execute();
-                return true;
-            }
-            else
-                return false;
+            commands[it - commands.begin()].execute();
+            return true;
         }
         else
-            return false;
+            return false;*/
     }
 }

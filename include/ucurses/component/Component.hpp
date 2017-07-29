@@ -46,6 +46,7 @@ namespace ucurses {
             /* Set absolute position */
             void setPosition(coord x, coord y);
 
+
         protected:
 
             /* Update */

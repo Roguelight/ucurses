@@ -18,9 +18,7 @@ namespace ucurses {
     struct Command
     {
         Command(int inKey, delegate inFunction) : key(inKey), function(inFunction) {};
-		Command() {}
-        delegate function;
-        int key;
+		Command() : function(nullptr) {}
 
         friend bool operator==(const Command& lhs, const int& rhs) 
         {
@@ -30,7 +28,11 @@ namespace ucurses {
                 return false;
         }
         
-        void execute() { function(); }
+        void execute() { if (function) function(); }
+		void disable() { key = -1; }
+        
+		delegate function;
+        int key;
 
     };
 
@@ -45,12 +47,11 @@ namespace ucurses {
             void Disable(int key); 
             
 
-            bool Parse(int key); 
+            void Parse(int key); 
             /* Returns 'true' if match found */
 
         private:
             vector<Command> commands;
-            vector<bool> switches;
     };
 
 }

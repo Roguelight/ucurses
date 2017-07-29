@@ -25,6 +25,7 @@ namespace ucurses {
 			 * if invalid: append to last line 
 			 */
             void setText(const std::string& inText);    // Sets text at line
+            void setText(const std::vector<string>& inText);    // Sets text at line
 			/* 
 			 * Sets text at line, 
 			 * if invalid: create new line at end 

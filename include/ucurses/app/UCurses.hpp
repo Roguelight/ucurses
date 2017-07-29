@@ -43,12 +43,17 @@ namespace ucurses {
              */
             
             coord2d getSize() const;                          
+			const std::vector<string>& getTips() { return tips; }
+
+			void setHelp(bool b)				 { help = b; }
+			bool Help()							 { return help; }
 
         protected:
 
             void removeAll();
 
             CommandArray Commands; // GUI level commands. Default is TAB to cycle active window
+			std::vector<string> tips;
 
         private:
 
@@ -59,5 +64,6 @@ namespace ucurses {
             void End(); 
 
             bool running;
+			bool help;
 	};
 }

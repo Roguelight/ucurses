@@ -9,13 +9,13 @@ namespace ucurses {
 	UCurses* Window::ucurses = nullptr;
 	ColorContainer* Window::S_Colors = nullptr;
 
-	Window::Window(coord2d size, coord2d position, bool deletable) : deletable(deletable)
+	Window::Window(coord2d size, coord2d position, bool deletable) : deletable(deletable), callback()
 	{
         H_Window = newwin(size.y, size.x, position.y, position.x);
         keypad(H_Window, TRUE);
 	}
     
-    Window::Window(bool deletable)  : deletable(deletable)
+    Window::Window(bool deletable)  : deletable(deletable), callback()
     {
         H_Window = newwin(0,0,0,0);
         keypad(H_Window, TRUE);
@@ -33,13 +33,25 @@ namespace ucurses {
 
     void Window::printCommands()
     {
-        setPosition(2, getSize().y - 2);
+		coord2d size = getSize();
+        setPosition(2, size.y - 2);
         for (auto& tip : tips)
         {
             print(tip);
 			print("  ");
         }
+        setPosition(size.x - (callback_tip.size() + 2), getSize().y - 2);
 		print(callback_tip);
+
+		if (ucurses->Help())
+		{
+			setPosition(2, 2);
+			for (auto& tip : ucurses->getTips())
+			{
+				print(tip);
+				print("  ");
+        	}
+		}
     }
 
     void Window::Clear()
@@ -63,6 +75,8 @@ namespace ucurses {
     void Window::addComponent(Component* component)
     {
         Components.Add(component);
+        GlobalLogger::instance().log(DEBUG) << "Successfully added component, new size is " <<
+			Components.getSize() << " and capacity is " << Components.getCapacity() << Sentinel::END;
     }
     
     void Window::addCommand(int key, delegate func)
@@ -74,6 +88,12 @@ namespace ucurses {
 	{
 		callback.function = func;
 		callback.key = key;
+	}
+
+	void Window::disableCallback()
+	{ 
+		callback.disable(); 
+		callback_tip.clear();
 	}
 
 	void Window::addTip(string& tip)
