@@ -6,3 +6,4 @@
 #include <ucurses/component/FileMenu.hpp>
 #include <ucurses/component/TextEntry.hpp>
 #include <ucurses/component/Label.hpp>
+#include <ucurses/component/Canvas.hpp>

@@ -2,11 +2,10 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * Constructed and destroyed at the same time as host
+ * Polymorphic widgets that give host windows dynamic behaviour
  *
- * Added commands are added to the hosts CommandArray
- * so the Component must not be destroyed before host
- *
+ * Abstract virtual Update() overidden for varied display behaviour
+ * Provides interface to window host display methods that use relative positioning.
  */
 
 #pragma once
@@ -15,7 +14,7 @@
 #include <string>
 
 #include <ucurses/command/Command.hpp>
-#include <ucurses/window/types.hpp>
+#include <ucurses/window/types.hpp> 
 #include <ucurses/window/Window.hpp>
 
 namespace ucurses { 
@@ -29,58 +28,60 @@ namespace ucurses {
 
         public:
             
-            /* Constructor */ // Default sizes are set by children
-			Component(coord x, coord y, Window* host);
+            /* Constructor */ 
 
-            /* Commands : Stored in host */
+			Component(coord x, coord y, Window* host);		/* Perfoms storage. Memory management is handled by window */
+
+            /* Commands */
 
             void addCommand(int key, delegate func);
             void addTip(string& tip);
             void addTip(string&& tip);
 
-            // Hosts have the option of constructing their own bindings or using default
-            virtual void bindDefault() = 0;
-            
-            /* Set position to component position */
-            void setPosition();
-            /* Set absolute position */
-            void setPosition(coord x, coord y);
+			/* Component Manipulation */
 
-
-        protected:
-
-            /* Update */
-
-            virtual void Update() = 0;
-
-            /* Manipulation */
-
-            void print(string inString); 
-            void move(coord x, coord y);        // Move relative to current position
-
-            /* Getters */
-            
             void setSize(coord x, coord y);
+            void setSize(coord2d size);
+            void setPosition(coord x, coord y);				/* Set window cursor relative to component position */
 
-            coord2d  getMiddle() const; 
-            coord2d  getPosition()    const;
+            /* Attributes */
 
-
-            // Attributes
             void attributeOn(int attributes);
             void attributeOff(int attributes);
             
-            // Highlighting
-            void highlightWord(coord2d wordpos, int size);                  
-            void highlightRow(coord row);                  
-            void highlightColumn(coord column);                  
-           
-            /* State */
+            /* Highlighting */
 
+            void highlightWord(coord2d wordpos, int size, short color = 0, attr_t attributes = A_BOLD);
+            void highlightRow(coord row, short color = 0, attr_t attributes = A_BOLD);                  
+            void highlightColumn(coord column, short color = 0, attr_t attributes = A_BOLD);                  
+            void highlightChar(coord2d pos, short color = 0, attr_t attributes = A_BOLD);                  
+
+			void setHighlight(short color);
+
+		protected:
+
+			/* Cursor Manipulation */
+
+            void setCursor();								/* Set window cursor position to component position */
+            void setCursor(coord x, coord y);				/* Set window cursor relative to component position */
+            void moveCursor(coord x, coord y);        		/* Move window cursor relative to current position */
+            void print(const std::string& inString); 
+            void print(char c);
+            void print(char* c);
+
+            /* Getters */
+
+            coord2d  getMiddle() 	const; 
+            coord2d  getCursor()  	const;
+            coord2d  getPosition()  const;
+
+            virtual void Update() = 0;
+            virtual void bindDefault() = 0;					/* Children can construct their own bindings or using default */
+           
             coord2d position;
             coord2d size;
-            Window*      H_Window;     // Handle to host
+			short highlightColor;
 
+            Window*      H_Window;     						/* Handle to host */
 	};
-
 }

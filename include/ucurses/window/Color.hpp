@@ -1,26 +1,36 @@
-// Copyright Sat Feb 25 17:23:15 2017
-// Liam Rogers, All rights reserved.
-
 /*
- * Lightweight interface for accessing ncurses colors
+ * Lightweight interface for accessing ncurses colors. Provides safety in 
+ * initializing color pairs and defining new colors
+ *
+ * NCurses defines the following colors.
+ *
+ *		COLOR_...
+ *		BLACK
+ *		RED
+ *		GREEN
+ *		YELLOW
+ *		BLUE
+ *		MAGENTA
+ *		CYAN
+ *		WHITE
+ *
+ *  Essentially wraps the listed NCurses functions and provides a safe way of
+ *  accessing and initializing new color pairs
+ *
+ *	init_pair(short pair, short f, short b)
+ *	init_color(short color, short r, short g, short b);
+ *
  */
 
 #pragma once
-#include <vector>
-#include <string>
-#include <algorithm>
-
+#define INVALIDCOLOR -1
 #include <ncurses.h>
 
 
 namespace ucurses { 
 
     using namespace std;
-    using colorindex = uint8_t; // used to identify an initialised pair; 1 byte 
-    using color = short; // ncurses uses 16bit integers for COLOR_PAIR
             
-    enum class ColorPair : char { DEFAULT, INVERSE, BW, BLUE };
-
     class ColorContainer
     {
             
@@ -28,14 +38,17 @@ namespace ucurses {
 
             ColorContainer();
 
-            const color Get(ColorPair ID) const;
-            void Add(ColorPair ID, short foreground, short background);
+			// Returns value of new pair
+            short Add(short foreground, short background);
+			// Returns value of new color
+			short Define(short r, short g, short b);
+
+			short isValid(short color_pair); // Returns zero if not
 
         private:
 
-            vector<ColorPair> colors;
-
-            const size_t size = 8;
+			short size; // 0
+			short colors; // 50
     };
     
 }

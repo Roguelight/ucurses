@@ -28,6 +28,7 @@ namespace ucurses {
             string getSelectedItem();           
             index getSelectedIndex();
             void addItem(const string& label);
+            void removeAll();
 
         protected:
 
@@ -36,7 +37,6 @@ namespace ucurses {
 
             void removeItem(index id);
             string& getItem(index id);  // Performs bounds checking
-            void removeAll();
     
             /* Selection */
             

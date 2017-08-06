@@ -10,27 +10,30 @@ namespace ucurses {
 
     void TestClass::Run()
     {
-        Window::Ptr main = gui.createWindow();
-        ucurses::mainScreen(gui.getActiveWindow());
+        Window* main = gui.createWindow(); // Create Full-screen window
+        ucurses::mainScreen(main);
+		//main->setDelay
 
-        gui.Run();
+		while( gui.Okay() )
+		{
+			gui.Clear();
+			int key = gui.getInput();
+        	gui.handleInput(key);
+			gui.Render();
+		}
     }
 
     void mainScreen(Window* target)
     {
         target->Clear();
-        target->addTip("F1: Quit");
         
         short x = target->getMiddle().x - 10;
 
         Label* Title = new Label(x, 10, target);
         Title->setText("Zombie Dogs and Lava Frogs");
-        target->addComponent(Title);
 
         Menu* H_ModeSelect = new Menu(x, 20, target);
         H_ModeSelect->addItem("New Game");
         H_ModeSelect->addItem("Load Game");
-        H_ModeSelect->bindDefault();
-        target->addComponent(H_ModeSelect);
     }
 }

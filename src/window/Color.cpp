@@ -8,37 +8,27 @@ using namespace ctk::log;
 
 namespace ucurses { 
 
-    ColorContainer::ColorContainer()
+    ColorContainer::ColorContainer() : size(0), colors(50)
     {
-        GlobalLogger::log(TRACE) << "Initialising ncurses color settings and loading default colors" << Sentinel::END;
-        start_color();
-        init_color(COLOR_RED, 255, 160, 20); // Change value of COLOR_RED defined in ncurses.h
-        colors.reserve(size);
-
-        Add(ColorPair::DEFAULT, COLOR_BLACK, COLOR_RED); 
-        Add(ColorPair::INVERSE, COLOR_RED, COLOR_BLACK); 
-        Add(ColorPair::BW, COLOR_BLACK, COLOR_WHITE); 
-        Add(ColorPair::BLUE, COLOR_BLACK, COLOR_BLUE); 
     }
 
-    void ColorContainer::Add(ColorPair ID, short foreground, short background)
+    short ColorContainer::Add(short foreground, short background)
     {
-        //GlobalLogger::log(TRACE) << "Initialising color pair: ID = " << ID << " Count = " << indices.size() + 1 << Sentinel::END;
-        init_pair(colors.size(), foreground, background);
-        colors.push_back(ID);
+        init_pair(size, foreground, background);
+		short temp = size++;
+		return temp;
     }
+    short ColorContainer::Define(short r, short g, short b)
+	{
+		init_color(colors, r, g, b);
+		return colors++;
+	}
 
-    const color ColorContainer::Get(ColorPair ID) const 
-    {
-        auto pair = std::find(colors.begin(), colors.end(), ID);
-        if (pair != colors.end())
-        {
-            int pairindex = pair - colors.begin();
-            GlobalLogger::log(TRACE, "Color") << "Found color" << pairindex << Sentinel::END;
-            return COLOR_PAIR(pairindex);
-        }
-        else 
-            GlobalLogger::log(TRACE, "Color") << "Couldn't find color pair with ID: " << Sentinel::END;
-    }
-
+	short ColorContainer::isValid(short color)
+	{
+		if(color > size)
+			return 0;
+		else
+			return color;
+	}
 }

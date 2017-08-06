@@ -4,14 +4,17 @@
 
 namespace ucurses { 
 
-	UCurses::UCurses() : running(false)
+	UCurses::UCurses() 
 	{
-		help = true;
         initscr();                      /* Start curses mode    */
+		start_color();
+		use_default_colors();
         noecho();
         raw();
         curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
         keypad(stdscr, TRUE);
+		init_pair(2, COLOR_CYAN, COLOR_BLACK);
+		init_pair(1, COLOR_WHITE, COLOR_BLACK);
 
 		// Tab next
         Commands.Add(9, std::bind( &WindowContainer::Next, &Windows));  
@@ -26,32 +29,34 @@ namespace ucurses {
 
 		// Allow windows to create more windows
 		Window::ucurses = this;
+		Start();
+	}
+
+	void UCurses::Start()
+	{
+		running = true;
 	}
 
 	UCurses::~UCurses()
 	{
         endwin();	// End curses mode
 	}
-    
-    void UCurses::Run()
-    {
-		if (running == false) // Protect against recursive running inside loop
-		{
-			running = true;
 
-        	while (running)
-        	{
-            	Windows.UpdateAll(); 
-            	Render();       // Render screen
-            	Parse();        // Parse new commands
-        	}
-		}
-    } 
-    
-    void UCurses::End()
-    {
-        running = false;
-    }
+	void UCurses::Clear()
+	{
+		Windows.UpdateAll();
+	}
+
+	void UCurses::handleInput(int input)
+	{
+        Commands.Process(input);
+        Windows.Process(input);
+	}
+	
+	int UCurses::getInput()
+	{
+		return Windows.getInput();
+	}
 
     void UCurses::Render()
     {
@@ -61,7 +66,17 @@ namespace ucurses {
         Windows.Refresh(); // Copies windows to virtual window
         doupdate();        // Compares virtual to physical and updates screen
     }
-            
+   	
+	void UCurses::End()
+    {
+        running = false;
+    }
+
+	bool UCurses::Okay() const
+	{
+		return running;
+	}          
+
     Window* UCurses::getActiveWindow()
     {
         return &(Windows.getActive()); 
@@ -72,14 +87,14 @@ namespace ucurses {
         return Windows[0].getSize(); 
     }
             
-    Window* UCurses::createWindow(coord2d size, coord2d pos, bool deletable)
+    Window* UCurses::createWindow(coord2d size, coord2d pos)
     {
-        return Windows.Create(size, pos, deletable);          
+        return Windows.Create(size, pos);          
     }
     
-    Window* UCurses::createWindow(bool deletable)
+    Window* UCurses::createWindow()
     {
-        return Windows.Create(deletable);          
+        return Windows.Create();          
     }
 
     void UCurses::removeAll()
@@ -89,14 +104,22 @@ namespace ucurses {
     
     void UCurses::addCommand(int key, delegate function)
     {
-        GlobalLogger::instance().log(TRACE) << "Adding command to UCurses GUI command vector" << Sentinel::END;
         Commands.Add(key, function);
     }
+			
+	void UCurses::setHelp(bool b)
+	{ 
+		help = b; 
+	}
 
-    void UCurses::Parse()
-    {
-        int input = Windows.getInput();
-        Commands.Parse(input);
-        Windows.Parse(input);
-    }
+	bool UCurses::showHelp()
+	{ 
+		return help; 
+	}
+
+	const std::vector<string>& UCurses::getTips() const
+	{
+		return tips;
+	}
+
 }

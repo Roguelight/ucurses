@@ -6,7 +6,6 @@
 #pragma once
 #include <ucurses/ucurses.hpp>
 
-
 namespace ucurses { 
 
 	class TestClass

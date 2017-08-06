@@ -4,45 +4,39 @@
 #include <ucurses/window/WindowContainer.hpp>
 #include <algorithm>
 
+using namespace ctk::log;
+
 namespace ucurses { 
 
     WindowContainer::WindowContainer()
     {
-        GlobalLogger::log(TRACE) << "Constructing smart window container" << Sentinel::END;
-        active = NONE;
+        active = NOACTIVE;
         M_Windows.reserve(5);
-    }
+		Window::colors = &Colors;
+	}
 
     WindowContainer::~WindowContainer()
     {
 
     }
     
-    Window* WindowContainer::Create(coord2d size, coord2d pos, bool deletable)
+    Window* WindowContainer::Create(coord2d size, coord2d pos)
     {
         active = M_Windows.size();
-        M_Windows.emplace_back(size, pos, deletable);
-
-        if (deletable)
-            M_Windows[active].addCommand(KEY_F(2), std::bind( &WindowContainer::RemoveActive, this));
-
+        M_Windows.emplace_back(size, pos);
         return &(M_Windows[active]);
     }
     
-    Window* WindowContainer::Create(bool deletable)
+    Window* WindowContainer::Create()
     {
         active = M_Windows.size();
         coord2d size;
         getmaxyx(stdscr, size.y, size.x);
         M_Windows.emplace_back(size, coord2d(0,0));
-
-        if (deletable)
-            M_Windows[active].addCommand(KEY_F(2), std::bind( &WindowContainer::RemoveActive, this));
-
         return &(M_Windows[M_Windows.size() - 1]);
     }
 
-    const Window& WindowContainer::Get(string ID) const
+    const Window& WindowContainer::Get(const std::string& ID) const
     {
         auto it = std::find(M_Windows.begin(), M_Windows.end(), ID);
         if (it != M_Windows.end())
@@ -58,15 +52,14 @@ namespace ucurses {
 
     int WindowContainer::getInput()
     {
-        if (active != NONE)
+        if (active != NOACTIVE)
             return wgetch(getActive().getHandle());
         else
             return getch();
     }
 
-    void WindowContainer::Remove(string ID)
+    void WindowContainer::Remove(const std::string& ID)
     {
-        GlobalLogger::instance().log(TRACE) << "Removing window from ucurses GUI storage with ID: " << ID <<  Sentinel::END;
         auto it = std::find(M_Windows.begin(), M_Windows.end(), ID);
         if (it != M_Windows.end())
         {
@@ -78,12 +71,12 @@ namespace ucurses {
 
     void WindowContainer::RemoveActive()
     {
-        if (active != NONE)
+        if (active != NOACTIVE)
         {
 			if (M_Windows[active].deletable)
 			{
             	M_Windows.erase(M_Windows.begin() + active);
-            	active = NONE;
+            	active = NOACTIVE;
             	Next();
 			}
         }
@@ -96,7 +89,7 @@ namespace ucurses {
 
     void WindowContainer::UpdateActive()
     {
-        if (active != NONE) // Only update active window; this means a windows display will not change unless active
+        if (active != NOACTIVE) // Only update active window; this means a windows display will not change unless active
         {
             M_Windows[active].Update();
             M_Windows[active].highlightRow(1);
@@ -110,7 +103,7 @@ namespace ucurses {
         for (auto& element : M_Windows)
             element.Update();
             
-        if (active != NONE) 
+        if (active != NOACTIVE) 
             M_Windows[active].highlightRow(0);
     }
 
@@ -125,17 +118,17 @@ namespace ucurses {
     void WindowContainer::Next()
     {
         if (M_Windows.empty())
-            active = NONE;
+            active = NOACTIVE;
         else
             if ((++active) == M_Windows.size())
                 active = 0;
     }
 
-    void WindowContainer::Parse(int input)
+    void WindowContainer::Process(int input)
     { 
-        if (active != NONE)
+        if (active != NOACTIVE)
 		{
-            M_Windows[active].Commands.Parse(input);
+            M_Windows[active].Commands.Process(input);
 			if (M_Windows[active].callback.key == input)
 				M_Windows[active].callback.execute();
 		}

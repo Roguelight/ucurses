@@ -7,7 +7,6 @@ namespace ucurses {
 
     Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
     {
-        setSize(40,15);
         selection = NONE;
         items.reserve(24);
         bindDefault();
@@ -23,19 +22,18 @@ namespace ucurses {
 
     void Menu::Update()
     {
-        
-        setPosition(0, 0); //Initial position
+		setCursor();
 
         for (auto& item : items)
         {
-            setPosition(0, getPosition().y + 1);
+            setCursor(0, getCursor().y + 1);
             print(item);
         }
 
         if (selection != NONE)
         {
             int size = getSelectedItem().length();
-            highlightWord(coord2d(0, selection), size);
+            highlightWord(coord2d(0, selection), size, 2, A_BOLD);
         }
     }
     

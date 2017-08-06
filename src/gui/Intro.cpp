@@ -15,13 +15,10 @@ namespace ucurses {
 		title->setText("UCurses Introduction");
 		
 		Label* text = new Label(3, 6, win);
-		text->loadFromFile(".resources/gui/ucurses_welcome");
+		text->loadFromText(".resources/gui/ucurses_welcome");
+		text->highlightRow(1, 1, A_BOLD);
 		
 		win->addCommand(10, std::bind(&Intro::showTitle, win));
-		
-		win->addComponent(title);
-		win->addComponent(text);
-	
 	}
 
 	//void Intro::Second(Window* winI
@@ -29,9 +26,10 @@ namespace ucurses {
 	{
 		coord2d size = win->getSize();
 		win->clearCommands();
+		
 		Label* tipshelp = new Label(3, size.y - 6, win);
-		win->addComponent(tipshelp);
-		tipshelp->loadFromFile(".resources/gui/ucurses_command_display");
+		tipshelp->loadFromText(".resources/gui/ucurses_command_display");
+
 		win->addTip("n: Advance ");
 		win->addCommand('n', std::bind(&Intro::Tab, win));
 
@@ -41,7 +39,6 @@ namespace ucurses {
 	{
 		win->clearCommands(); // Clearing commands avoids reconstructing duplicate components
 		Label* title = new Label(2, 1, win);
-		win->addComponent(title);
 		title->setText("^ Above this line is the title bar, notice that it is highlighted ^");
 		title->appendLine("Press 'c' to continue");
 		win->addCommand('c', std::bind(&Intro::showTips, win));
@@ -60,9 +57,7 @@ namespace ucurses {
 		win->Clear();	
 		win->addCommand('n', std::bind(&Intro::Component, win));
 		Label* text = new Label(3, 6, win);
-		text->loadFromFile(".resources/gui/tabs_demo");
-		win->addComponent(text);
-		win->addComponent(hidden);
+		text->loadFromText(".resources/gui/tabs_demo");
 	}
 
 	void Intro::Extra(Window* win)
@@ -71,7 +66,6 @@ namespace ucurses {
 		Label* text = new Label(3, 3, win);
 		text->setText("This window is no longer needed.");
 		text->appendLine("Press f2 to destroy this window.");
-		win->addComponent(text);
 	}
 
 	void Intro::Component(Window* win)
@@ -83,25 +77,19 @@ namespace ucurses {
 			menu->addItem("Item " + to_string(i));
 
 		Label* menu_help = new Label(5, 3, win);
-		menu_help->loadFromFile(".resources/gui/menu_help");
+		menu_help->loadFromText(".resources/gui/menu_help");
 
 		TextEntry* entry = new TextEntry(5, 25, win);
 		entry->setSubject("Tutorial entry");
 
 		Label* entry_help = new Label(5, 21, win);
-		entry_help->loadFromFile(".resources/gui/entry_help");
+		entry_help->loadFromText(".resources/gui/entry_help");
 		
 		Label* entry_prompt = new Label(5, 27, win);
 		entry_prompt->setText("Enter the string 'Icarus' and then press the 'f' key to finish the tutorial!");
 
 		win->addCommand(10, std::bind(&Intro::Select, win, menu, menu_display));
 		win->addCommand('f', std::bind(&Intro::Finish, win, entry));
-		win->addComponent(menu);
-		win->addComponent(menu_display);
-		win->addComponent(menu_help);
-		win->addComponent(entry);
-		win->addComponent(entry_help);
-		win->addComponent(entry_prompt);
 	}
 
 	void Intro::Select(Window* win, Menu* menu, Label* display)

@@ -33,7 +33,7 @@ namespace ucurses {
 
     void TextEntry::Update()
     {
-        setPosition();
+        setCursor();
         print(subject + ": " + input);
     }
 
@@ -42,7 +42,7 @@ namespace ucurses {
         coord x = subject.length() + 1;
         echo();
         char in[10];
-        setPosition(x, 0);
+        setCursor(x, 0);
         print("*");
         //move(-1, 0);
         attributeOn(A_STANDOUT);

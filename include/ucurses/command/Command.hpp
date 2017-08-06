@@ -46,11 +46,10 @@ namespace ucurses {
             void Clear();
             void Disable(int key); 
             
-
-            void Parse(int key); 
-            /* Returns 'true' if match found */
+			void Process(int key); 
 
         private:
+
             vector<Command> commands;
     };
 

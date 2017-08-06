@@ -9,26 +9,37 @@ namespace ucurses {
 	{
         position.x = x;
         position.y = y;
+		H_Window->addComponent(this);
 	}
 
-    void Component::print(string inString)
+    void Component::print(const std::string& inString)
     {
         H_Window->print(inString);
     }
 
-    void Component::move(coord x, coord y)
+	void Component::print(char c)
+	{
+		H_Window->print(c);
+	}
+	
+	void Component::print(char* c)
+	{
+		H_Window->print(c);
+	}
+
+    void Component::moveCursor(coord x, coord y)
     {
-        H_Window->move(x, y);
+        H_Window->moveCursor(x, y);
     }
 
-    void Component::setPosition(coord x, coord y)
+    void Component::setCursor(coord x, coord y)
     {
-        H_Window->setPosition(position.x + x, position.y + y);
+        H_Window->setCursor(position.x + x, position.y + y);
     }
 
-    void Component::setPosition()
+    void Component::setCursor()
     {
-        H_Window->setPosition(position.x, position.y);
+        H_Window->setCursor(position.x, position.y);
     }
 
     void Component::addCommand(int key, delegate func)
@@ -36,10 +47,11 @@ namespace ucurses {
         H_Window->Commands.Add(key, func);
     }
 
-    void Component::addTip(string& tip)
-    {
+    void Component::addTip(string& tip) 
+	{
         H_Window->addTip(tip);
     }
+
     void Component::addTip(string&& tip)
     {
         H_Window->addTip(tip);
@@ -66,25 +78,41 @@ namespace ucurses {
         size.y = y;
     }
 
+    void Component::setSize(coord2d size)
+	{
+		this->size = size;
+	}
+
     coord2d Component::getPosition() const
     {
-        return H_Window->getPosition() - position;
+        return position;
     }
+    
+	coord2d Component::getCursor() const
+    {
+        return H_Window->getCursor() - position;
+	}
             
-    // Highlighting
-    void Component::highlightWord(coord2d wordpos, int size)
+    /* Highlighting */
+
+    void Component::highlightWord(coord2d wordpos, int size, short color, attr_t attributes)
     {
-        H_Window->highlightWord(wordpos + position, size);
+        H_Window->highlightWord(wordpos + position, size, color, attributes);
     }
 
-    void Component::highlightRow(coord row)
+    void Component::highlightRow(coord row, short color, attr_t attributes)
     {
-        H_Window->highlightRow(row + position.y);
+        H_Window->highlightWord(coord2d(position.x, row + position.y), size.x, color, attributes);
     }
 
-    void Component::highlightColumn(coord column)
+    void Component::highlightColumn(coord column, short color, attr_t attributes)
     {
-        H_Window->highlightColumn(column + position .x);
+        H_Window->highlightColumn(column + position .x, color, attributes);
     }
+    
+	void Component::highlightChar(coord2d pos, short color, attr_t attributes)
+	{
+		highlightWord(pos, 1, color, attributes);
+	}
     
 }

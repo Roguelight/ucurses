@@ -21,7 +21,7 @@ comma :=,
 
 MAIN := ucurses
 
-LIBRARIES := ctk ncurses boost
+LIBRARIES := ctk ncurses boost Eigen
 LIBFILES := -lctk -lboost_system -lboost_filesystem
 
 CXX := g++
@@ -29,7 +29,7 @@ CXXFLAGS := -g -std=c++17 -O2
 
 #*****************  Pre-processor  ****************************************
 
-INCDIR = -I include 
+INCDIR = -I include -I src
 
 #*****************  Linux  ************************************************
 
@@ -103,7 +103,7 @@ endif
 ifeq ($(strip $(test)),)
 else
 	BUILDPATH :=$(BUILDPATH)/test
-	SRC += src/test/$(test).cpp
+	SRC += main/$(test).cpp
 	TARGETAPP :=$(test)
 endif
 
@@ -111,7 +111,7 @@ endif
 	
 ifeq ($(strip $(name)),)
 else
-	SRC += src/main/$(name).cpp
+	SRC += main/$(name).cpp
 	TARGETAPP := $(name)
 endif
 

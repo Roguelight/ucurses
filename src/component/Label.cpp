@@ -1,20 +1,19 @@
 #include <ucurses/component/Label.hpp>
-#include <ctk/std/vector.hpp>
+	#include <ctk/std/vector.hpp>
 
 
 namespace ucurses { 
 
     Label::Label(coord x, coord y, Window* host) : Component(x, y, host)
 	{
-        setSize(30,6);
+
 	}
 
     void Label::Update()
     {
-        setPosition();
         for (short i = 0; i < text.size(); i++)
         {
-            setPosition(0, i);
+			Component::setCursor(0, i);
             print(text[i]);
         }
     }
@@ -74,7 +73,7 @@ namespace ucurses {
         text.clear();
     }
 
-	void Label::loadFromFile(const std::string& filename)
+	void Label::loadFromText(const std::string& filename)
 	{
 		ctk::vector::loadFromFile(text, filename);
 	}

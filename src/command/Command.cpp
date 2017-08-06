@@ -32,18 +32,10 @@ namespace ucurses {
         commands.clear();
     }
 
-    void CommandArray::Parse(int key) 
+    void CommandArray::Process(int key) 
     {
 		auto parse = [](Command& command, int key) { if (command.key == key) command.execute(); };
 		for (auto& command : commands)
 			parse(command, key);
-    	/*auto it = std::find(commands.begin(), commands.end(), key);
-        if (it != commands.end())
-        {
-            commands[it - commands.begin()].execute();
-            return true;
-        }
-        else
-            return false;*/
     }
 }

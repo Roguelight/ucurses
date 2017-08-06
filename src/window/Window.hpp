@@ -24,9 +24,6 @@
 
 #include <ncurses.h>
 
-using namespace std;
-using namespace ctk::log;
-
 namespace ucurses { 
 
 	class UCurses;
@@ -34,91 +31,99 @@ namespace ucurses {
 	{
         friend class WindowContainer;
         friend class Component;
+        friend class UCurses;
+		static UCurses* ucurses;								/* Static reference for creating new windows */
+        static ColorContainer* colors;
 
         public:
             
-            using Ptr = Window*;
-			static UCurses* ucurses; // Static object for creating new windows
-           
-            Window(bool deletable = false); 
-            Window(coord2d size, coord2d position, bool deletable = false); // Specifies size and position within NCurses stdscr
-			~Window();
+			/* Construction */
+          
+            Window(); 											/* Full size, input delayed, not deletable */
+            Window(coord2d size, coord2d position); 			/* Size position specific constructor. */
+			~Window(); 											/* Safely releases NCurses WINDOW data */
 
+            void 	setTitle(const std::string& s);
+			void	setDelay(bool b);							/* Windows can delay until input is received */
 			Window* subWindow(coord2d size, coord2d pos);
              
-            void Clear(); // Destroys all components and commands
+            void Clear(); 										/* Destroys all components and commands */
+			
+			/* Window Manipulation */
 
+            void setPosition(coord x, coord y);					/* Set window position to new position */
 
-        protected:
-    
-            /* Construction */
+       		/* Cursor Manipulation */
 
-            void resize(coord2d size, coord2d position);
+            void  setCursor(coord x, coord y); 					/* Sets cursor to absolute position 			*/
+            void  moveCursor(coord x, coord y);        			/* Moves cursor to relative to current position */
+            void  print(string inString);        				/* Prints from current cursor position 			*/
+            void  print(char c);
+            void  print(char* c);
 
-            /* Manipulation */
+       		/* Attributes */
 
-            void  setPosition(coord x, coord y); // Sets cursor to absolute position
-            void  move(coord x, coord y);        // Moves cursor to relative to current position      
-            void  print(string inString);        // Prints from current cursor position
-
-            /* Attributes */
-
-            void setAttributes(int attributes);
-            void attributeOn(int attributes);
+            void setAttributes(int attributes);					/* Attributes can be OR | for combined effects */
+            void attributeOn(int attributes);					/* eg attributeOn(A_BLINK | COLOR_PAIR(n)) */
             void attributeOff(int attributes);
+			void setColor(short color);							/* Sets color for window, must already be created with init_pair */
            
-            /*  Highlighting */
+       		/*  Highlighting */
 
-            void highlightWord(coord2d wordpos, int size);                  
-            void highlightRow(coord row);                  
-            void highlightColumn(coord column);                  
+            void highlightWord(coord2d wordpos, int size, short color = 0, attr_t attributes = A_STANDOUT);                  
+            void highlightRow(coord row, short color = 0, attr_t attributes = A_STANDOUT);                  
+            void highlightColumn(coord column, short color = 0, attr_t attributes = A_STANDOUT);                  
+            void highlightChar(coord2d pos, short color = 0, attr_t attributes = A_STANDOUT);                  
             
+            /* Retrieval Methods */
+
+            coord2d   getSize()         const;
+            coord2d   getCursor()       const;
+			coord2d	  getPosition()		const;
+            coord2d   getMiddle()       const; 
+            WINDOW*   getHandle()  		const		{ return H_Window; }
+            string    getTitle()   		const		{ return title; }
+
         public:
 
-            /* Retrieval Methods */
-            coord2d   getSize()         const;
-            coord2d   getPosition()     const;
-            coord2d   getMiddle()       const; 
-            
-            WINDOW*  getHandle()  const;
-            string   getTitle()   const;
-            void setTitle(string s);
-   
-        protected:
+        	/* Commands */
 
-            /* Commands */
-            CommandArray Commands;
-			Command callback;
-			string callback_tip;
-
-			std::vector<string> tips;
-            void printCommands(); 
-
-		public:
 			void addCommand(int key, delegate func);
             void setCallback(int key, delegate func = 0);
-			void setCallbackTip(const string& in)		{ callback_tip = in; }
+			void setCallbackTip(const string& in);
 			void disableCallback();
-            void addTip(string& tip);
-            void addTip(string&& tip);
+            void addTip(const std::string& tip);
+            void addTip(std::string&& tip);
             void clearCommands();
-			void Escape()								{ callback.execute(); }
+			void Escape();
 
-            /* Components */
+		protected:
+
+            CommandArray Commands;
+			Command callback;							/* Escape command. Changed independantly of commands stored CommandArray */
+			std::string callback_tip;
+
+			std::vector<std::string> tips;				/* Command tips displayed in bottom left corner of window */
+            void printCommands(); 
+
+       	/* Components */
 
             ComponentArray Components;
-            void addComponent(Component* component);
-            void clearComponents(); 
             void Update(); // Update components
             void printBorder();
+
+		public:
+
+            void addComponent(Component* component);
+            void clearComponents(); 
 			
         private:
 
-            WINDOW* H_Window;      // Direct handle to NCurses WINDOW data
+            WINDOW* H_Window;      						/* Direct handle to NCurses WINDOW data */
             string title;
 			bool deletable;
-            static ColorContainer* S_Colors;
-            void   EnableColor(ColorContainer* s_ptr);
+			bool delay;
+            void EnableColor(ColorContainer* s_ptr);
             
             friend bool operator==(const Window& lhs, const string& rhs) 
             { 
@@ -127,7 +132,5 @@ namespace ucurses {
                 else
                     return false;
             }
-
 	};
-
 }

@@ -1,10 +1,13 @@
-// Copyright Sun Feb 19 02:16:35 2017
-// Liam Rogers, All rights reserved.
-
 /*
- * Handles window storage and color manipulation.
- * Parses input and delegates to the active window.
- *      Input should be passed on like a chain of command
+ * UCurses GUI Object
+ *
+ * Provide safe, efficient and easy window management with pre-defined widgets for any terminal
+ * application.
+ *
+ * Fixes x, y coordinate confusion by using x as first parameter in all position/size functions.
+ *
+ * nodelay() is required for windows that need to continuously update graphics for animations, clocks etc.
+ *
  */
 
 #pragma once
@@ -20,50 +23,48 @@ namespace ucurses {
 	{
 		public:
 
-            using Ptr = UCurses*;
+			/* Construction */ 
 
 			UCurses();
 			~UCurses();
             
-            void Run();
-            
-            Window* createWindow(coord2d size, coord2d pos, bool deletable = false);
-            Window* createWindow(bool deletable = false);
-            /*
-             * Returns a window of maximum size
-             */
-            
+			/* Loop functions - In intended order */
+
+			void Clear();									/* Called at start of loop. Clears windows and updates components */
+			int  getInput();
+            void handleInput(int input);					/* Executes all commands mapped to input */
+            void Render();									/* Finally updates actual screen with all data from virtual windows */
+
+			/* Windows */
+
+            Window* createWindow(coord2d size, coord2d pos);	/* Size specific constructor */
+            Window* createWindow();								/* Returns a window of maximum size */
             Window* getActiveWindow();
 
-            void addCommand(int key, delegate function);
-            /*
-             * UCurses responds to two command arrays.
-             * One for application commands (Close, Window tabbing etc)
-             * and one for the active window
-             */
+            void addCommand(int key, delegate function);		/* Application specific commands. Close/Tabbing etc. */
             
-            coord2d getSize() const;                          
-			const std::vector<string>& getTips() { return tips; }
-
-			void setHelp(bool b)				 { help = b; }
-			bool Help()							 { return help; }
+            coord2d getSize()	const;                         	/* Returns size of terminal screen */ 
+			bool	Okay() 	  	const;
 
         protected:
 
             void removeAll();
 
-            CommandArray Commands; // GUI level commands. Default is TAB to cycle active window
+            CommandArray Commands;	
 			std::vector<string> tips;
 
         private:
 
             WindowContainer Windows;
-
-            void Parse();
-            void Render();
             void End(); 
-
+			void Start();
             bool running;
 			bool help;
+
+		public:
+
+			void setHelp(bool b);
+			bool showHelp();
+			const std::vector<string>& getTips() const; 
 	};
 }
