@@ -12,19 +12,19 @@ namespace ucurses {
 	{
 		public:
 
-            FileMenu(coord x, coord y, Window* host);
-            
-            void setDirectory(string inString);
+			FileMenu(coord x, coord y, Window* host);
 
-        protected:
+			void setDirectory(string inString);
 
-            string directory; // File directory from which files are displayed
-            string last;      // History of one to enable backtracking
-            
-            // Command functions
+		protected:
 
-            void backTrack(); // Backtrack to last visited directory
-            void toParent();  // Navigate to parent directory
+			string directory; // File directory from which files are displayed
+			string last;      // History of one to enable backtracking
+
+			// Command functions
+
+			void backTrack(); // Backtrack to last visited directory
+			void toParent();  // Navigate to parent directory
 
 	};
 

@@ -14,13 +14,13 @@ namespace ucurses {
 
 			TestClass();
 
-            void Run();
+			void Run();
 
-        protected:
+		protected:
 
-            ucurses::UCurses gui;
+			ucurses::UCurses gui;
 	};
 
-    void mainScreen(Window* target);
+	void mainScreen(Window* target);
 
 }

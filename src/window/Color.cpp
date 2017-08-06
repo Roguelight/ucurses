@@ -8,17 +8,17 @@ using namespace ctk::log;
 
 namespace ucurses { 
 
-    ColorContainer::ColorContainer() : size(0), colors(50)
-    {
-    }
+	ColorContainer::ColorContainer() : size(0), colors(50)
+	{
+	}
 
-    short ColorContainer::Add(short foreground, short background)
-    {
-        init_pair(size, foreground, background);
+	short ColorContainer::Add(short foreground, short background)
+	{
+		init_pair(size, foreground, background);
 		short temp = size++;
 		return temp;
-    }
-    short ColorContainer::Define(short r, short g, short b)
+	}
+	short ColorContainer::Define(short r, short g, short b)
 	{
 		init_color(colors, r, g, b);
 		return colors++;

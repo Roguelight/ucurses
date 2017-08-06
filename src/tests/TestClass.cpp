@@ -8,10 +8,10 @@ namespace ucurses {
 
 	}
 
-    void TestClass::Run()
-    {
-        Window* main = gui.createWindow(); // Create Full-screen window
-        ucurses::mainScreen(main);
+	void TestClass::Run()
+	{
+		Window* main = gui.createWindow(); // Create Full-screen window
+		ucurses::mainScreen(main);
 		//main->setDelay
 		gui.Start();
 
@@ -19,22 +19,22 @@ namespace ucurses {
 		{
 			int key = gui.getInput();
 			gui.Clear();
-        	gui.handleInput(key);
+			gui.handleInput(key);
 			gui.Render();
 		}
-    }
+	}
 
-    void mainScreen(Window* target)
-    {
-        target->Clear();
-        
-        short x = target->getMiddle().x - 10;
+	void mainScreen(Window* target)
+	{
+		target->Clear();
 
-        Label* Title = new Label(x, 10, target);
-        Title->setText("Zombie Dogs and Lava Frogs");
+		short x = target->getMiddle().x - 10;
 
-        Menu* H_ModeSelect = new Menu(x, 20, target);
-        H_ModeSelect->addItem("New Game");
-        H_ModeSelect->addItem("Load Game");
-    }
+		Label* Title = new Label(x, 10, target);
+		Title->setText("Zombie Dogs and Lava Frogs");
+
+		Menu* H_ModeSelect = new Menu(x, 20, target);
+		H_ModeSelect->addItem("New Game");
+		H_ModeSelect->addItem("Load Game");
+	}
 }

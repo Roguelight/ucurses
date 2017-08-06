@@ -12,13 +12,13 @@ namespace ucurses {
 	{
 		public:
 
-            FileNav(coord x, coord y, Window* host);
+			FileNav(coord x, coord y, Window* host);
 
-            virtual void bindDefault();
+			virtual void bindDefault();
 
-        protected:
+		protected:
 
-            virtual void Select();
+			virtual void Select();
 
 	};
 

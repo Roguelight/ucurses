@@ -11,42 +11,42 @@
 
 namespace ucurses { 
 
-    class WindowContainer 
-    {
-        friend class UCurses;
+	class WindowContainer 
+	{
+		friend class UCurses;
 
-        public:
-           
-            Window& operator[](int index) 				{ return M_Windows[index]; }
-            const Window& operator[](int index) const 	{ return M_Windows[index]; }
+		public:
 
-            WindowContainer();
-           	~WindowContainer(); 
+			Window& operator[](int index) 				{ return M_Windows[index]; }
+			const Window& operator[](int index) const 	{ return M_Windows[index]; }
 
-            Window* Create(coord2d size, coord2d pos);
-            Window* Create();
+			WindowContainer();
+			~WindowContainer(); 
 
-            void Remove(const std::string& ID);
-            void RemoveActive();
-            void RemoveAll();
-            
-            const Window& Get(const std::string& ID) const;
-            Window& getActive();
+			Window* Create(coord2d size, coord2d pos);
+			Window* Create();
 
-            void Process(int input);							/* Only passes input to active window */
+			void Remove(const std::string& ID);
+			void RemoveActive();
+			void RemoveAll();
+
+			const Window& Get(const std::string& ID) const;
+			Window& getActive();
+
+			void Process(int input);							/* Only passes input to active window */
 			void ClearAll();									/* Clears every window */
-            void Next();										/* Sets active window to next window in map */ 
-            
-            void Refresh();										/* Updates all windows renders data to virtual screen */
+			void Next();										/* Sets active window to next window in map */ 
 
-            int getInput();
+			void Refresh();										/* Updates all windows renders data to virtual screen */
 
-        private:
+			int getInput();
 
-            vector<Window> M_Windows;
-            index active; 
-            
-            ColorContainer Colors;
+		private:
 
-    };
+			vector<Window> M_Windows;
+			index active; 
+
+			ColorContainer Colors;
+
+	};
 }

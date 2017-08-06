@@ -10,28 +10,28 @@
 
 namespace ucurses { 
 
-    class Component;
+	class Component;
 
-    class ComponentArray
-    {
-        public:
+	class ComponentArray
+	{
+		public:
 
-            ComponentArray();
-            ~ComponentArray();
+			ComponentArray();
+			~ComponentArray();
 
-            void Add(Component* component);
-            void Update();
-            void RemoveAll();
-            const int getSize() const;
+			void Add(Component* component);
+			void Update();
+			void RemoveAll();
+			const int getSize() const;
 			const int getCapacity() const; 
 
-        protected:
+		protected:
 
-            std::vector<Component*> M_Components;
-            /* 
-             * Prefix M_ indicates owner of this data is responsible
-             * for memory management of every instance of this data
-             */
-    };
+			std::vector<Component*> M_Components;
+			/* 
+			 * Prefix M_ indicates owner of this data is responsible
+			 * for memory management of every instance of this data
+			 */
+	};
 
 }

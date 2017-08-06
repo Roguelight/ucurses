@@ -27,38 +27,39 @@ namespace ucurses {
 
 			UCurses();
 			~UCurses();
+			void Start();									/* Performs initial render before delaying for certain windows */
             
 			/* Loop functions - In intended order */
 
-			void Start();									/* Performs initial render before delaying for certain windows */
 			void Clear();									/* Called at start of loop. Clears windows and updates components */
 			int  getInput();
-            void handleInput(int input);					/* Executes all commands mapped to input */
-            void Render();									/* Finally updates actual screen with all data from virtual windows */
+			void handleInput(int input);					/* Executes all commands mapped to input */
+			void Render();									/* Finally updates actual screen with all data from virtual windows */
 
 			/* Windows */
 
-            Window* createWindow(coord2d size, coord2d pos);	/* Size specific constructor */
-            Window* createWindow();								/* Returns a window of maximum size */
-            Window* getActiveWindow();
+			Window* createWindow(coord2d size, coord2d pos);	/* Size specific constructor */
+			Window* createWindow();								/* Returns a window of maximum size */
+			Window* getActiveWindow();
 
-            void addCommand(int key, delegate function);		/* Application specific commands. Close/Tabbing etc. */
+			void addCommand(int key, delegate function);		/* Application specific commands. Close/Tabbing etc. */
             
-            coord2d getSize()	const;                         	/* Returns size of terminal screen */ 
+			coord2d getSize()	const;                         	/* Returns size of terminal screen */ 
 			bool	Okay() 	  	const;
 
-        protected:
+		protected:
 
-            void removeAll();
+			void removeAll();
 
-            CommandArray Commands;	
+			CommandArray Commands;	
 			std::vector<string> tips;
 
-        private:
+		private:
 
-            WindowContainer Windows;
-            void End(); 
-            bool running;
+			WindowContainer Windows;
+			void End(); 
+			
+			bool running;
 			bool help;
 
 		public:

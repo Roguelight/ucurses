@@ -11,46 +11,46 @@
 
 namespace ucurses {
 
-    using namespace std;
-    using index = short;
-    using delegate = std::function<void()>;
+	using namespace std;
+	using index = short;
+	using delegate = std::function<void()>;
 
-    struct Command
-    {
-        Command(int inKey, delegate inFunction) : key(inKey), function(inFunction) {};
+	struct Command
+	{
+		Command(int inKey, delegate inFunction) : key(inKey), function(inFunction) {};
 		Command() : function(nullptr) {}
 
-        friend bool operator==(const Command& lhs, const int& rhs) 
-        {
-            if (lhs.key == rhs)
-                return true;
-            else
-                return false;
-        }
-        
-        void execute() { if (function) function(); }
+		friend bool operator==(const Command& lhs, const int& rhs) 
+		{
+			if (lhs.key == rhs)
+				return true;
+			else
+				return false;
+		}
+
+		void execute() { if (function) function(); }
 		void disable() { key = -1; }
-        
+
 		delegate function;
-        int key;
+		int key;
 
-    };
+	};
 
-    class CommandArray
-    {
-        public:
+	class CommandArray
+	{
+		public:
 
-            CommandArray(size_t size = 8);
+			CommandArray(size_t size = 8);
 
-            void Add(int key, delegate func);
-            void Clear();
-            void Disable(int key); 
-            
+			void Add(int key, delegate func);
+			void Clear();
+			void Disable(int key); 
+
 			void Process(int key); 
 
-        private:
+		private:
 
-            vector<Command> commands;
-    };
+			vector<Command> commands;
+	};
 
 }

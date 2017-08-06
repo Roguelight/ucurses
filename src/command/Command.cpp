@@ -6,36 +6,38 @@
 namespace ucurses { 
 
 	CommandArray::CommandArray(size_t size)
-    { 
-        commands.reserve(size); 
-    }
+	{ 
+		commands.reserve(size); 
+	}
 
-    void CommandArray::Disable(int key)
-    { 
-        auto it = std::find(commands.begin(), commands.end(), key); // Linear search
-        if (it != commands.end())
-        {
-            commands[it - commands.begin()].disable();
-        }
-    }/*
-    * Less expensive to access a single bit than remove the index
-    * from all vectors
-    */
-    
-    void CommandArray::Add(int key, delegate func)
-    { 
-        commands.push_back(Command(key, func)); 
-    }
+	void CommandArray::Disable(int key)
+	{ 
+		auto it = std::find(commands.begin(), commands.end(), key); // Linear search
+		if (it != commands.end())
+		{
+			commands[it - commands.begin()].disable();
+		}
+	}
 
-    void CommandArray::Clear()
-    {
-        commands.clear();
-    }
+	/*
+	 * Less expensive to access a single bit than remove the index
+	 * from all vectors
+	 */
 
-    void CommandArray::Process(int key) 
-    {
+	void CommandArray::Add(int key, delegate func)
+	{ 
+		commands.push_back(Command(key, func)); 
+	}
+
+	void CommandArray::Clear()
+	{
+		commands.clear();
+	}
+
+	void CommandArray::Process(int key) 
+	{
 		auto parse = [](Command& command, int key) { if (command.key == key) command.execute(); };
 		for (auto& command : commands)
 			parse(command, key);
-    }
+	}
 }

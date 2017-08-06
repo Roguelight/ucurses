@@ -5,112 +5,112 @@
 
 namespace ucurses {
 
-    Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
-    {
-        selection = NONE;
-        items.reserve(24);
-        bindDefault();
-    }
+	Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
+	{
+		selection = NOSELECT;
+		items.reserve(24);
+		bindDefault();
+	}
 
-    void Menu::bindDefault()
-    {
-        addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
-        addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
-        addTip("j: Down ");
-        addTip("k: Up ");
-    }
+	void Menu::bindDefault()
+	{
+		addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
+		addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
+		addTip("j: Down ");
+		addTip("k: Up ");
+	}
 
-    void Menu::Update()
-    {
+	void Menu::Update()
+	{
 		setCursor();
 		H_Window->setColor(color);
 
-        for (auto& item : items)
-        {
-            setCursor(0, getCursor().y + 1);
-            print(item);
-        }
+		for (auto& item : items)
+		{
+			setCursor(0, getCursor().y + 1);
+			print(item);
+		}
 
-        if (selection != NONE)
-        {
-            int size = getSelectedItem().length();
-            highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
-        }
+		if (selection != NOSELECT)
+		{
+			int size = getSelectedItem().length();
+			highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
+		}
 		H_Window->unsetColor(color);
-    }
-    
-    string Menu::getSelectedItem()
-    {
-        if (selection != NONE) 
-            return getItem(selection); 
-        else
-            return string("");
-    }
+	}
 
-    index Menu::getSelectedIndex()
-    {
-        return selection;
-    }
+	string Menu::getSelectedItem()
+	{
+		if (selection != NOSELECT) 
+			return getItem(selection); 
+		else
+			return string("");
+	}
 
-    void Menu::addItem(const string& label)
-    {
+	index Menu::getSelectedIndex()
+	{
+		return selection;
+	}
+
+	void Menu::addItem(const string& label)
+	{
 		selection = 0;
-        items.push_back(label);
-    }
+		items.push_back(label);
+	}
 
-    void Menu::removeAll()
-    {
-        items.clear(); 
-    }
+	void Menu::removeAll()
+	{
+		items.clear(); 
+	}
 
-    string& Menu::getItem(index id) 
-    {
-        if (id < items.size())
-        {
-            return items[id];
-        }
-    }
+	string& Menu::getItem(index id) 
+	{
+		if (id < items.size())
+		{
+			return items[id];
+		}
+	}
 
-    void Menu::selectNext()
-    {
-        if (!(items.empty()))
-        {
-            if (!last()) 
-                ++selection;
-        }
-        else
-            selection = NONE;
-    }
-    
-    void Menu::selectPrevious()
-    {
-        if (!(items.empty()))
-        {
-            if (selection > 0)
-                --selection;
-        }
-        else
-            selection = NONE;
-    }
+	void Menu::selectNext()
+	{
+		if (!(items.empty()))
+		{
+			if (!last()) 
+				++selection;
+		}
+		else
+			selection = NOSELECT;
+	}
 
-    void Menu::removeItem(index id)
-    {
-        if (selection != NONE)
-        {
-            if (last()) 
-                selection--;
+	void Menu::selectPrevious()
+	{
+		if (!(items.empty()))
+		{
+			if (selection > 0)
+				--selection;
+		}
+		else
+			selection = NOSELECT;
+	}
 
-            items.erase(items.begin() + id);
+	void Menu::removeItem(index id)
+	{
+		if (selection != NOSELECT)
+		{
+			if (last()) 
+				selection--;
 
-            if (items.empty())
-                selection = NONE;
-        }
-    }
-    
-    void Menu::removeSelectedItem()
-    {
-        index id = getSelectedIndex();
-        removeItem(id);
-    }
+			items.erase(items.begin() + id);
+
+			if (items.empty())
+				selection = NOSELECT;
+		}
+	}
+
+	void Menu::removeSelectedItem()
+	{
+		index id = getSelectedIndex();
+		removeItem(id);
+	}
 
 }

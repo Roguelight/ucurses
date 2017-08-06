@@ -16,21 +16,21 @@ namespace ucurses {
 
 			TextEntry(coord x, coord y, Window* host); 
 
-            void bindDefault();
-            void setSubject(string inString);
+			void bindDefault();
+			void setSubject(string inString);
 			string& getText();
-            void setText(const std::string& inString);
+			void setText(const std::string& inString);
 
-        protected:
+		protected:
 
-            void Update();
+			void Update();
 
-            string subject;
-            string input;
+			string subject;
+			string input;
 
-            // Commands
-            
-            void getInput(); // *->E
+			// Commands
+
+			void getInput(); // *->E
 
 	};
 

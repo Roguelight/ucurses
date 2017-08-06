@@ -11,23 +11,23 @@ namespace ucurses {
 	}
 
 	/*
-	void Canvas::loadFromText(const std::string& filepath)
-	{
-		if (data == nullptr)
-		{
-			std::fstream text(filepath, ios_base::in);
-			data = new ArrayXc(size.x, size.y);
+	   void Canvas::loadFromText(const std::string& filepath)
+	   {
+	   if (data == nullptr)
+	   {
+	   std::fstream text(filepath, ios_base::in);
+	   data = new ArrayXc(size.x, size.y);
 
-			for (int y = 0; y < size.y; y++)
-				for (int x = 0; x < size.x + 1; x++) // Read and discard \n 
-				{
-					char c;
-					text.get(c);
-					if (c != '\n')
-						data->(x,y) = c;
-				}
-	}
-	*/
+	   for (int y = 0; y < size.y; y++)
+	   for (int x = 0; x < size.x + 1; x++) // Read and discard \n 
+	   {
+	   char c;
+	   text.get(c);
+	   if (c != '\n')
+	   data->(x,y) = c;
+	   }
+	   }
+	   */
 
 	void Canvas::setTarget(const ArrayXc& target, coord xsize, coord ysize) 
 	{
@@ -47,7 +47,7 @@ namespace ucurses {
 		{
 			for (int y = 0; y < size.y; y++)
 			{
-            	setCursor(0, y);
+				setCursor(0, y);
 				for (int x = 0; x < size.x; x++)
 					print(data->operator()(x,y));
 			}

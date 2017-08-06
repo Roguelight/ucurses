@@ -29,26 +29,26 @@
 
 namespace ucurses { 
 
-    using namespace std;
-            
-    class ColorContainer
-    {
-            
-        public: 
+	using namespace std;
 
-            ColorContainer();
+	class ColorContainer
+	{
+
+		public: 
+
+			ColorContainer();
 
 			// Returns value of new pair
-            short Add(short foreground, short background);
+			short Add(short foreground, short background);
 			// Returns value of new color
 			short Define(short r, short g, short b);
 
 			short isValid(short color_pair); // Returns zero if not
 
-        private:
+		private:
 
 			short size; // 0
 			short colors; // 50
-    };
-    
+	};
+
 }

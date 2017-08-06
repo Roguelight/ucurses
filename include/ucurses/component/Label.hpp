@@ -18,16 +18,16 @@ namespace ucurses {
 	{
 		public:
 
-            Label(coord x, coord y, Window* host);
+			Label(coord x, coord y, Window* host);
 
-            /* Safe sets ;) */ 
+			/* Safe sets ;) */ 
 
-            void setText(const std::vector<string>& inText);   
+			void setText(const std::vector<string>& inText);   
 			/* 
 			 * Performs vector copy assignment 
 			 */
 
-            void setText(const std::string& inText);    
+			void setText(const std::string& inText);    
 			/* 
 			 * Sets text at cursor position, 
 			 * if invalid: create new line at end 
@@ -38,15 +38,15 @@ namespace ucurses {
 			 * Adds line to end and updates cursor to new position
 			 */
 
-            void appendText(const std::string& inText); 
+			void appendText(const std::string& inText); 
 			/* 
 			 * Appends text at cursor position, 
 			 * if invalid: append to last line 
 			 */
-            
+
 			const std::string& getText() const;
-            const std::string& getTextAt(short linepos = 0) const;
-			
+			const std::string& getTextAt(short linepos = 0) const;
+
 			void setCursor(int pos)  	{ cursor = pos; }
 			int  getCursor()			{ return cursor; }
 
@@ -54,17 +54,17 @@ namespace ucurses {
 			void Prev()					{ --cursor; }
 
 			void loadFromText(const std::string& filename);
-            
-            void Clear();
 
-        protected:
+			void Clear();
 
-            std::vector<std::string> text;
+		protected:
+
+			std::vector<std::string> text;
 
 			unsigned int cursor = FIRST; // Line position
 
-            void bindDefault() {}
-            virtual void Update();
+			void bindDefault() {}
+			virtual void Update();
 	};
 
 }

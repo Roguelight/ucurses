@@ -19,42 +19,42 @@
 
 namespace ucurses { 
 
-    using namespace std;
+	using namespace std;
 
 	class Component
 	{
-        friend class Window;
-        friend class ComponentArray;
+		friend class Window;
+		friend class ComponentArray;
 
-        public:
-            
-            /* Constructor */ 
+		public:
+
+			/* Constructor */ 
 
 			Component(coord x, coord y, Window* host);		/* Perfoms storage. Memory management is handled by window */
 
-            /* Commands */
+			/* Commands */
 
-            void addCommand(int key, delegate func);
-            void addTip(string& tip);
-            void addTip(string&& tip);
+			void addCommand(int key, delegate func);
+			void addTip(string& tip);
+			void addTip(string&& tip);
 
 			/* Component Manipulation */
 
-            void setSize(coord x, coord y);
-            void setSize(coord2d size);
-            void setPosition(coord x, coord y);				/* Set window cursor relative to component position */
+			void setSize(coord x, coord y);
+			void setSize(coord2d size);
+			void setPosition(coord x, coord y);				/* Set window cursor relative to component position */
 
-            /* Attributes */
+			/* Attributes */
 
-            void attributeOn(int attributes);
-            void attributeOff(int attributes);
-            
-            /* Highlighting */
+			void attributeOn(int attributes);
+			void attributeOff(int attributes);
 
-            void highlightWord(coord2d wordpos, int size, short color = 0, attr_t attributes = A_BOLD);
-            void highlightRow(coord row, short color = 0, attr_t attributes = A_BOLD);                  
-            void highlightColumn(coord column, short color = 0, attr_t attributes = A_BOLD);                  
-            void highlightChar(coord2d pos, short color = 0, attr_t attributes = A_BOLD);                  
+			/* Highlighting */
+
+			void highlightWord(coord2d wordpos, int size, short color = 0, attr_t attributes = A_BOLD);
+			void highlightRow(coord row, short color = 0, attr_t attributes = A_BOLD);                  
+			void highlightColumn(coord column, short color = 0, attr_t attributes = A_BOLD);                  
+			void highlightChar(coord2d pos, short color = 0, attr_t attributes = A_BOLD);                  
 
 			void setHighlight(short color);
 			void setColor(short color);
@@ -63,27 +63,27 @@ namespace ucurses {
 
 			/* Cursor Manipulation */
 
-            void setCursor();								/* Set window cursor position to component position */
-            void setCursor(coord x, coord y);				/* Set window cursor relative to component position */
-            void moveCursor(coord x, coord y);        		/* Move window cursor relative to current position */
-            void print(const std::string& inString); 
-            void print(char c);
-            void print(char* c);
+			void setCursor();								/* Set window cursor position to component position */
+			void setCursor(coord x, coord y);				/* Set window cursor relative to component position */
+			void moveCursor(coord x, coord y);        		/* Move window cursor relative to current position */
+			void print(const std::string& inString); 
+			void print(char c);
+			void print(char* c);
 
-            /* Getters */
+			/* Getters */
 
-            coord2d  getMiddle() 	const; 
-            coord2d  getCursor()  	const;
-            coord2d  getPosition()  const;
+			coord2d  getMiddle() 	const; 
+			coord2d  getCursor()  	const;
+			coord2d  getPosition()  const;
 
-            virtual void Update() = 0;
-            virtual void bindDefault() = 0;					/* Children can construct their own bindings or using default */
-           
-            coord2d position;
-            coord2d size;
+			virtual void Update() = 0;
+			virtual void bindDefault() = 0;					/* Children can construct their own bindings or using default */
+
+			coord2d position;
+			coord2d size;
 			short highlightColor;
 			short color;
 
-            Window*      H_Window;     						/* Handle to host */
+			Window*      H_Window;     						/* Handle to host */
 	};
 }
