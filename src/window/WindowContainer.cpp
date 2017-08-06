@@ -87,33 +87,25 @@ namespace ucurses {
         M_Windows.clear();
     }
 
-    void WindowContainer::UpdateActive()
-    {
-        if (active != NOACTIVE) // Only update active window; this means a windows display will not change unless active
-        {
-            M_Windows[active].Update();
-            M_Windows[active].highlightRow(1);
-        }
-        else
-            GlobalLogger::instance().log(WARNING) << "There is no active window!" << Sentinel::END;
-    }
-
-    void WindowContainer::UpdateAll()
-    {
-        for (auto& element : M_Windows)
-            element.Update();
-            
-        if (active != NOACTIVE) 
-            M_Windows[active].highlightRow(0);
-    }
-
     void WindowContainer::Refresh()
     {
-        for (auto& element : M_Windows)
+        for (int i = 0; i < M_Windows.size(); ++i)
         {
-            wnoutrefresh(element.getHandle());
+            M_Windows[i].Update();
+
+			/* Must highlight after update for visible effect */
+        	if (i == active) 
+            	M_Windows[i].highlightRow(0, 1, A_BOLD);
+
+            wnoutrefresh(M_Windows[i].getHandle());
         }
     }
+
+	void WindowContainer::ClearAll()
+	{
+        for (auto& win : M_Windows)
+			win.ClearScreen();
+	}
 
     void WindowContainer::Next()
     {

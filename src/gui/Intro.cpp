@@ -16,7 +16,7 @@ namespace ucurses {
 		
 		Label* text = new Label(3, 6, win);
 		text->loadFromText(".resources/gui/ucurses_welcome");
-		text->highlightRow(1, 1, A_BOLD);
+		text->highlightRow(1, 2, A_BOLD);
 		
 		win->addCommand(10, std::bind(&Intro::showTitle, win));
 	}

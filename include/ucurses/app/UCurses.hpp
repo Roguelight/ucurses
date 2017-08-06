@@ -30,6 +30,7 @@ namespace ucurses {
             
 			/* Loop functions - In intended order */
 
+			void Start();									/* Performs initial render before delaying for certain windows */
 			void Clear();									/* Called at start of loop. Clears windows and updates components */
 			int  getInput();
             void handleInput(int input);					/* Executes all commands mapped to input */
@@ -57,7 +58,6 @@ namespace ucurses {
 
             WindowContainer Windows;
             void End(); 
-			void Start();
             bool running;
 			bool help;
 

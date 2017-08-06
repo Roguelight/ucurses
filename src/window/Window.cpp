@@ -122,13 +122,17 @@ namespace ucurses {
 
     void Window::Update()
     {
-        werase(H_Window);
         printBorder();
         setCursor(2,0);
         print(title);
         printCommands();
         Components.Update();
     }
+
+	void Window::ClearScreen()
+	{
+		werase(H_Window);
+	}
 	
     void Window::printBorder()
     {
@@ -151,6 +155,11 @@ namespace ucurses {
 	{
 		delay = b;
 		nodelay(H_Window, !b);
+	}
+	
+	void Window::setDelete(bool b)
+	{
+		deletable = b;
 	}
 
     /* Manipulation */
@@ -201,6 +210,11 @@ namespace ucurses {
 	void Window::setColor(short color)
 	{
 		wattron(H_Window, COLOR_PAIR(color));	
+	}
+
+	void Window::unsetColor(short color)
+	{
+		wattroff(H_Window, COLOR_PAIR(color));	
 	}
 
     // Highlighting

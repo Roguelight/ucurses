@@ -23,6 +23,7 @@ namespace ucurses {
     void Menu::Update()
     {
 		setCursor();
+		H_Window->setColor(color);
 
         for (auto& item : items)
         {
@@ -33,8 +34,9 @@ namespace ucurses {
         if (selection != NONE)
         {
             int size = getSelectedItem().length();
-            highlightWord(coord2d(0, selection), size, 2, A_BOLD);
+            highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
         }
+		H_Window->unsetColor(color);
     }
     
     string Menu::getSelectedItem()

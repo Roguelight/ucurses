@@ -57,6 +57,7 @@ namespace ucurses {
             void highlightChar(coord2d pos, short color = 0, attr_t attributes = A_BOLD);                  
 
 			void setHighlight(short color);
+			void setColor(short color);
 
 		protected:
 
@@ -81,6 +82,7 @@ namespace ucurses {
             coord2d position;
             coord2d size;
 			short highlightColor;
+			short color;
 
             Window*      H_Window;     						/* Handle to host */
 	};

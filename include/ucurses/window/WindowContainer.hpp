@@ -34,11 +34,10 @@ namespace ucurses {
             Window& getActive();
 
             void Process(int input);							/* Only passes input to active window */
+			void ClearAll();									/* Clears every window */
             void Next();										/* Sets active window to next window in map */ 
             
-            void UpdateAll();
-            void UpdateActive();
-            void Refresh();
+            void Refresh();										/* Updates all windows renders data to virtual screen */
 
             int getInput();
 

@@ -11,11 +11,13 @@ namespace ucurses {
 
     void Label::Update()
     {
+		H_Window->setColor(color);
         for (short i = 0; i < text.size(); i++)
         {
 			Component::setCursor(0, i);
             print(text[i]);
         }
+		H_Window->unsetColor(color);
     }
     
     /* Safe sets ;) */

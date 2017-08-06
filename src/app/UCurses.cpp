@@ -4,7 +4,7 @@
 
 namespace ucurses { 
 
-	UCurses::UCurses() 
+	UCurses::UCurses() : running(true)
 	{
         initscr();                      /* Start curses mode    */
 		start_color();
@@ -13,8 +13,9 @@ namespace ucurses {
         raw();
         curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
         keypad(stdscr, TRUE);
-		init_pair(2, COLOR_CYAN, COLOR_BLACK);
 		init_pair(1, COLOR_WHITE, COLOR_BLACK);
+		init_pair(2, COLOR_CYAN, COLOR_BLACK);
+		init_pair(3, COLOR_RED, COLOR_BLACK);
 
 		// Tab next
         Commands.Add(9, std::bind( &WindowContainer::Next, &Windows));  
@@ -29,11 +30,12 @@ namespace ucurses {
 
 		// Allow windows to create more windows
 		Window::ucurses = this;
-		Start();
 	}
 
 	void UCurses::Start()
 	{
+		Clear();
+		Render();
 		running = true;
 	}
 
@@ -44,7 +46,7 @@ namespace ucurses {
 
 	void UCurses::Clear()
 	{
-		Windows.UpdateAll();
+		Windows.ClearAll();
 	}
 
 	void UCurses::handleInput(int input)

@@ -7,6 +7,8 @@ namespace ucurses {
 
 	Component::Component(coord x, coord y, Window* host) : H_Window(host)
 	{
+		highlightColor = 1;
+		color = 0;
         position.x = x;
         position.y = y;
 		H_Window->addComponent(this);
@@ -114,5 +116,14 @@ namespace ucurses {
 	{
 		highlightWord(pos, 1, color, attributes);
 	}
-    
+
+	void Component::setHighlight(short color)
+	{
+		highlightColor = color;
+	}
+
+	void Component::setColor(short color)
+	{
+		this->color = color;
+	}
 }

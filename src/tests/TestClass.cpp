@@ -13,11 +13,12 @@ namespace ucurses {
         Window* main = gui.createWindow(); // Create Full-screen window
         ucurses::mainScreen(main);
 		//main->setDelay
+		gui.Start();
 
 		while( gui.Okay() )
 		{
-			gui.Clear();
 			int key = gui.getInput();
+			gui.Clear();
         	gui.handleInput(key);
 			gui.Render();
 		}
