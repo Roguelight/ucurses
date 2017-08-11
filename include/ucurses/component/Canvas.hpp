@@ -28,7 +28,7 @@ namespace ucurses {
 
 		protected:
 
-			virtual void Update();
+			virtual void Draw();
 			void bindDefault() {}
 
 	};

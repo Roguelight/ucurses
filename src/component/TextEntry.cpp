@@ -6,7 +6,6 @@
 
 namespace ucurses {
 
-	// 2 rows for text input/output, one top and bottom for border = 4
 	TextEntry::TextEntry(coord x, coord y, Window* host) : Component(x, y, host)  
 	{
 		setSize(20, 4);
@@ -31,23 +30,26 @@ namespace ucurses {
 		input = inText; 
 	}
 
-	void TextEntry::Update()
+	void TextEntry::Draw()
 	{
-		setCursor();
 		print(subject + ": " + input);
 	}
 
 	void TextEntry::getInput()
 	{
-		coord x = subject.length() + 1;
+		attributeOn(A_BOLD);
+		Draw();
+		coord x = subject.length() + 2;
 		echo();
 		char in[10];
 		setCursor(x, 0);
-		print("*");
 		//move(-1, 0);
-		attributeOn(A_STANDOUT);
-		wgetnstr(H_Window->getHandle(), in, 10);
-		attributeOff(A_STANDOUT);
+		//
+		bool temp = H_Window->isDelay();
+		H_Window->setDelay(true);
+		wgetnstr(H_Window->getHandle(), in, 12);
+		H_Window->setDelay(temp);
+		attributeOff(A_BOLD);
 		noecho();
 		input = in;
 	}

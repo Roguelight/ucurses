@@ -9,7 +9,7 @@ namespace ucurses {
 	UCurses* Window::ucurses = nullptr;
 	ColorContainer* Window::colors = nullptr;
 
-	Window::Window(coord2d size, coord2d position) : callback()
+	Window::Window(coord2d size, coord2d position) : callback(), color(0)
 	{
 		H_Window = newwin(size.y, size.x, position.y, position.x);
 		keypad(H_Window, TRUE);
@@ -17,7 +17,7 @@ namespace ucurses {
 		setDelay(true);
 	}
 
-	Window::Window() : callback()
+	Window::Window() : callback(), color(0)
 	{
 		H_Window = newwin(0,0,0,0);
 		keypad(H_Window, TRUE);
@@ -157,6 +157,11 @@ namespace ucurses {
 		nodelay(H_Window, !b);
 	}
 
+	bool Window::isDelay() const
+	{
+		return delay;
+	}
+
 	void Window::setDelete(bool b)
 	{
 		deletable = b;
@@ -207,14 +212,26 @@ namespace ucurses {
 		wattroff(H_Window, attributes); 
 	}
 
+	void Window::setDefaultColor(short color)
+	{
+		this->color = color;
+		wattron(H_Window, COLOR_PAIR(this->color));	
+	}
+
 	void Window::setColor(short color)
 	{
 		wattron(H_Window, COLOR_PAIR(color));	
 	}
 
+	short Window::getColor()
+	{
+		return color;
+	}
+
 	void Window::unsetColor(short color)
 	{
 		wattroff(H_Window, COLOR_PAIR(color));	
+		wattron(H_Window, COLOR_PAIR(this->color));	
 	}
 
 	// Highlighting

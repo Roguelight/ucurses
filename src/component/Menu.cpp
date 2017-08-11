@@ -16,15 +16,16 @@ namespace ucurses {
 	{
 		addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
 		addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
+	}
+
+	void Menu::showHelp()
+	{
 		addTip("j: Down ");
 		addTip("k: Up ");
 	}
 
-	void Menu::Update()
+	void Menu::Draw()
 	{
-		setCursor();
-		H_Window->setColor(color);
-
 		for (auto& item : items)
 		{
 			setCursor(0, getCursor().y + 1);
@@ -36,7 +37,6 @@ namespace ucurses {
 			int size = getSelectedItem().length();
 			highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
 		}
-		H_Window->unsetColor(color);
 	}
 
 	string Menu::getSelectedItem()

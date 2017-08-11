@@ -8,10 +8,18 @@ namespace ucurses {
 	Component::Component(coord x, coord y, Window* host) : H_Window(host)
 	{
 		highlightColor = 1;
-		color = 0;
+		color = H_Window->getColor();
 		position.x = x;
 		position.y = y;
 		H_Window->addComponent(this);
+	}
+
+	void Component::Update()
+	{
+		setCursor(); 					/* Sets window draw position to component position */
+		H_Window->setColor(color);		/* Sets window draw color to component color */
+		Draw(); 						/* Calls appropriate Draw() method */
+		H_Window->unsetColor(color); 	/* Resets window draw color */
 	}
 
 	void Component::print(const std::string& inString)

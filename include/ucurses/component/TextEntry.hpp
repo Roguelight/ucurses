@@ -23,7 +23,7 @@ namespace ucurses {
 
 		protected:
 
-			void Update();
+			virtual void Draw();
 
 			string subject;
 			string input;

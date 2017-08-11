@@ -57,7 +57,7 @@ namespace ucurses {
 			void highlightChar(coord2d pos, short color = 0, attr_t attributes = A_BOLD);                  
 
 			void setHighlight(short color);
-			void setColor(short color);
+			void setColor(short color);						/* Sets component color */
 
 		protected:
 
@@ -76,8 +76,9 @@ namespace ucurses {
 			coord2d  getCursor()  	const;
 			coord2d  getPosition()  const;
 
-			virtual void Update() = 0;
-			virtual void bindDefault() = 0;					/* Children can construct their own bindings or using default */
+			void Update();
+			virtual void Draw() = 0;						/* Called in Update() to render component to window */
+			virtual void bindDefault() {}					/* Children can construct their own bindings or using default */
 
 			coord2d position;
 			coord2d size;

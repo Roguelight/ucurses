@@ -10,7 +10,7 @@ namespace ucurses {
 		start_color();
 		use_default_colors();
 		noecho();
-		raw();
+		cbreak();
 		curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
 		keypad(stdscr, TRUE);
 		init_pair(1, COLOR_WHITE, COLOR_BLACK);

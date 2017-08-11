@@ -46,6 +46,7 @@ namespace ucurses {
 			void 	setTitle(const std::string& s);
 			void	setDelay(bool b);							/* Windows can delay until input is received */
 			void	setDelete(bool b);							/* Enables deletion of the window */
+			bool	isDelay() const;
 			Window* subWindow(coord2d size, coord2d pos);
 
 			void Clear(); 										/* Destroys all components and commands */
@@ -67,8 +68,10 @@ namespace ucurses {
 			void setAttributes(int attributes);					/* Attributes can be OR | for combined effects */
 			void attributeOn(int attributes);					/* eg attributeOn(A_BLINK | COLOR_PAIR(n)) */
 			void attributeOff(int attributes);
-			void setColor(short color);							/* Sets color for window, must already be created with init_pair */
-			void unsetColor(short color);						/* Sets color for window, must already be created with init_pair */
+			void setDefaultColor(short color);					/* Sets color for window, must already be created with init_pair */
+			void unsetColor(short color);						/* Unsets color for window, must already be created with init_pair */
+			void setColor(short color);							/* Sets a temporary color for drawing. Usually calls unset after */
+			short getColor();
 
 			/*  Highlighting */
 
@@ -126,6 +129,7 @@ namespace ucurses {
 			string title;
 			bool deletable;
 			bool delay;
+			short color;
 			void EnableColor(ColorContainer* s_ptr);
 
 			friend bool operator==(const Window& lhs, const string& rhs) 

@@ -24,6 +24,7 @@ namespace ucurses {
 			Menu(coord x, coord y, Window* host);
 
 			virtual void bindDefault();
+			void showHelp();
 
 			string getSelectedItem();           
 			index getSelectedIndex();
@@ -43,7 +44,7 @@ namespace ucurses {
 			index selection;
 			bool last()                                { return (selection + 1) == items.size(); }
 
-			virtual void Update();
+			virtual void Draw();
 
 			void removeSelectedItem(); // *->BACKSPACE
 			void selectNext();         // *->j

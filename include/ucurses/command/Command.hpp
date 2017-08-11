@@ -29,7 +29,7 @@ namespace ucurses {
 		}
 
 		void execute() { if (function) function(); }
-		void disable() { key = -1; }
+		void disable() { key = -1111111; }
 
 		delegate function;
 		int key;

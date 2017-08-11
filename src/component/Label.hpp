@@ -64,7 +64,7 @@ namespace ucurses {
 			unsigned int cursor = FIRST; // Line position
 
 			void bindDefault() {}
-			virtual void Update();
+			virtual void Draw();
 	};
 
 }

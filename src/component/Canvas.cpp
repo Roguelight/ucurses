@@ -41,7 +41,7 @@ namespace ucurses {
 		setSize(size);
 	}
 
-	void Canvas::Update()
+	void Canvas::Draw()
 	{
 		if (data)
 		{
