@@ -38,6 +38,7 @@ namespace ucurses {
 	void TextEntry::getInput()
 	{
 		attributeOn(A_BOLD);
+        setCursor();
 		Draw();
 		coord x = subject.length() + 2;
 		echo();
