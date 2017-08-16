@@ -23,12 +23,11 @@
  */
 
 #pragma once
-#define INVALIDCOLOR -1
 #include <ncurses.h>
-
 
 namespace ucurses { 
 
+	enum class Color : short { DARK_GREY = 0 };
 	using namespace std;
 
 	class ColorContainer
@@ -38,17 +37,20 @@ namespace ucurses {
 
 			ColorContainer();
 
+			void Initialize();
+
 			// Returns value of new pair
 			short Add(short foreground, short background);
 			// Returns value of new color
 			short Define(short r, short g, short b);
 
-			short isValid(short color_pair); // Returns zero if not
+			short Validate(short color_pair); // Returns zero if not
 
 		private:
 
-			short size; // 0
-			short colors; // 50
+			/* Make sure individual colors and pairs are only initialized once */
+			short size; 
+			short colors; 
 	};
 
 }

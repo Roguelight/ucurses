@@ -7,15 +7,12 @@ namespace ucurses {
 	UCurses::UCurses() : running(true)
 	{
 		initscr();                      /* Start curses mode    */
-		start_color();
-		use_default_colors();
+		Colors.Initialize();
+		Window::colors = &Colors;
 		noecho();
 		cbreak();
 		curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
 		keypad(stdscr, TRUE);
-		init_pair(1, COLOR_WHITE, COLOR_BLACK);
-		init_pair(2, COLOR_CYAN, COLOR_BLACK);
-		init_pair(3, COLOR_RED, COLOR_BLACK);
 
 		// Tab next
 		Commands.Add(9, std::bind( &WindowContainer::Next, &Windows));  

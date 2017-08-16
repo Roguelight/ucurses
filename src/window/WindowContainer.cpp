@@ -12,7 +12,6 @@ namespace ucurses {
 	{
 		active = NOACTIVE;
 		M_Windows.reserve(5);
-		Window::colors = &Colors;
 	}
 
 	WindowContainer::~WindowContainer()

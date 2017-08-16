@@ -7,8 +7,6 @@ namespace ucurses {
 
 	Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
 	{
-		selection = NOSELECT;
-		items.reserve(24);
 		bindDefault();
 	}
 
@@ -28,8 +26,8 @@ namespace ucurses {
 	{
 		for (auto& item : items)
 		{
-			setCursor(0, getCursor().y + 1);
 			print(item);
+			setCursor(0, getCursor().y + 1);
 		}
 
 		if (selection != NOSELECT)
@@ -38,79 +36,4 @@ namespace ucurses {
 			highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
 		}
 	}
-
-	string Menu::getSelectedItem()
-	{
-		if (selection != NOSELECT) 
-			return getItem(selection); 
-		else
-			return string("");
-	}
-
-	index Menu::getSelectedIndex()
-	{
-		return selection;
-	}
-
-	void Menu::addItem(const string& label)
-	{
-		selection = 0;
-		items.push_back(label);
-	}
-
-	void Menu::removeAll()
-	{
-		items.clear(); 
-	}
-
-	string& Menu::getItem(index id) 
-	{
-		if (id < items.size())
-		{
-			return items[id];
-		}
-	}
-
-	void Menu::selectNext()
-	{
-		if (!(items.empty()))
-		{
-			if (!last()) 
-				++selection;
-		}
-		else
-			selection = NOSELECT;
-	}
-
-	void Menu::selectPrevious()
-	{
-		if (!(items.empty()))
-		{
-			if (selection > 0)
-				--selection;
-		}
-		else
-			selection = NOSELECT;
-	}
-
-	void Menu::removeItem(index id)
-	{
-		if (selection != NOSELECT)
-		{
-			if (last()) 
-				selection--;
-
-			items.erase(items.begin() + id);
-
-			if (items.empty())
-				selection = NOSELECT;
-		}
-	}
-
-	void Menu::removeSelectedItem()
-	{
-		index id = getSelectedIndex();
-		removeItem(id);
-	}
-
 }

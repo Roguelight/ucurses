@@ -13,7 +13,7 @@
 #pragma once
 #include <string>
 
-#include <ucurses/window/Color.hpp>
+#include <ucurses/app/Color.hpp>
 #include <ucurses/window/WindowContainer.hpp>
 #include <ucurses/window/types.hpp>
 
@@ -57,6 +57,7 @@ namespace ucurses {
 		private:
 
 			WindowContainer Windows;
+			ColorContainer Colors;
 			void End(); 
 			
 			bool running;

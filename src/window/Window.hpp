@@ -17,7 +17,7 @@
 #include <ctk/log/GlobalLogger.hpp>
 
 #include <ucurses/window/types.hpp>
-#include <ucurses/window/Color.hpp>
+#include <ucurses/app/Color.hpp>
 
 #include <ucurses/command/Command.hpp>
 #include <ucurses/component/ComponentArray.hpp>
@@ -87,8 +87,7 @@ namespace ucurses {
 			coord2d	  getPosition()		const;
 			coord2d   getMiddle()       const; 
 			WINDOW*   getHandle()  		const		{ return H_Window; }
-			string    getTitle()   		const		{ return title; }
-
+			string    getTitle()   		const		{ return title; } 
 		public:
 
 			/* Commands */

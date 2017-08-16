@@ -2,30 +2,36 @@
 // Liam Rogers, All rights reserved.
 
 /*
- * UCurses menu interface 
+ * Supports multiple sliders in a menu
  */
 
 #pragma once
 #include <ucurses/component/Component.hpp>
 #include <ucurses/component/menu_template.hpp>
+#include <ucurses/component/basic_slider.hpp>
 #include <vector>
 
 namespace ucurses { 
 
 #define NOSELECT -1
 
-	class Menu : public Component, public menu_template<std::string>
+	class SliderMenu : public Component, public menu_template<basic_slider>
 	{
+		using index = short;
+
 		public:
 
-			Menu(coord x, coord y, Window* host);
+			SliderMenu(coord x, coord y, Window* host);
 
 			virtual void bindDefault();
+
 			void showHelp();
 
 		protected:
 
 			virtual void Draw();
+			void incrementActive();
+			void decrementActive();
 
 	};
 

@@ -4,3 +4,5 @@
 #include <ucurses/component/TextEntry.hpp>
 #include <ucurses/component/Label.hpp>
 #include <ucurses/component/Canvas.hpp>
+#include <ucurses/component/Slider.hpp>
+#include <ucurses/component/SliderMenu.hpp>

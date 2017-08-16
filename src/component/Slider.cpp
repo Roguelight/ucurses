@@ -1,25 +1,28 @@
-#include <component/Slider.hpp>
+#include <ucurses/component/Slider.hpp>
 
 
 namespace ucurses { 
 
-	Slider(coord x, coord y, Window* host) : Component(x, y, host), value(0.0f)
+	Slider::Slider(coord x, coord y, Window* host) : Component(x, y, host)
 	{
-
+		setHighlight(1);
+		bindDefault();
 	}
 
-    void Slider::increment()
-    {
-        if ((value + 1.0f) < 100)
-            value += 1.0f;
-    }
-    
-    void Slider::decrement()
-    {    
-        if ((value - 1.0f) > 0)
-            value -= 1.0f;
-    }
+	void Slider::bindDefault()
+	{
+		addCommand('l', bind( &Slider::increment, this));
+		addCommand('h', bind( &Slider::decrement, this));
+	}
 
-    void Slider::bindDefault()
+	void Slider::Draw()
+	{
+		//20 characters long
+		std::string slider("|-----------------------|");
+		
+		print(subject + ": " + slider);
+		highlightWord(coord2d(subject.length() + 3,-1), value / 4, highlightColor, A_BOLD);
+	}
+
 
 }

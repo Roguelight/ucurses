@@ -1,15 +1,26 @@
 // Copyright Sat Feb 25 17:23:15 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/window/Color.hpp>
+#include <ucurses/app/Color.hpp>
 #include <ctk/log/GlobalLogger.hpp>
+#include <fstream>
 
 using namespace ctk::log;
 
 namespace ucurses { 
 
-	ColorContainer::ColorContainer() : size(0), colors(50)
+	ColorContainer::ColorContainer() : size(0), colors(0)
 	{
+
+	}
+
+	void ColorContainer::Initialize()
+	{
+		start_color();
+		// Default
+		init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+		init_pair(2, COLOR_CYAN, COLOR_BLACK);
+
 	}
 
 	short ColorContainer::Add(short foreground, short background)
@@ -18,13 +29,14 @@ namespace ucurses {
 		short temp = size++;
 		return temp;
 	}
+
 	short ColorContainer::Define(short r, short g, short b)
 	{
 		init_color(colors, r, g, b);
 		return colors++;
 	}
 
-	short ColorContainer::isValid(short color)
+	short ColorContainer::Validate(short color)
 	{
 		if(color > size)
 			return 0;

@@ -46,7 +46,6 @@ namespace ucurses {
 			vector<Window> M_Windows;
 			index active; 
 
-			ColorContainer Colors;
 
 	};
 }

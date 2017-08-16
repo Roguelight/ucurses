@@ -6,6 +6,9 @@
  *
  * Abstract virtual Update() overidden for varied display behaviour
  * Provides interface to window host display methods that use relative positioning.
+ *
+ * Supports inheritance
+ *
  */
 
 #pragma once

@@ -15,6 +15,7 @@ namespace ucurses {
 		keypad(H_Window, TRUE);
 		deletable = false;
 		setDelay(true);
+		setDefaultColor(1);
 	}
 
 	Window::Window() : callback(), color(0)
@@ -216,6 +217,7 @@ namespace ucurses {
 	{
 		this->color = color;
 		wattron(H_Window, COLOR_PAIR(this->color));	
+		wbkgdset(H_Window, COLOR_PAIR(color));
 	}
 
 	void Window::setColor(short color)
@@ -248,7 +250,7 @@ namespace ucurses {
 
 	void Window::highlightWord(coord2d wordpos, int size, short color, attr_t attributes)
 	{
-		mvwchgat(H_Window, wordpos.y + 1, wordpos.x, size, attributes, color, NULL);
+		mvwchgat(H_Window, wordpos.y, wordpos.x, size, attributes, color, NULL);
 	}
 
 	void Window::highlightChar(coord2d wordpos, short color, attr_t attributes)

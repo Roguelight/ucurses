@@ -17,7 +17,7 @@
 #include <ctk/log/GlobalLogger.hpp>
 
 #include <ucurses/window/types.hpp>
-#include <ucurses/window/Color.hpp>
+#include <ucurses/app/Color.hpp>
 
 #include <ucurses/command/Command.hpp>
 #include <ucurses/component/ComponentArray.hpp>
@@ -68,9 +68,9 @@ namespace ucurses {
 			void setAttributes(int attributes);					/* Attributes can be OR | for combined effects */
 			void attributeOn(int attributes);					/* eg attributeOn(A_BLINK | COLOR_PAIR(n)) */
 			void attributeOff(int attributes);
-			void setDefaultColor(short color);					/* Sets color for window, must already be created with init_pair */
-			void unsetColor(short color);						/* Unsets color for window, must already be created with init_pair */
+			void setDefaultColor(short color);					/* Sets default color for window, must already be created with init_pair */
 			void setColor(short color);							/* Sets a temporary color for drawing. Usually calls unset after */
+			void unsetColor(short color);						/* Unsets color for window, must already be created with init_pair */
 			short getColor();
 
 			/*  Highlighting */
@@ -87,8 +87,7 @@ namespace ucurses {
 			coord2d	  getPosition()		const;
 			coord2d   getMiddle()       const; 
 			WINDOW*   getHandle()  		const		{ return H_Window; }
-			string    getTitle()   		const		{ return title; }
-
+			string    getTitle()   		const		{ return title; } 
 		public:
 
 			/* Commands */
