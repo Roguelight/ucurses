@@ -29,6 +29,9 @@ namespace ucurses {
 
 			T& addItem(const std::string& label);
 
+			const std::vector<T>& getItems() const;
+			std::vector<T>& getItems();
+
 		protected:
 
 			std::vector<T> items;

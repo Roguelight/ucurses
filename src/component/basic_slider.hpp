@@ -28,7 +28,7 @@ namespace ucurses {
 			inline const std::string& getSubject() const	{ return subject; }
 
 			void setSubject(const std::string& name)		{ subject = name; } 
-			void setValue(float f)							{ value = f; }
+			void setValue(float f) 							{ value = f; } 
 			void setLimit(float f)							{ limit = f; }
 
 		protected:

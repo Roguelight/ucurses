@@ -36,6 +36,7 @@ namespace ucurses {
 
 	};
 
+
 	class CommandArray
 	{
 		public:
@@ -53,4 +54,6 @@ namespace ucurses {
 			vector<Command> commands;
 	};
 
-}
+	
+
+	}

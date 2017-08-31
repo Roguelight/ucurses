@@ -9,7 +9,7 @@ namespace ucurses {
 	UCurses* Window::ucurses = nullptr;
 	ColorContainer* Window::colors = nullptr;
 
-	Window::Window(coord2d size, coord2d position) : callback(), color(0)
+	Window::Window(coord2d size, coord2d position) : color(0)
 	{
 		H_Window = newwin(size.y, size.x, position.y, position.x);
 		keypad(H_Window, TRUE);
@@ -18,7 +18,7 @@ namespace ucurses {
 		setDefaultColor(1);
 	}
 
-	Window::Window() : callback(), color(0)
+	Window::Window() : color(0)
 	{
 		H_Window = newwin(0,0,0,0);
 		keypad(H_Window, TRUE);
@@ -45,8 +45,9 @@ namespace ucurses {
 			print(tip);
 			print("  ");
 		}
-		setCursor(size.x - (callback_tip.size() + 2), getSize().y - 2);
-		print(callback_tip);
+		setCursor(size.x - (callback_stack.getTip().size() + 2), getSize().y - 2);
+
+		print(callback_stack.getTip());
 
 		if (ucurses->showHelp())
 		{
@@ -89,24 +90,17 @@ namespace ucurses {
 
 	void Window::Escape()
 	{
-		callback.execute(); 
+		callback_stack.Execute(); 
 	}
 
-	void Window::setCallback(int key, delegate func)
+	void Window::pushCallback(int key, delegate func)
 	{
-		callback.function = func;
-		callback.key = key;
+		callback_stack.Emplace(key, func);
 	}
 
 	void Window::setCallbackTip(const string& in)
 	{ 
-		callback_tip = in; 
-	}
-
-	void Window::disableCallback()
-	{ 
-		callback.disable(); 
-		callback_tip.clear();
+		callback_stack.setTip(in); 
 	}
 
 	void Window::addTip(const std::string& tip)

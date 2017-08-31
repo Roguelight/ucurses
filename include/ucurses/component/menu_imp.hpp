@@ -91,8 +91,18 @@ namespace ucurses {
 	const T& menu_template<T>::getItem(short id) 
 	{
 		if (id < items.size())
-		{
 			return items[id];
-		}
+	}
+
+	template <typename T>
+	const std::vector<T>& menu_template<T>::getItems() const
+	{
+		return items;
+	}
+	
+	template <typename T>
+	std::vector<T>& menu_template<T>::getItems()
+	{
+		return items;
 	}
 }

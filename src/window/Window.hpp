@@ -20,6 +20,7 @@
 #include <ucurses/app/Color.hpp>
 
 #include <ucurses/command/Command.hpp>
+#include <ucurses/command/Callback.hpp>
 #include <ucurses/component/ComponentArray.hpp>
 
 #include <ncurses.h>
@@ -93,9 +94,8 @@ namespace ucurses {
 			/* Commands */
 
 			void addCommand(int key, delegate func);
-			void setCallback(int key, delegate func = 0);
+			void pushCallback(int key, delegate func = 0);	/* Adds callback to the stack */
 			void setCallbackTip(const string& in);
-			void disableCallback();
 			void addTip(const std::string& tip);
 			void addTip(std::string&& tip);
 			void clearCommands();
@@ -104,10 +104,10 @@ namespace ucurses {
 		protected:
 
 			CommandArray Commands;
-			Command callback;							/* Escape command. Changed independantly of commands stored CommandArray */
-			std::string callback_tip;
-
 			std::vector<std::string> tips;				/* Command tips displayed in bottom left corner of window */
+
+			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
+
 			void printCommands(); 
 
 			/* Components */

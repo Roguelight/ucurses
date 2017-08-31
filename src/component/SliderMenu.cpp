@@ -41,7 +41,7 @@ namespace ucurses {
 		for (auto& item : items)
 		{
 			print(item.getSubject() + ": " + slider);
-			highlightWord(coord2d(item.getSubject().length() + 3, getCursor().y), item.getValue() / 4, highlightColor, A_BOLD);
+			highlightWord(coord2d(item.getSubject().length() + 3, getCursor().y), item.getPercentage() / 4, highlightColor, A_BOLD);
 			setCursor(0, getCursor().y + 1);
 		}
 		

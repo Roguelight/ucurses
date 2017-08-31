@@ -15,13 +15,13 @@ namespace ucurses {
 
 	void basic_slider::increment()
     {
-        if ((value + 1.0f) <= limit)
-            value += 1.0f;
-    }
-    
-    void basic_slider::decrement()
-    {    
-        if ((value - 1.0f) >= 0.0f)
-            value -= 1.0f;
-    }
+		if ((value + 1.0f) <= limit)
+			value += 1.0f;
+	}
+
+	void basic_slider::decrement()
+	{    
+		if ((value - 1.0f) >= 0.0f)
+			value -= 1.0f;
+	}
 }

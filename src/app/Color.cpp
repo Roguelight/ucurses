@@ -1,9 +1,12 @@
 // Copyright Sat Feb 25 17:23:15 2017
 // Liam Rogers, All rights reserved.
 
-#include <ucurses/app/Color.hpp>
-#include <ctk/log/GlobalLogger.hpp>
 #include <fstream>
+
+#include <ucurses/app/Color.hpp>
+#include <ucurses/gui/Config.hpp>
+
+#include <ctk/log/GlobalLogger.hpp>
 
 using namespace ctk::log;
 
@@ -18,8 +21,9 @@ namespace ucurses {
 	{
 		start_color();
 		// Default
-		init_pair(1, COLOR_YELLOW, COLOR_BLACK);
+		init_pair(1, COLOR_WHITE, COLOR_BLACK);
 		init_pair(2, COLOR_CYAN, COLOR_BLACK);
+		Config::Load();
 
 	}
 
