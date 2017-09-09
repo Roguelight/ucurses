@@ -43,8 +43,5 @@ namespace ucurses {
 			short selection;
 			bool last()									{ return (selection + 1) == items.size(); }
 	};
-
 }
-
 #include <ucurses/component/menu_imp.hpp>
-

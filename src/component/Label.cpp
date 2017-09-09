@@ -1,5 +1,5 @@
 #include <ucurses/component/Label.hpp>
-#include <ctk/std/vector.hpp>
+#include <ctk/std/string.hpp>
 
 namespace ucurses { 
 
@@ -12,8 +12,10 @@ namespace ucurses {
 	{
 		for (short i = 0; i < text.size(); i++)
 		{
-			Component::setCursor(0, i);
-			print(text[i]);
+			if (text[i] == '\n')
+				Component::setCursor(0, getCursor().y + 1);
+			else
+				print(text[i]);
 		}
 	}
 
@@ -25,14 +27,6 @@ namespace ucurses {
 	 */
 	void Label::setText(const std::string& inText)
 	{
-		if (text.size() > cursor)
-			text[cursor] = inText;
-		else
-			text.push_back(inText);
-	}
-
-	void Label::setText(const std::vector<string>& inText)
-	{
 		text = inText;
 	}
 
@@ -42,29 +36,18 @@ namespace ucurses {
 	 */
 	void Label::appendText(const std::string& inText)
 	{
-		if (text.size() > cursor)
-			text[cursor] += inText;
-		else
-			text[text.size() - 1] += inText;
+		text.append(inText);
 	}
 
 	void Label::appendLine(const std::string& inText)
 	{
-		text.push_back(inText);
-		++cursor;
+		text.append('\n' + inText);
 	}
 
 	/* Getters */
 	const std::string& Label::getText() const
 	{
-		if (text.size() > cursor)
-			return text[cursor];
-	}
-
-	const std::string& Label::getTextAt(short linepos) const
-	{
-		if (text.size() > linepos) 
-			return text[linepos];
+		return text;
 	}
 
 	void Label::Clear()
@@ -72,8 +55,8 @@ namespace ucurses {
 		text.clear();
 	}
 
-	void Label::loadFromText(const std::string& filename)
+	void Label::loadFromFile(const std::string& filename)
 	{
-		ctk::vector::loadFromFile(text, filename);
+		ctk::string::loadFromFile(text, filename);
 	}
 }

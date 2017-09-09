@@ -22,46 +22,20 @@ namespace ucurses {
 
 			/* Safe sets ;) */ 
 
-			void setText(const std::vector<string>& inText);   
-			/* 
-			 * Performs vector copy assignment 
-			 */
-
 			void setText(const std::string& inText);    
-			/* 
-			 * Sets text at cursor position, 
-			 * if invalid: create new line at end 
-			 */
-
-			void appendLine(const std::string& inText = "");
-			/*
-			 * Adds line to end and updates cursor to new position
-			 */
 
 			void appendText(const std::string& inText); 
-			/* 
-			 * Appends text at cursor position, 
-			 * if invalid: append to last line 
-			 */
+			void appendLine(const std::string& inText = "");
 
 			const std::string& getText() const;
-			const std::string& getTextAt(short linepos = 0) const;
 
-			void setCursor(int pos)  	{ cursor = pos; }
-			int  getCursor()			{ return cursor; }
-
-			void Next()					{ ++cursor; }
-			void Prev()					{ --cursor; }
-
-			void loadFromText(const std::string& filename);
+			void loadFromFile(const std::string& filename);
 
 			void Clear();
 
 		protected:
 
-			std::vector<std::string> text;
-
-			unsigned int cursor = FIRST; // Line position
+			std::string text;
 
 			void bindDefault() {}
 			virtual void Draw();

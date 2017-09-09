@@ -170,7 +170,7 @@ namespace ucurses {
 		wmove(H_Window, curpos.y + y, curpos.x + x);
 	}
 
-	void Window::print(string inString)
+	void Window::print(const std::string& inString)
 	{
 		waddstr(H_Window, inString.c_str());
 	}

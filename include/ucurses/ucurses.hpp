@@ -14,3 +14,4 @@
 #include <ucurses/window/Window.hpp>
 #include <ucurses/Components.hpp>
 #include <ucurses/component/ComponentArray.hpp>
+#include <ucurses/gui.hpp>

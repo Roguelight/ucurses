@@ -15,7 +15,7 @@ namespace ucurses {
 		title->setText("UCurses Introduction");
 		
 		Label* text = new Label(3, 6, win);
-		text->loadFromText(".resources/gui/ucurses_welcome");
+		text->loadFromFile(".resources/gui/ucurses_welcome");
 		text->highlightRow(1, 2, A_BOLD);
 		
 		win->addCommand(10, std::bind(&Intro::showTitle, win));
@@ -28,7 +28,7 @@ namespace ucurses {
 		win->clearCommands();
 		
 		Label* tipshelp = new Label(3, size.y - 6, win);
-		tipshelp->loadFromText(".resources/gui/ucurses_command_display");
+		tipshelp->loadFromFile(".resources/gui/ucurses_command_display");
 
 		win->addTip("n: Advance ");
 		win->addCommand('n', std::bind(&Intro::Tab, win));
@@ -57,7 +57,7 @@ namespace ucurses {
 		win->Clear();	
 		win->addCommand('n', std::bind(&Intro::Component, win));
 		Label* text = new Label(3, 6, win);
-		text->loadFromText(".resources/gui/tabs_demo");
+		text->loadFromFile(".resources/gui/tabs_demo");
 	}
 
 	void Intro::Extra(Window* win)
@@ -77,13 +77,13 @@ namespace ucurses {
 			menu->addItem("Item " + to_string(i));
 
 		Label* menu_help = new Label(5, 3, win);
-		menu_help->loadFromText(".resources/gui/menu_help");
+		menu_help->loadFromFile(".resources/gui/menu_help");
 
 		TextEntry* entry = new TextEntry(5, 25, win);
 		entry->setSubject("Tutorial entry");
 
 		Label* entry_help = new Label(5, 21, win);
-		entry_help->loadFromText(".resources/gui/entry_help");
+		entry_help->loadFromFile(".resources/gui/entry_help");
 		
 		Label* entry_prompt = new Label(5, 27, win);
 		entry_prompt->setText("Enter the string 'Icarus' and then press the 'f' key to finish the tutorial!");

@@ -60,7 +60,7 @@ namespace ucurses {
 
 			void  setCursor(coord x, coord y); 					/* Sets cursor to absolute position 			*/
 			void  moveCursor(coord x, coord y);        			/* Moves cursor to relative to current position */
-			void  print(string inString);        				/* Prints from current cursor position 			*/
+			void  print(const std::string& inString);        	/* Prints from current cursor position 			*/
 			void  print(char c);
 			void  print(char* c);
 
