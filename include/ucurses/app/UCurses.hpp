@@ -27,7 +27,9 @@ namespace ucurses {
 
 			UCurses();
 			~UCurses();
+			void Run();
 			void Start();									/* Performs initial render before delaying for certain windows */
+
             
 			/* Loop functions - In intended order */
 

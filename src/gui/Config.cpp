@@ -1,4 +1,4 @@
-#include <gui/Config.hpp>
+#include <ucurses/gui/Config.hpp>
 
 namespace ucurses { 
  

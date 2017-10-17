@@ -1,36 +1,33 @@
-#include <gui/LibraryUI.hpp>
 #include <sstream>
 
-
-namespace ucurses { namespace LibraryUI {
+namespace ucurses { namespace ArrayUI {
 
 	template<typename T>
-	void Display(Window* win, const ctk::Library<T>& lib, coord2d pos)
+	void Display(Window* win, const ctk::Array<T>& lib, coord2d pos)
 	{
-        win->setTitle("Library Interface");
+        win->setTitle("Array Interface");
         
 		TextEntry* search = new TextEntry(pos.x, pos.y + 3, win);
         search->setSubject("Linear Search");
-        search->bindDefault();
         
-		Menu* list = new Menu(pos.x, pos.y + 4, win);
+		Menu* list = new Menu(pos.x, pos.y + 5, win);
         
-		for (auto element : lib->getData())
+		for (auto element : lib.getData())
             list->addItem(element.getName());
         
 		Label* display = new Label(pos.x + 30, pos.y, win);
         
-		win->addCommand('S', bind(Search, lib, search, display));
-        win->addCommand(10, bind( Select, lib, list, display));
+		win->addCommand('S', bind(Search<T>, lib, search, display));
+        win->addCommand(10, bind(Select<T>, lib, list, display));
         
-		win->addTip("s: Search Library"); 
+		win->addTip("S: Search Array"); 
         win->addTip("Enter: Display Selected");
 	}
 	
 	template<typename T>
-	void Search(const ctk::Library<T>& lib, TextEntry* search, Label* display)
+	void Search(const ctk::Array<T>& lib, TextEntry* search, Label* display)
 	{
-        const T* element = lib->Get(search->getText()); // Linear search for element
+        const T* element = lib.Get(search->getText()); // Linear search for element
         display->Clear();
 
         if (element != nullptr)
@@ -40,9 +37,9 @@ namespace ucurses { namespace LibraryUI {
 	}
 	
 	template<typename T>
-	void Select(const ctk::Library<T>& lib, Menu* select, Label* display)
+	void Select(const ctk::Array<T>& lib, Menu* select, Label* display)
 	{
-        const T* element = lib->Get(select->getSelectedItem());
+        const T* element = lib.Get(select->getSelectedItem());
 		display->Clear();
 
         if (element != nullptr)

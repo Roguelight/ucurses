@@ -4,7 +4,7 @@
 
 namespace ucurses { 
 
-	UCurses::UCurses() : running(true)
+	UCurses::UCurses() : running(true), help(false)
 	{
 		initscr();                      /* Start curses mode    */
 		Colors.Initialize();
@@ -34,6 +34,18 @@ namespace ucurses {
 		Clear();
 		Render();
 		running = true;
+	}
+
+	void UCurses::Run()
+	{
+		Start();
+		while( Okay() )
+		{
+			int key = getInput();
+        	handleInput(key);
+			Clear();
+			Render();
+		}	
 	}
 
 	UCurses::~UCurses()

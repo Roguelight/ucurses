@@ -2,6 +2,7 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/window/Window.hpp>
+#include <ucurses/window/Interface.hpp>
 #include <ucurses/app/UCurses.hpp>
 
 namespace ucurses {
@@ -9,7 +10,7 @@ namespace ucurses {
 	UCurses* Window::ucurses = nullptr;
 	ColorContainer* Window::colors = nullptr;
 
-	Window::Window(coord2d size, coord2d position) : color(0)
+	Window::Window(coord2d size, coord2d position) : color(0), interface(nullptr)
 	{
 		H_Window = newwin(size.y, size.x, position.y, position.x);
 		keypad(H_Window, TRUE);
@@ -18,16 +19,18 @@ namespace ucurses {
 		setDefaultColor(1);
 	}
 
-	Window::Window() : color(0)
+	Window::Window() : color(0), interface(nullptr)
 	{
 		H_Window = newwin(0,0,0,0);
 		keypad(H_Window, TRUE);
 		deletable = false;
 		setDelay(true);
+		setDefaultColor(1);
 	}
 
 	Window::~Window()
 	{
+		delete interface;
 		delwin(H_Window);
 	}
 

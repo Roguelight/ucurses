@@ -34,6 +34,7 @@ namespace ucurses {
 			/* Constructor */ 
 
 			Component(coord x, coord y, Window* host);		/* Perfoms storage. Memory management is handled by window */
+			Component(coord2d pos, Window* host);			/* Perfoms storage. Memory management is handled by window */
 
 			/* Commands */
 

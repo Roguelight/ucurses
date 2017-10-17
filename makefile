@@ -21,8 +21,8 @@ comma :=,
 
 MAIN := ucurses
 
-LIBRARIES := ctk ncurses boost Eigen
-LIBFILES := -lctk -lboost_system -lboost_filesystem
+LIBRARIES := ctk ncurses boost Eigen 
+LIBFILES := -lctk -lboost_system -lboost_filesystem 
 
 CXX := g++
 CXXFLAGS := -g -std=c++17 -O2 
@@ -102,18 +102,29 @@ endif
 
 ifeq ($(strip $(test)),)
 else
+	ifeq ($(strip $(branch)),)
+		SRC += src/$(test).c++
+	else
+		SRC := $(foreach b, $(BRANCHES), $(wildcard $(b)/*.cpp))
+		SRC += src/$(branch)/$(test).c++
+	endif
+
 	BUILDPATH :=$(BUILDPATH)/test
-	SRC += main/$(test).cpp
 	TARGETAPP :=$(test)
 endif
 
 #*****************  Release  **********************************************
-	
+
 ifeq ($(strip $(name)),)
 else
-	SRC += main/$(name).cpp
+	ifeq ($(strip $(branch)),)
+		SRC += src/$(name).c++
+	else
+		SRC := $(foreach b, $(BRANCHES), $(wildcard $(b)/*.cpp))
+		SRC += src/$(branch)/$(name).c++
+	endif
 	TARGETAPP := $(name)
-endif
+endif	
 
 #*****************  Build  *****************************************
 

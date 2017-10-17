@@ -28,6 +28,7 @@
 namespace ucurses { 
 
 	class UCurses;
+	class Interface;
 	class Window
 	{
 		friend class WindowContainer;
@@ -89,6 +90,7 @@ namespace ucurses {
 			coord2d   getMiddle()       const; 
 			WINDOW*   getHandle()  		const		{ return H_Window; }
 			string    getTitle()   		const		{ return title; } 
+
 		public:
 
 			/* Commands */
@@ -109,6 +111,12 @@ namespace ucurses {
 			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
 
 			void printCommands(); 
+
+		public:
+
+			Interface* interface;
+
+		protected:
 
 			/* Components */
 

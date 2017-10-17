@@ -13,6 +13,13 @@ namespace ucurses {
 		position.y = y;
 		H_Window->addComponent(this);
 	}
+	
+	Component::Component(coord2d pos, Window* host) : H_Window(host), position(pos)
+	{
+		highlightColor = 2;
+		color = H_Window->getColor();
+		H_Window->addComponent(this);
+	}
 
 	void Component::Update()
 	{

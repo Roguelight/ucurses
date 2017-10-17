@@ -7,6 +7,7 @@
 
 #pragma once
 #include <ucurses/component/Component.hpp>
+#include <functional>
 
 namespace ucurses { 
 
@@ -24,6 +25,8 @@ namespace ucurses {
 		protected:
 
 			virtual void Draw();
+			std::function<void()> onEnter;
+
 
 			string subject;
 			string input;
