@@ -6,7 +6,7 @@
 
 namespace ucurses {
 
-	TextEntry::TextEntry(coord x, coord y, Window* host) : Component(x, y, host)  
+	TextEntry::TextEntry(Window* host, coord x, coord y) : Component(x, y, host)  
 	{
 		setSize(20, 4);
 		input = "";

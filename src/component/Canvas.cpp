@@ -5,7 +5,7 @@
 
 namespace ucurses { 
 
-	Canvas::Canvas(coord x, coord y, Window* win) : Component(x, y, win), data(nullptr)
+	Canvas::Canvas(Window* win, coord x, coord y) : Component(win, x, y), data(nullptr)
 	{
 
 	}

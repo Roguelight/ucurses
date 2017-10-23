@@ -52,6 +52,7 @@ namespace ucurses {
 			Window* subWindow(coord2d size, coord2d pos);
 
 			void Clear(); 										/* Destroys all components and commands */
+			void ClearScreen();									/* Erases contents of screen */
 
 			/* Window Manipulation */
 
@@ -122,7 +123,6 @@ namespace ucurses {
 
 			ComponentArray Components;
 			void Update(); // Update components
-			void ClearScreen();
 			void printBorder();
 
 		public:

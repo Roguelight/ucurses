@@ -5,7 +5,7 @@
 
 namespace ucurses {
 
-	Menu::Menu(coord x, coord y, Window* host) : Component(x, y, host) 
+	Menu::Menu(Window* host, coord x, coord y) : Component(host, x, y) 
 	{
 		bindDefault();
 	}

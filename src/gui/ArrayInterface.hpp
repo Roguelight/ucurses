@@ -19,11 +19,19 @@ namespace ucurses {
 
 			virtual void Bind(Window* win);
 
+			void toggleFormat();
+			void Display();
+
+			void Select();
+
 		protected:
 
 			Menu* actions;
+			enum _actions { DISPLAY = 0, ADD };
 			Label* header;
+			Label* obj_display;
 			ctk::Array<T>& arr;
+			ctk::Format format;
 
 	};
 }

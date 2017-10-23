@@ -14,7 +14,7 @@ namespace ucurses {
 	{
 		public:
 
-			Slider(coord x, coord y, Window* host);
+			Slider(Window* host, coord x = 0, coord y = 0);
 
 			void bindDefault();
 

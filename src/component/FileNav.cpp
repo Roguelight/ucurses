@@ -2,7 +2,7 @@
 
 namespace ucurses { 
 
-	FileNav::FileNav(coord x, coord y, Window* host) : FileMenu(x, y , host)
+	FileNav::FileNav(Window* host, coord x, coord y) : FileMenu(x, y , host)
 	{
 
 	}

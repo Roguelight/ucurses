@@ -5,7 +5,7 @@
 
 namespace ucurses {
 
-	SliderMenu::SliderMenu(coord x, coord y, Window* host) : Component(x, y, host) 
+	SliderMenu::SliderMenu(Window* host, coord x, coord y) : Component(host, x, y) 
 	{
 		bindDefault();
 	}

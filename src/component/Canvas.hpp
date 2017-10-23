@@ -18,7 +18,7 @@ namespace ucurses {
 	{
 		public:
 
-			Canvas(coord x, coord y, Window* win);
+			Canvas(Window* win, coord x = 0, coord y = 0);
 
 			const ArrayXc* data;
 

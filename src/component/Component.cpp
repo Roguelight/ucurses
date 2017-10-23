@@ -5,7 +5,7 @@
 
 namespace ucurses { 
 
-	Component::Component(coord x, coord y, Window* host) : H_Window(host)
+	Component::Component(Window* host, coord x, coord y) : H_Window(host)
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();
@@ -14,7 +14,7 @@ namespace ucurses {
 		H_Window->addComponent(this);
 	}
 	
-	Component::Component(coord2d pos, Window* host) : H_Window(host), position(pos)
+	Component::Component(Window* host, coord2d pos) : H_Window(host), position(pos)
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();

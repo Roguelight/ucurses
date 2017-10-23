@@ -3,7 +3,7 @@
 
 namespace ucurses { 
 
-	Slider::Slider(coord x, coord y, Window* host) : Component(x, y, host)
+	Slider::Slider(Window* host, coord x, coord y) : Component(host, x, y)
 	{
 		setHighlight(1);
 		bindDefault();

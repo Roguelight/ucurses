@@ -7,13 +7,13 @@ using namespace ctk::log;
 
 namespace ucurses { 
 
-	FileMenu::FileMenu(coord x, coord y, Window* host) : Menu(x, y, host)
+	FileMenu::FileMenu(Window* host, coord x, coord y) : Menu(host, x, y)
 	{
 		setDirectory(boost::filesystem::current_path().string());
 		last = directory;
 	}
 
-	void FileMenu::setDirectory(string inString)
+	void FileMenu::setDirectory(const std::string& inString)
 	{
 		last = directory;
 		directory = inString;
