@@ -21,7 +21,7 @@ namespace ucurses {
 
 		public:
 
-			SliderMenu(coord x, coord y, Window* host);
+			SliderMenu(Window* host, coord x = 0, coord y = 0);
 
 			virtual void bindDefault();
 

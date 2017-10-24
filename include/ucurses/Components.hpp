@@ -6,3 +6,4 @@
 #include <ucurses/component/Canvas.hpp>
 #include <ucurses/component/Slider.hpp>
 #include <ucurses/component/SliderMenu.hpp>
+#include <ucurses/component/ScrollableMenu.hpp>

@@ -31,10 +31,17 @@ namespace ucurses {
 
 		public:
 
-			/* Constructor */ 
+			/* Constructors */ 
 
-			Component(coord x, coord y, Window* host);		/* Perfoms storage. Memory management is handled by window */
-			Component(coord2d pos, Window* host);			/* Perfoms storage. Memory management is handled by window */
+			/*
+			 * Components cannot be constructed without handle to parent window
+			 * This is because windows are responsible for cleaning up dynamically allocated
+			 * gui components.
+			 */
+
+			Component(Window* host, coord x = 0, coord y = 0);		
+			Component(Window* host, coord2d pos = {0,0});			
+			Component(Window* host);						
 
 			/* Commands */
 

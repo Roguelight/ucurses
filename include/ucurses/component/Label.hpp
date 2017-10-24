@@ -18,7 +18,7 @@ namespace ucurses {
 	{
 		public:
 
-			Label(coord x, coord y, Window* host);
+			Label(Window* host, coord x = 0, coord y = 0);
 
 			/* Safe sets ;) */ 
 

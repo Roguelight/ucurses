@@ -18,10 +18,12 @@ namespace ucurses {
 	{
 		public:
 
-			Menu(coord x, coord y, Window* host);
+			Menu(Window* host, coord x = 0, coord y = 0);
 
 			virtual void bindDefault();
 			void showHelp();
+
+			std::function<void()> Refresh();
 
 		protected:
 

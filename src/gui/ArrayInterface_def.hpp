@@ -11,11 +11,11 @@ namespace ucurses {
 	{
 		Interface::Bind(win);
 		win->setTitle("Array Interface");
-        actions = new Menu(pos.x + 2, pos.y + 6, win);
+        actions = new Menu(win, pos.x + 2, pos.y + 6);
 		actions->addItem("Display");
 		actions->addItem("Add");
 		actions->addItem("Inspect");
-		header = new Label(pos.x + 2, pos.y + 4, win);
+		header = new Label(win, pos.x + 2, pos.y + 4);
 		header->setText("Array Size: " + to_string(arr.getSize()));
 		obj_display = new Label(pos.x + 16, pos.y + 4, win);
         

@@ -12,9 +12,9 @@ namespace ucurses {
 	{
 		public:
 
-			FileMenu(coord x, coord y, Window* host);
+			FileMenu(Window* host, coord x = 0, coord y = 0);
 
-			void setDirectory(string inString);
+			void setDirectory(const std::string& inString);
 
 		protected:
 

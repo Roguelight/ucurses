@@ -15,6 +15,7 @@ namespace ucurses {
 			Interface() = default;
 
 			virtual void Bind(Window* win);
+			void setPosition(coord x, coord y);
 
 
 		protected:

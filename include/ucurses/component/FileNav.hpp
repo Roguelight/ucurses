@@ -12,7 +12,7 @@ namespace ucurses {
 	{
 		public:
 
-			FileNav(coord x, coord y, Window* host);
+			FileNav(Window* host, coord x = 0, coord y = 0);
 
 			virtual void bindDefault();
 

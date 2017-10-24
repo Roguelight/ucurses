@@ -15,7 +15,7 @@ namespace ucurses {
 	{
 		public:
 
-			TextEntry(coord x, coord y, Window* host); 
+			TextEntry(Window* host, coord x = 0, coord y = 0); 
 
 			void bindDefault();
 			void setSubject(string inString);

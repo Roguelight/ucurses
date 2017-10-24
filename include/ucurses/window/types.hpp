@@ -16,7 +16,8 @@ namespace ucurses {
 	/*
 	 * Ncurses always passes the y coord in first
 	 * This wrapper will reverse this so x can be passed first
-	 */ struct coord2d
+	 */ 
+	struct coord2d
 	{
 		short y;
 		short x;
