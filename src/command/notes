@@ -1,0 +1,21 @@
+These notes aim to cover many of the different possible implementations of
+an input system for gui applications.
+
+First off, a virtual Process() method for each widget or 'Component'. This will allow
+components to perform something dependant on the key received from a window.
+
+Something like this:
+
+	virtual void Process(int input)
+	{
+		switch (input)
+		{
+			case ENTER:
+			// Do something
+			break;
+			case ...
+		}
+	}
+
+Secondly, we can store a bunch of function pointers in an array, then iterate over
+and call each function based on an input.

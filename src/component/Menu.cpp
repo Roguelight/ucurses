@@ -5,15 +5,28 @@
 
 namespace ucurses {
 
-	Menu::Menu(Window* host, coord x, coord y) : Component(host, x, y) 
+	Menu::Menu(Window* host, coord x, coord y) : Component(host, x, y)
 	{
-		bindDefault();
+		//bindDefault();
 	}
 
 	void Menu::bindDefault()
 	{
 		addCommand('j', bind( &Menu::selectNext, this));                   // Move down menu 
 		addCommand('k', bind( &Menu::selectPrevious, this));               // Move up Menu 
+	}
+
+	void Menu::Process(int input)
+	{
+		switch (input)
+		{
+			case 'j':
+				selectNext();
+				break;
+			case 'k':
+				selectPrevious();
+				break;
+		}
 	}
 
 	void Menu::showHelp()
@@ -36,4 +49,37 @@ namespace ucurses {
 			highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
 		}
 	}
+
+	void Menu::setRefresh(std::function<void()> func)
+	{
+		onRefresh = func;
+	}
+		
+	void Menu::selectNext()
+	{
+		menu_template<std::string>::selectNext();
+		if (onRefresh)
+			onRefresh();
+	}
+			
+	void Menu::selectPrevious()
+	{
+		menu_template<std::string>::selectPrevious();
+		if (onRefresh)
+			onRefresh();
+	}
+/*
+	void Menu::addItem(const std::string& label)
+	{
+		menu_template<std::string>::addItem(label);
+		short xsize;
+
+		if (label.length() > size.x)
+			xsize = label.length();
+		else
+			xsize = size.x;
+
+		setSize(xsize, items.size());
+	}
+*/
 }

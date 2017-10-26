@@ -25,6 +25,8 @@ namespace ucurses {
 			const int getSize() const;
 			const int getCapacity() const; 
 
+			void Process(int input);
+
 		protected:
 
 			std::vector<Component*> M_Components;

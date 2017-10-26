@@ -17,10 +17,10 @@ namespace ucurses {
 			Slider(Window* host, coord x = 0, coord y = 0);
 
 			void bindDefault();
-
-        protected:	
-            
             virtual void Draw();
+			virtual void Process(int input);
+
+            
 	};
 
 }

@@ -95,6 +95,11 @@ namespace ucurses {
 		size.y = y;
 	}
 
+	coord2d Component::getSize()
+	{
+		return size;
+	}
+
 	void Component::setSize(coord2d size)
 	{
 		this->size = size;

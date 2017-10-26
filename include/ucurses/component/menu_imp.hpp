@@ -24,10 +24,10 @@ namespace ucurses {
 		}
 
 	template <typename T>
-		T& menu_template<T>::addItem(const std::string& label)
+		T& menu_template<T>::addItem(const T& item)
 		{
 			selection = 0;
-			items.emplace_back(label);
+			items.push_back(item);
 			return items.back();
 		}
 

@@ -5,7 +5,7 @@
 
 #pragma once
 #include <ucurses/component/Component.hpp>
-#include <ucurses/component/menu_template.hpp>
+#include <ucurses/component/Menu.hpp>
 
 namespace ucurses { 
 			
@@ -21,7 +21,7 @@ namespace ucurses {
 
 			virtual void Draw();
 
-			unsigned int range = 5;
+			int range = 5;
 			/* 
 			 * short selection; (inherited)
 			 * calculate item range from numShown and selection

@@ -289,5 +289,4 @@ namespace ucurses {
 	{
 		mvwin(H_Window, y, x);
 	}
-
 }

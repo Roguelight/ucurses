@@ -12,16 +12,7 @@ namespace ucurses {
 	{
 		Window* main = gui.createWindow(); // Create Full-screen window
 		ucurses::mainScreen(main);
-		//main->setDelay
-		gui.Start();
-
-		while( gui.Okay() )
-		{
-			int key = gui.getInput();
-			gui.Clear();
-			gui.handleInput(key);
-			gui.Render();
-		}
+		gui.Run();	
 	}
 
 	void mainScreen(Window* target)
@@ -30,10 +21,10 @@ namespace ucurses {
 
 		short x = target->getMiddle().x - 10;
 
-		Label* Title = new Label(x, 10, target);
+		Label* Title = new Label(target, x, 10);
 		Title->setText("Zombie Dogs and Lava Frogs");
 
-		Menu* H_ModeSelect = new Menu(x, 20, target);
+		Menu* H_ModeSelect = new Menu(target, x, 20);
 		H_ModeSelect->addItem("New Game");
 		H_ModeSelect->addItem("Load Game");
 	}

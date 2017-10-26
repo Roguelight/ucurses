@@ -29,6 +29,12 @@ namespace ucurses {
 		for (auto& component : M_Components)
 			component->Update();
 	}
+	
+	void ComponentArray::Process(int input)
+	{
+		for (auto& component : M_Components)
+			component->Process(input);
+	}
 
 	void ComponentArray::RemoveAll()
 	{

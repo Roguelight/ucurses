@@ -23,11 +23,17 @@ namespace ucurses {
 			virtual void bindDefault();
 			void showHelp();
 
-			std::function<void()> Refresh();
+			std::function<void()> onRefresh;
+			void setRefresh(std::function<void()> func);
+
+			void selectNext();
+			void selectPrevious();
 
 		protected:
 
 			virtual void Draw();
+			virtual void Process(int input);
+
 
 	};
 

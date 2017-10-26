@@ -7,7 +7,7 @@ namespace ucurses {
 
 	SliderMenu::SliderMenu(Window* host, coord x, coord y) : Component(host, x, y) 
 	{
-		bindDefault();
+		//bindDefault();
 	}
 
 	void SliderMenu::bindDefault()
@@ -16,6 +16,25 @@ namespace ucurses {
 		addCommand('k', bind( &SliderMenu::selectPrevious, this));               // Move up Menu 
 		addCommand('l', bind( &SliderMenu::incrementActive, this));
 		addCommand('h', bind( &SliderMenu::decrementActive, this));
+	}
+
+	void SliderMenu::Process(int input)
+	{
+		switch (input)
+		{
+			case 'j':
+				selectNext();
+				break;
+			case 'k':
+				selectPrevious();
+				break;
+			case 'l':
+				incrementActive();
+				break;
+			case 'h':
+				decrementActive();
+				break;
+		}
 	}
 
 	void SliderMenu::incrementActive()

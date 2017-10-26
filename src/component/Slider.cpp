@@ -6,7 +6,7 @@ namespace ucurses {
 	Slider::Slider(Window* host, coord x, coord y) : Component(host, x, y)
 	{
 		setHighlight(1);
-		bindDefault();
+		//bindDefault();
 	}
 
 	void Slider::bindDefault()
@@ -14,6 +14,20 @@ namespace ucurses {
 		addCommand('l', bind( &Slider::increment, this));
 		addCommand('h', bind( &Slider::decrement, this));
 	}
+	
+	void Slider::Process(int input)
+	{
+		switch (input)
+		{
+			case 'l':
+				increment();
+				break;
+			case 'h':
+				decrement();
+				break;
+		}
+	}
+
 
 	void Slider::Draw()
 	{

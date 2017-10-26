@@ -9,7 +9,7 @@ namespace ucurses {
 		win->Clear();
 		coord2d mid = win->getMiddle();
 
-		SliderMenu* menu = new SliderMenu(mid.x - 10, mid.y, win);
+		SliderMenu* menu = new SliderMenu(win, mid.x - 10, mid.y);
 
 		basic_slider& fore = menu->addItem("Foreground Color");
 		basic_slider& back = menu->addItem("Background Color");

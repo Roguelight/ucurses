@@ -19,7 +19,7 @@ namespace ucurses {
 
 			virtual void Bind(Window* win);
 
-			void toggleFormat();
+			void refreshFormat();
 			void Display();
 
 			void Select();
@@ -27,6 +27,7 @@ namespace ucurses {
 		protected:
 
 			Menu* actions;
+			HorizontalMenu* format_select;
 			enum _actions { DISPLAY = 0, ADD };
 			Label* header;
 			Label* obj_display;

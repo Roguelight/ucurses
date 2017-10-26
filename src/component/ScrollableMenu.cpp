@@ -3,9 +3,9 @@
 
 namespace ucurses {
 
-	ScrollableMenu::ScrollableMenu(Window* host, coord x, coord y)
+	ScrollableMenu::ScrollableMenu(Window* host, coord x, coord y) : Menu(host, x, y)
 	{
-	
+
 	}
 
     /*
@@ -13,6 +13,8 @@ namespace ucurses {
      */
     void ScrollableMenu::Draw()
     {
+		std::fstream f("scrollmenu.log", std::ios_base::out);
+		f << "Selection: " << selection << " Range: " << selection - range << " " << selection + range << std::endl;
         for (int i = selection - range; i < selection + range; ++i)
         {
             if (i < 0) i = 0;
@@ -26,7 +28,9 @@ namespace ucurses {
         if (selection != NOSELECT)
 		{
 			int size = getSelectedItem().length();
-			highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
+			int select = selection;
+			ctk::cap(select, range);
+			highlightWord(coord2d(0, select), size, highlightColor, A_BOLD);
 		}
     }
 

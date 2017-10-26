@@ -27,7 +27,7 @@ namespace ucurses {
 			void removeAll();
 			void removeSelectedItem();
 
-			T& addItem(const std::string& label);
+			T& addItem(const T& item);
 
 			const std::vector<T>& getItems() const;
 			std::vector<T>& getItems();

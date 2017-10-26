@@ -7,3 +7,4 @@
 #include <ucurses/component/Slider.hpp>
 #include <ucurses/component/SliderMenu.hpp>
 #include <ucurses/component/ScrollableMenu.hpp>
+#include <ucurses/component/HorizontalMenu.hpp>

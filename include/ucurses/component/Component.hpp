@@ -53,6 +53,7 @@ namespace ucurses {
 
 			void setSize(coord x, coord y);
 			void setSize(coord2d size);
+			coord2d getSize();
 			void setPosition(coord x, coord y);				/* Set window cursor relative to component position */
 
 			/* Attributes */
@@ -89,7 +90,8 @@ namespace ucurses {
 
 			void Update();
 			virtual void Draw() = 0;						/* Called in Update() to render component to window */
-			virtual void bindDefault() {}					/* Children can construct their own bindings or using default */
+			virtual void bindDefault() 	{}					/* Children can construct their own bindings or using default */
+			virtual void Process(int input) 		{}
 
 			coord2d position;
 			coord2d size;

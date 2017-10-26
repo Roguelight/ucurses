@@ -8,7 +8,7 @@
 #pragma once
 #include <ucurses/component/Component.hpp>
 #include <ucurses/component/menu_template.hpp>
-#include <ucurses/component/basic_slider.hpp>
+#include <ucurses/component/Slider.hpp>
 #include <vector>
 
 namespace ucurses { 
@@ -23,7 +23,6 @@ namespace ucurses {
 
 			SliderMenu(Window* host, coord x = 0, coord y = 0);
 
-			virtual void bindDefault();
 
 			void showHelp();
 
@@ -32,6 +31,9 @@ namespace ucurses {
 			virtual void Draw();
 			void incrementActive();
 			void decrementActive();
+			
+			virtual void bindDefault();
+			virtual void Process(int input);
 
 	};
 

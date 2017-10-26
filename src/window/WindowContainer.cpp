@@ -120,6 +120,7 @@ namespace ucurses {
 		if (active != NOACTIVE)
 		{
 			M_Windows[active].Commands.Process(input);
+			M_Windows[active].Components.Process(input);
 			M_Windows[active].callback_stack.Process(input);
 		}
 	}

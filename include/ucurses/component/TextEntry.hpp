@@ -17,14 +17,16 @@ namespace ucurses {
 
 			TextEntry(Window* host, coord x = 0, coord y = 0); 
 
-			void bindDefault();
 			void setSubject(string inString);
 			string& getText();
 			void setText(const std::string& inString);
+			void setOnEnter(std::function<void()> func);
 
 		protected:
 
 			virtual void Draw();
+			void bindDefault();
+			virtual void Process(int input);
 			std::function<void()> onEnter;
 
 

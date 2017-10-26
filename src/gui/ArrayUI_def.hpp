@@ -7,15 +7,15 @@ namespace ucurses { namespace ArrayUI {
 	{
         win->setTitle("Array Interface");
         
-		TextEntry* search = new TextEntry(pos.x, pos.y + 3, win);
+		TextEntry* search = new TextEntry(win, pos.x, pos.y + 3);
         search->setSubject("Linear Search");
         
-		Menu* list = new Menu(pos.x, pos.y + 5, win);
+		Menu* list = new Menu(win, pos.x, pos.y + 5);
         
 		for (auto element : lib.getData())
             list->addItem(element.getName());
         
-		Label* display = new Label(pos.x + 30, pos.y, win);
+		Label* display = new Label(win, pos.x + 30, pos.y);
         
 		win->addCommand('S', bind(Search<T>, lib, search, display));
         win->addCommand(10, bind(Select<T>, lib, list, display));

@@ -6,18 +6,25 @@
 
 namespace ucurses {
 
-	TextEntry::TextEntry(Window* host, coord x, coord y) : Component(x, y, host)  
+	TextEntry::TextEntry(Window* host, coord x, coord y) : Component(host, x, y)  
 	{
 		setSize(20, 4);
 		input = "";
 		subject = "Text";
-		bindDefault();
+		//bindDefault();
+		onEnter = nullptr;
 	}
 
 	void TextEntry::bindDefault()
 	{
 		addCommand('e', std::bind( &TextEntry::getInput, this));
 		addTip("e: Input " + subject);
+	}
+
+	void TextEntry::Process(int input)
+	{
+		if (input == 'e')
+			getInput();
 	}
 
 	string& TextEntry::getText()
@@ -53,10 +60,17 @@ namespace ucurses {
 		attributeOff(A_BOLD);
 		noecho();
 		input = in;
+		if (onEnter)
+			onEnter();
 	}
 
 	void TextEntry::setSubject(string inString)
 	{
 		subject = inString;
+	}
+			
+	void TextEntry::setOnEnter(std::function<void()> func)
+	{
+		onEnter = func;
 	}
 }

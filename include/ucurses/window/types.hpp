@@ -24,9 +24,29 @@ namespace ucurses {
 		coord2d(short inX, short inY) : x(inX), y(inY)  {}
 		coord2d(const coord2d& src) : x(src.x), y(src.y)  {}
 		coord2d() : x(0), y(0)  {}
-		coord2d operator-(coord2d other) { return coord2d(x - other.x, y - other.y); }
-		coord2d operator+(coord2d other) { return coord2d(x + other.x, y + other.y); }
+
+		coord2d& operator+=(const coord2d rhs) 
+		{ 
+			this->x += rhs.x;
+			this->y += rhs.y;
+		}
+		coord2d& operator-=(const coord2d rhs) 
+		{ 
+			this->x -= rhs.x;
+			this->y -= rhs.y;
+		}
 	};
+		
+	inline coord2d operator-(coord2d lhs, coord2d rhs) 
+	{ 
+		lhs -= rhs;
+		return lhs;
+	}
+	inline coord2d operator+(coord2d lhs, coord2d rhs) 
+	{ 
+		lhs += rhs;
+		return lhs;
+	}
 
 
 }

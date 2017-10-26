@@ -1,5 +1,6 @@
 #include <ucurses/component/Label.hpp>
 #include <ctk/std/string.hpp>
+#include <algorithm>
 
 namespace ucurses { 
 
@@ -28,6 +29,8 @@ namespace ucurses {
 	void Label::setText(const std::string& inText)
 	{
 		text = inText;
+		size_t n = std::count(text.begin(), text.end(), '\n');
+		setSize(0, n);
 	}
 
 	/* 
