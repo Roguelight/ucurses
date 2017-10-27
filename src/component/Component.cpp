@@ -49,11 +49,13 @@ namespace ucurses {
 		H_Window->moveCursor(x, y);
 	}
 
+	// Sets position relative of components
 	void Component::setCursor(coord x, coord y)
 	{
 		H_Window->setCursor(position.x + x, position.y + y);
 	}
 
+	// Sets cursor to component position
 	void Component::setCursor()
 	{
 		H_Window->setCursor(position.x, position.y);
@@ -103,6 +105,25 @@ namespace ucurses {
 	void Component::setSize(coord2d size)
 	{
 		this->size = size;
+	}
+
+	void Component::setPosition(coord x, coord y)
+	{
+		position.x = x;
+		position.y = y;
+	}
+	
+	void Component::setPosition(float x, float y)
+	{
+		short xpos = H_Window->getSize().x * x;
+		short ypos = H_Window->getSize().y * y;
+
+		// Approximate position of components centre
+		ypos -+ (size.y / 2);
+		xpos -+ (size.x / 2);
+
+		position.x = xpos;
+		position.y = ypos;
 	}
 
 	coord2d Component::getPosition() const

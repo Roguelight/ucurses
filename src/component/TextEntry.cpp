@@ -8,7 +8,7 @@ namespace ucurses {
 
 	TextEntry::TextEntry(Window* host, coord x, coord y) : Component(host, x, y)  
 	{
-		setSize(20, 4);
+		setSize(20, 1);
 		input = "";
 		subject = "Text";
 		//bindDefault();

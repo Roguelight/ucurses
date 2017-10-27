@@ -53,8 +53,10 @@ namespace ucurses {
 
 			void setSize(coord x, coord y);
 			void setSize(coord2d size);
+			void setPosition(coord x, coord y);
+			void setPosition(float x, float y);				/* Sets x and y based on percentage of window size */
+			
 			coord2d getSize();
-			void setPosition(coord x, coord y);				/* Set window cursor relative to component position */
 
 			/* Attributes */
 
