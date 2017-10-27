@@ -21,6 +21,8 @@ namespace ucurses {
 			string& getText();
 			void setText(const std::string& inString);
 			void setOnEnter(std::function<void()> func);
+			
+            void getInput(); // *->E
 
 		protected:
 
@@ -35,7 +37,6 @@ namespace ucurses {
 
 			// Commands
 
-			void getInput(); // *->E
 
 	};
 

@@ -23,8 +23,10 @@ namespace ucurses {
 
 	void TextEntry::Process(int input)
 	{
+        /*
 		if (input == 'e')
 			getInput();
+            */
 	}
 
 	string& TextEntry::getText()
