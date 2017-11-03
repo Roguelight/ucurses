@@ -6,7 +6,6 @@
 #pragma once
 #include <ctk/storage/Array.hpp>
 #include <ucurses/window/Window.hpp>
-#include <ucurses/window/Interface.hpp>
 
 namespace ucurses {
 

@@ -46,6 +46,8 @@ namespace ucurses {
 
 	void TextEntry::getInput()
 	{
+        input.clear();
+
 		attributeOn(A_BOLD);
         setCursor();
 		Draw();

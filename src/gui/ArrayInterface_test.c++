@@ -14,8 +14,8 @@ int main()
 
 	arr.Load("./array", Format::BINARY);
 
-	ArrayInterface<material_data>* interface = new ArrayInterface<material_data>(arr);
-	interface->Bind(mainwindow);
+	ArrayInterface<material_data> interface(arr);
+	interface.Bind(mainwindow);
 
 	gui.Run();	
 }

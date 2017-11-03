@@ -28,7 +28,6 @@
 namespace ucurses { 
 
 	class UCurses;
-	class Interface;
 	class Window
 	{
 		friend class WindowContainer;
@@ -112,10 +111,6 @@ namespace ucurses {
 			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
 
 			void printCommands(); 
-
-		public:
-
-			Interface* interface;
 
 		protected:
 

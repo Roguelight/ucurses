@@ -1,39 +1,13 @@
-/*
- *
- *
- */
-
 #pragma once
-#include <ucurses/window/Window.hpp>
+#include <ucurses/ucurses.hpp>
 
 namespace ucurses {
 
-	class Interface
-	{
-		public:
+    class Interface
+    {
+        protected:
 
-			Interface() = default;
-
-			virtual void Bind(Window* win);
-			void setPosition(coord x, coord y);
-
-
-		protected:
-
-			Window* win;
-			coord2d pos = coord2d(2,2);
-	};
-
+            coord2d pos;
+            Window* target;
+    };
 }
-
-/*
- * class MainMenu : public Interface
- * {
- *
- * };
- *
- * window->bindInterface(new MainMenu());
- * or
- * mainMenu->Bind(window);
- *
- */

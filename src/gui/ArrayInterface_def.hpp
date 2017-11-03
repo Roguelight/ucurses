@@ -9,7 +9,6 @@ namespace ucurses {
 	template <typename T>
 	void ArrayInterface<T>::Bind(Window* win)
 	{
-		Interface::Bind(win);
 		win->setTitle("Array Interface");
         actions = new Menu(win, pos.x + 2, pos.y + 6);
 
