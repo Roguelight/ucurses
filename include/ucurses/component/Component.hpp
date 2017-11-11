@@ -41,7 +41,6 @@ namespace ucurses {
 
 			Component(Window* host, coord x = 0, coord y = 0);		
 			Component(Window* host, coord2d pos = {0,0});			
-			Component(Window* host);						
 
 			/* Commands */
 
@@ -53,8 +52,9 @@ namespace ucurses {
 
 			void setSize(coord x, coord y);
 			void setSize(coord2d size);
-			void setPosition(coord x, coord y);
+			void setPosition(short x, short y);
 			void setPosition(float x, float y);				/* Sets x and y based on percentage of window size */
+			void move(coord x, coord y);
 			
 			coord2d getSize();
 
@@ -84,11 +84,15 @@ namespace ucurses {
 			void print(char c);
 			void print(char* c);
 
+		public:
+
 			/* Getters */
 
 			coord2d  getMiddle() 	const; 
 			coord2d  getCursor()  	const;
 			coord2d  getPosition()  const;
+
+		protected:
 
 			void Update();
 			virtual void Draw() = 0;						/* Called in Update() to render component to window */

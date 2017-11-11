@@ -1,15 +1,17 @@
 #include <ucurses/gui/Config.hpp>
+#include <ucurses/ucurses.hpp>
 
 namespace ucurses { 
  
 	std::string Config::config = ".resources/config/color_scheme.conf";
 
-	void Config::Display(Window* win)
+	void Config::Initialize()
 	{
-		win->Clear();
-		coord2d mid = win->getMiddle();
+		target->Clear();
+		coord2d mid = target->getMiddle();
 
-		SliderMenu* menu = new SliderMenu(win, mid.x - 10, mid.y);
+		menu = new SliderMenu(target);
+		menu->setPosition(0.5f, 0.5f);
 
 		basic_slider& fore = menu->addItem("Foreground Color");
 		basic_slider& back = menu->addItem("Background Color");
@@ -19,35 +21,35 @@ namespace ucurses {
 		primary.setLimit(250.f);
 		back.setLimit(250.f);
 
-		if (!LoadSliders(menu))
+		if (!LoadSliders())
 		{
 			primary.setValue(4.f);
 			fore.setValue(5.f);
 		}
 
-		win->addCommand('l', bind( &Config::RefreshUI, win, menu));
-		win->addCommand('h', bind( &Config::RefreshUI, win, menu));
-        win->addCommand(10, bind( &Config::Escape, win, menu));
-		win->addTip("Enter: Confirm");
+		target->addCommand('l', bind( &Config::RefreshUI, this));
+		target->addCommand('h', bind( &Config::RefreshUI, this));
+        target->addCommand(10, bind( &Config::Escape, this));
+		target->addTip("Enter: Confirm");
 	}
 
-	void Config::Escape(Window* win, SliderMenu* menu)
+	void Config::Escape()
 	{
-		Save(menu);
-		win->Escape();
+		Save();
+		target->Escape();
 	}
 
-	void Config::RefreshUI(Window* win, SliderMenu* menu)
+	void Config::RefreshUI()
 	{
 		short fore = static_cast<short>(menu->getItem(0).getValue());
 		short back = static_cast<short>(menu->getItem(1).getValue());
 		short primary = static_cast<short>(menu->getItem(2).getValue());
-		init_pair(win->getColor(), fore, back);
+		init_pair(target->getColor(), fore, back);
 		init_pair(2, primary, back);
 		
 	}
 			
-	void Config::Save(SliderMenu* menu)
+	void Config::Save()
 	{
 		ofstream file(config, ios_base::out);
 
@@ -55,7 +57,7 @@ namespace ucurses {
 			file << slider.getValue() << std::endl;
 	}
 
-	bool Config::LoadSliders(SliderMenu* menu)
+	bool Config::LoadSliders()
 	{
 		ifstream file(config, ios_base::in);
 	

@@ -4,23 +4,29 @@
  */
 
 #pragma once
-#include <ucurses/ucurses.hpp>
+#include <ucurses/window/Interface.hpp>
 
 namespace ucurses { 
 
-	class Config
+	class SliderMenu;
+	class Config : public Interface
 	{
 		public:
 
-			static void Display(Window* win);
-			static void RefreshUI(Window* win, SliderMenu* menu);
-			static void Escape(Window* win, SliderMenu* menu);
+			void RefreshUI();
+			void Escape();
 
-			static void Save(SliderMenu* menu);
-			static bool LoadSliders(SliderMenu* menu);
+			void Save();
+			bool LoadSliders();
 			static void Load();
 		
 			static std::string config;
+
+		protected:
+			
+			virtual void Initialize();
+
+			SliderMenu* menu;
 	};
 
 }

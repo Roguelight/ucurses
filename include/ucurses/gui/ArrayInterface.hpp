@@ -5,7 +5,7 @@
 
 #pragma once
 #include <ctk/storage/Array.hpp>
-#include <ucurses/window/Window.hpp>
+#include <ucurses/window/Interface.hpp>
 
 namespace ucurses {
 
@@ -16,7 +16,6 @@ namespace ucurses {
 
 			ArrayInterface(ctk::Array<T>& arr);
 
-			virtual void Bind(Window* win);
 
 			void refreshFormat();
 			void Display();
@@ -24,6 +23,8 @@ namespace ucurses {
 			void Select();
 
 		protected:
+			
+			virtual void Initialize();
 
 			Menu* actions;
 			HorizontalMenu* format_select;

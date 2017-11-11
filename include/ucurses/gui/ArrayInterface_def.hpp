@@ -1,3 +1,5 @@
+#include <ucurses/gui/ArrayInterface.hpp>
+
 namespace ucurses {
 
 	template <typename T>
@@ -7,12 +9,12 @@ namespace ucurses {
 	}
 
 	template <typename T>
-	void ArrayInterface<T>::Bind(Window* win)
+	void ArrayInterface<T>::Initialize()
 	{
-		win->setTitle("Array Interface");
-        actions = new Menu(win, pos.x + 2, pos.y + 6);
+		target->setTitle("Array Interface");
+        actions = new Menu(target, pos.x + 2, pos.y + 6);
 
-        format_select = new HorizontalMenu(win, pos.x + 2, pos.y + 9);
+        format_select = new HorizontalMenu(target, pos.x + 2, pos.y + 9);
 		format_select->addItem("Binary");
 		format_select->addItem("Dump");
 		format_select->addItem("Form");
@@ -21,12 +23,12 @@ namespace ucurses {
 		actions->addItem("Add");
 		actions->addItem("Inspect");
 
-		header = new Label(win, pos.x + 2, pos.y + 4);
+		header = new Label(target, pos.x + 2, pos.y + 4);
 		header->setText("Array Size: " + to_string(arr.getSize()));
 
-		obj_display = new Label(win, pos.x + 24, pos.y + 4);
+		obj_display = new Label(target, pos.x + 24, pos.y + 4);
         
-		win->addCommand(10, bind(&ArrayInterface::Select, this));
+		target->addCommand(10, bind(&ArrayInterface::Select, this));
 	}
 
 	template <typename T>

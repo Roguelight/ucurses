@@ -24,7 +24,6 @@ namespace ucurses {
 		init_pair(1, COLOR_WHITE, COLOR_BLACK);
 		init_pair(2, COLOR_CYAN, COLOR_BLACK);
 		Config::Load();
-
 	}
 
 	short ColorContainer::Add(short foreground, short background)

@@ -5,12 +5,10 @@
 
 namespace ucurses { 
 
-	Component::Component(Window* host, coord x, coord y) : H_Window(host)
+	Component::Component(Window* host, coord x, coord y) : H_Window(host), position(x, y)
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();
-		position.x = x;
-		position.y = y;
 		H_Window->addComponent(this);
 	}
 	
@@ -107,10 +105,17 @@ namespace ucurses {
 		this->size = size;
 	}
 
-	void Component::setPosition(coord x, coord y)
+	void Component::setPosition(short x, short y)
 	{
 		position.x = x;
 		position.y = y;
+	}
+		
+	// Relative positioning
+	void Component::move(coord x, coord y)
+	{
+		position.x += x;
+		position.y += y;
 	}
 	
 	void Component::setPosition(float x, float y)
