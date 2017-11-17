@@ -28,6 +28,7 @@ namespace ucurses {
 			void appendLine(const std::string& inText = "");
 
 			const std::string& getText() const;
+			std::string& getText();
 
 			void loadFromFile(const std::string& filename);
 

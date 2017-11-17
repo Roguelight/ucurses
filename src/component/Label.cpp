@@ -52,6 +52,11 @@ namespace ucurses {
 	{
 		return text;
 	}
+	
+	std::string& Label::getText() 
+	{
+		return text;
+	}
 
 	void Label::Clear()
 	{

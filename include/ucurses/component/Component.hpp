@@ -52,7 +52,7 @@ namespace ucurses {
 
 			void setSize(coord x, coord y);
 			void setSize(coord2d size);
-			void setPosition(short x, short y);
+			void setPosition(coord x, coord y);
 			void setPosition(float x, float y);				/* Sets x and y based on percentage of window size */
 			void move(coord x, coord y);
 			
