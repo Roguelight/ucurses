@@ -5,12 +5,12 @@
 
 #pragma once
 #include <ctk/storage/Array.hpp>
-#include <ucurses/window/Interface.hpp>
+#include <ucurses/window/State.hpp>
 
 namespace ucurses {
 
 	template <typename T>
-	class ArrayInterface : public Interface
+	class ArrayInterface : public State
 	{
 		public:
 

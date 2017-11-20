@@ -28,6 +28,7 @@
 namespace ucurses { 
 
 	class UCurses;
+    class State;
 	class Window
 	{
 		friend class WindowContainer;
@@ -125,9 +126,12 @@ namespace ucurses {
 			void addComponent(Component* component);
 			void clearComponents(); 
 
+            void Bind(State* new_state);
+
 		private:
 
 			WINDOW* H_Window;      						/* Direct handle to NCurses WINDOW data */
+            State*  state;                              /* State pattern for handling UI Transitions */
 			string title;
 			bool deletable;
 			bool delay;

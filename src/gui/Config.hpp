@@ -4,12 +4,12 @@
  */
 
 #pragma once
-#include <ucurses/window/Interface.hpp>
+#include <ucurses/window/State.hpp>
 
 namespace ucurses { 
 
 	class SliderMenu;
-	class Config : public Interface
+	class Config : public State
 	{
 		public:
 

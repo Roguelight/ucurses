@@ -3,7 +3,7 @@
 
 namespace ucurses {
 
-	class Interface
+	class State
 	{
 		public:
 

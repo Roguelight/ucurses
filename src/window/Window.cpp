@@ -3,6 +3,7 @@
 
 #include <ucurses/window/Window.hpp>
 #include <ucurses/app/UCurses.hpp>
+#include <ucurses/window/State.hpp>
 
 namespace ucurses {
 
@@ -287,4 +288,12 @@ namespace ucurses {
 	{
 		mvwin(H_Window, y, x);
 	}
+
+    void Window::Bind(State* new_state)
+    {
+        Clear(); // Remove all widgets
+        delete state;
+        state = new_state;
+        state->Bind(this);
+    }
 }

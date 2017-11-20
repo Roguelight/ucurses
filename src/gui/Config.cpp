@@ -7,7 +7,6 @@ namespace ucurses {
 
 	void Config::Initialize()
 	{
-		target->Clear();
 		coord2d mid = target->getMiddle();
 
 		menu = new SliderMenu(target);
