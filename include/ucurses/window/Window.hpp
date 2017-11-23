@@ -34,10 +34,11 @@ namespace ucurses {
 		friend class WindowContainer;
 		friend class Component;
 		friend class UCurses;
-		static UCurses* ucurses;								/* Static reference for creating new windows */
 		static ColorContainer* colors;
 
 		public:
+		   
+            static UCurses* ucurses;								/* Static reference for creating new windows */
 
 			/* Construction */
 

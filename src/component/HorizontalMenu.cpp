@@ -38,12 +38,10 @@ namespace ucurses {
 		
 		if (selection != NOSELECT)
 		{
-			std::fstream f("horzmenu.log", std::ios_base::out);
 			int size = getSelectedItem().length();
 			int position = 0;
 			for (int i = 0; i < selection; ++i)
 				position += items[i].length() + 1;
-			f << position << " " << selection << std::endl;
 
 			highlightWord(coord2d(position, 0), size, highlightColor, A_BOLD);
 		}

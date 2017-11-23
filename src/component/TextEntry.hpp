@@ -29,8 +29,6 @@ namespace ucurses {
 			virtual void Draw();
 			void bindDefault();
 			virtual void Process(int input);
-			std::function<void()> onEnter;
-
 
 			string subject;
 			string input;

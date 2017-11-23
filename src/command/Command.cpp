@@ -38,6 +38,11 @@ namespace ucurses {
 	{
 		auto parse = [](Command& command, int key) { if (command.key == key) command.execute(); };
 		for (auto& command : commands)
-			parse(command, key);
+        {
+            if (key != 27)
+			    parse(command, key);
+            else
+            {
+                int test = 
 	}
 }

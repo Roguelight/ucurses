@@ -33,7 +33,6 @@ namespace ucurses {
             
 			/* Loop functions - In intended order */
 
-			void Clear();									/* Called at start of loop. Clears windows and updates components */
 			int  getInput();
 			void handleInput(int input);					/* Executes all commands mapped to input */
 			void Render();									/* Finally updates actual screen with all data from virtual windows */

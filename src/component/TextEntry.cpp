@@ -12,7 +12,6 @@ namespace ucurses {
 		input = "";
 		subject = "Text";
 		//bindDefault();
-		onEnter = nullptr;
 	}
 
 	void TextEntry::bindDefault()
@@ -64,8 +63,6 @@ namespace ucurses {
 		attributeOff(A_BOLD);
 		noecho();
 		input = in;
-		if (onEnter)
-			onEnter();
 	}
 
 	void TextEntry::setSubject(string inString)
@@ -73,8 +70,4 @@ namespace ucurses {
 		subject = inString;
 	}
 			
-	void TextEntry::setOnEnter(std::function<void()> func)
-	{
-		onEnter = func;
-	}
 }

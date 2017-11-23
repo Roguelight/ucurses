@@ -11,7 +11,6 @@ namespace ucurses {
 		Window::colors = &Colors;
 		noecho();
 		cbreak();
-		curs_set(0);                    /* Invisible cursor (if program crashes, cursor remains invisible) */
 		keypad(stdscr, TRUE);
 
 		// Tab next
@@ -31,7 +30,6 @@ namespace ucurses {
 
 	void UCurses::Start()
 	{
-		Clear();
 		Render();
 		running = true;
 	}
@@ -43,7 +41,6 @@ namespace ucurses {
 		{
 			int key = getInput();
         	handleInput(key);
-			Clear();
 			Render();
 		}	
 	}
@@ -51,11 +48,6 @@ namespace ucurses {
 	UCurses::~UCurses()
 	{
 		endwin();	// End curses mode
-	}
-
-	void UCurses::Clear()
-	{
-		Windows.ClearAll();
 	}
 
 	void UCurses::handleInput(int input)
@@ -74,6 +66,7 @@ namespace ucurses {
 		/* Seperating refreshing individual windows from updating the virtual 
 		 * screen increases efficiency by minimising the redundant calls to hidden
 		 * doupdate() function which is called by wrefresh() */
+		Windows.ClearAll();
 		Windows.Refresh(); // Copies windows to virtual window
 		doupdate();        // Compares virtual to physical and updates screen
 	}
