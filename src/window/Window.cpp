@@ -4,6 +4,7 @@
 #include <ucurses/window/Window.hpp>
 #include <ucurses/app/UCurses.hpp>
 #include <ucurses/window/State.hpp>
+#include <ucurses/window/Interface.hpp>
 
 namespace ucurses {
 
@@ -296,4 +297,14 @@ namespace ucurses {
         state = new_state;
         state->Bind(this);
     }
+
+	void Window::Bind(Interface* new_interface)
+	{
+		interfaces.push_back(new_interface);
+	}
+
+	void Window::UnbindAll()
+	{
+		
+	}
 }

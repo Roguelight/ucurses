@@ -2,9 +2,5 @@
 
 namespace ucurses {
 
-	void State::Bind(Window* target)
-	{
-		this->target = target;
-		Initialize();
-	}
+
 }

@@ -1,20 +1,12 @@
 #pragma once
 #include <ucurses/window/Window.hpp>
+#include <ucurses/window/Interface.hpp>
 
 namespace ucurses {
 
-	class State
+	class State : public Interface
 	{
-		public:
 
-			void Bind(Window* win);
-
-		protected:
-
-			virtual void Initialize() = 0;
-
-			coord2d pos;
-			Window* target;
 	};
 
 }

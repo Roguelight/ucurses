@@ -20,7 +20,6 @@ namespace ucurses {
 			void setSubject(string inString);
 			string& getText();
 			void setText(const std::string& inString);
-			void setOnEnter(std::function<void()> func);
 			
             void getInput(); // *->E
 

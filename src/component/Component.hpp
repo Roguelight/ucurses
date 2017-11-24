@@ -18,12 +18,13 @@
 
 #include <ucurses/command/Command.hpp>
 #include <ucurses/window/types.hpp> 
-#include <ucurses/window/Window.hpp>
 
 namespace ucurses { 
 
 	using namespace std;
 
+	class Window;
+	class Interface;
 	class Component
 	{
 		friend class Window;
@@ -41,6 +42,7 @@ namespace ucurses {
 
 			Component(Window* host, coord x = 0, coord y = 0);		
 			Component(Window* host, coord2d pos = {0,0});			
+			Component(Interface* host, coord2d pos = {0,0});
 
 			/* Commands */
 

@@ -29,6 +29,7 @@ namespace ucurses {
 
 	class UCurses;
     class State;
+    class Interface;
 	class Window
 	{
 		friend class WindowContainer;
@@ -127,7 +128,13 @@ namespace ucurses {
 			void addComponent(Component* component);
 			void clearComponents(); 
 
+			// A window can only have one given state at a time
+			// However a state is an interface that clears the window on binding
             void Bind(State* new_state);
+            void Bind(Interface* new_interface);
+
+			std::vector<Interface*> interfaces;
+			void UnbindAll();
 
 		private:
 

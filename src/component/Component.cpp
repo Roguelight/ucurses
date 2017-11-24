@@ -2,6 +2,8 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/Component.hpp>
+#include <ucurses/window/Window.hpp>
+#include <ucurses/window/Interface.hpp>
 
 namespace ucurses { 
 
@@ -17,6 +19,11 @@ namespace ucurses {
 		highlightColor = 2;
 		color = H_Window->getColor();
 		H_Window->addComponent(this);
+	}
+
+	Component::Component(Interface* host, coord2d pos) : H_Window(host->getTarget())
+	{
+
 	}
 
 	void Component::Update()

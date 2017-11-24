@@ -41,8 +41,6 @@ namespace ucurses {
         {
             if (key != 27)
 			    parse(command, key);
-            else
-            {
-                int test = 
+		}
 	}
 }

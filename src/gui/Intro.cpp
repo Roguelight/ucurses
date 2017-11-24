@@ -89,7 +89,6 @@ namespace ucurses {
 		entry_prompt->setText("Enter the string 'Icarus' to finish the tutorial!");
 
 		win->addCommand(10, std::bind(&Intro::Select, win, menu, menu_display));
-		entry->setOnEnter(std::bind(&Intro::Finish, win, entry));
 	}
 
 	void Intro::Select(Window* win, Menu* menu, Label* display)

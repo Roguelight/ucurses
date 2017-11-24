@@ -30,10 +30,6 @@ namespace ucurses {
 		protected:
 
 			std::vector<Component*> M_Components;
-			/* 
-			 * Prefix M_ indicates owner of this data is responsible
-			 * for memory management of every instance of this data
-			 */
 	};
 
 }
