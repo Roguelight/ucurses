@@ -33,7 +33,7 @@ namespace ucurses {
 		for (auto& item : items)
 		{
 			print(item);
-			print(" ");
+			print(std::string(" "));
 		}
 		
 		if (selection != NOSELECT)

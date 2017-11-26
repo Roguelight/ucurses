@@ -3,8 +3,6 @@
 
 #include <ucurses/component/FileMenu.hpp>
 
-using namespace ctk::log;
-
 namespace ucurses { 
 
 	FileMenu::FileMenu(Window* host, coord x, coord y) : Menu(host, x, y)

@@ -13,8 +13,6 @@ namespace ucurses {
      */
     void ScrollableMenu::Draw()
     {
-		std::fstream f("scrollmenu.log", std::ios_base::out);
-		f << "Selection: " << selection << " Range: " << selection - range << " " << selection + range << std::endl;
         for (int i = selection - range; i < selection + range; ++i)
         {
             if (i < 0) i = 0;

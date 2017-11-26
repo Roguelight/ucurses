@@ -4,8 +4,6 @@
 #include <ucurses/component/ComponentArray.hpp>
 #include <ucurses/component/Component.hpp>
 
-using namespace ctk::log;
-
 namespace ucurses { 
 
 	ComponentArray::ComponentArray()

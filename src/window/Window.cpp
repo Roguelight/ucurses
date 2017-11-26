@@ -32,6 +32,7 @@ namespace ucurses {
 	Window::~Window()
 	{
 		delwin(H_Window);
+		UnbindAll();
 	}
 
 	Window* Window::subWindow(coord2d size, coord2d pos)
@@ -46,7 +47,7 @@ namespace ucurses {
 		for (auto& tip : tips)
 		{
 			print(tip);
-			print("  ");
+			print(std::string(" "));
 		}
 		setCursor(size.x - (callback_stack.getTip().size() + 2), getSize().y - 2);
 
@@ -58,7 +59,7 @@ namespace ucurses {
 			for (auto& tip : ucurses->getTips())
 			{
 				print(tip);
-				print("  ");
+				print(std::string(" "));
 			}
 		}
 	}
@@ -301,10 +302,13 @@ namespace ucurses {
 	void Window::Bind(Interface* new_interface)
 	{
 		interfaces.push_back(new_interface);
+		new_interface->Bind(this):
 	}
 
 	void Window::UnbindAll()
 	{
-		
+		for (auto& it : interfaces)
+			delete it;
+		delete state;
 	}
 }
