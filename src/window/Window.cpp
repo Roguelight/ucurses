@@ -302,7 +302,7 @@ namespace ucurses {
 	void Window::Bind(Interface* new_interface)
 	{
 		interfaces.push_back(new_interface);
-		new_interface->Bind(this):
+		new_interface->Bind(this);
 	}
 
 	void Window::UnbindAll()
