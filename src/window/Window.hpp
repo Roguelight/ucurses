@@ -52,6 +52,7 @@ namespace ucurses {
 			void	setDelete(bool b);							/* Enables deletion of the window */
 			bool	isDelay() const;
 			Window* subWindow(coord2d size, coord2d pos);
+			Window* subWindow(ctk::Vec2f size, ctk::Vec2f pos);
 
 			void Clear(); 										/* Destroys all components and commands */
 			void ClearScreen();									/* Erases contents of screen */

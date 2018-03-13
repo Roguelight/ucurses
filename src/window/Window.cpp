@@ -40,6 +40,12 @@ namespace ucurses {
 		return ucurses->createWindow(size, pos);
 	}
 
+    Window* Window::subWindow(ctk::Vec2f size, ctk::Vec2f pos)
+	{
+        coord2d relative_pos = getSize() * pos;
+		return ucurses->createWindow(getSize() * size, getPosition() + relative_pos);
+	}
+
 	void Window::printCommands()
 	{
 		coord2d size = getSize();

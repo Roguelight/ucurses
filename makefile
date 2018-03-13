@@ -19,13 +19,13 @@ comma :=,
 
 #*****************  User Config ********************************************
 
-MAIN := ucurses
+MAIN := ctk
 
-LIBRARIES := ctk ncurses boost Eigen 
-LIBFILES := -lctk -lboost_system -lboost_filesystem 
+LIBRARIES := boost 
+LIBFILES := $(DYNAMIC) -lboost_filesystem -lboost_system -Wl,--as-needed
 
 CXX := g++
-CXXFLAGS := -g -std=c++17 -O2 
+CXXFLAGS := -g -std=c++17 -O2 -flto
 
 #*****************  Pre-processor  ****************************************
 
@@ -35,10 +35,12 @@ INCDIR = -I include -I src
 
 ifeq ($(OS),Linux)
 	CXX := g++
+	LIBEXT := .so
+	OBJEXT := .o
+	LIBDIR := $(foreach l,$(LIBRARIES),-L$(WORKFLOW_LIB)/C++/$(l)/$(CXX))
 	TARGET := gcc
 	ifeq ($(strip $(target)),)
-		CXXFLAGS += -fPIC -flto
-		LIBFILES += -lncurses
+		CXXFLAGS += -fPIC
 	endif
 	LIBEXT := .so
 	OBJEXT := .o
@@ -53,9 +55,9 @@ ifeq ($(OS),Windows_NT)
 	LIBEXT := .dll
 	APPEXT := .exe
 	OBJEXT := .obj
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(CXX)
 	TARGET := mingw64
-	LIBFILES += $(WORKFLOW_LIB)/C++/$(TARGET)/pdcurses.a
-	LIBDIR := -L$(WORKFLOW_LIB)\C++\$(TARGET)
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
 endif
 
 ifeq ($(target), w32)
@@ -63,8 +65,8 @@ ifeq ($(target), w32)
 	LIBEXT := .dll
 	APPEXT := .exe
 	OBJEXT := .obj
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(CXX)
 	TARGET := mingw32
-	LIBFILES += $(STATIC) $(WORKFLOW_LIB)/C++/$(TARGET)/pdcurses.lib
 	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
 endif
 	
@@ -73,6 +75,7 @@ ifeq ($(target), w64)
 	LIBEXT := .dll
 	APPEXT := .exe
 	OBJEXT := .obj
+	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(CXX)
 	TARGET := mingw64
 	LIBDIR := -L$(WORKFLOW_LIB)/C++/$(TARGET)
 endif
@@ -114,7 +117,7 @@ else
 endif
 
 #*****************  Release  **********************************************
-
+	
 ifeq ($(strip $(name)),)
 else
 	ifeq ($(strip $(branch)),)
@@ -124,7 +127,7 @@ else
 		SRC += src/$(branch)/$(name).c++
 	endif
 	TARGETAPP := $(name)
-endif	
+endif
 
 #*****************  Build  *****************************************
 
@@ -216,6 +219,9 @@ $(TARGETARCHIVE): $(OBJ)
 	$(CXX) $(CXXFLAGS) $(INCDIR) -c $<  -o $@
 
 .cpp.o:
+	$(CXX) $(CXXFLAGS) $(INCDIR) -c $<  -o $@
+
+.c++.o:
 	$(CXX) $(CXXFLAGS) $(INCDIR) -c $<  -o $@
 
 %.d: %cpp
