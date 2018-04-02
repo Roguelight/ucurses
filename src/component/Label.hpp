@@ -20,7 +20,6 @@ namespace ucurses {
 
 			Label(Window* host, coord x = 0, coord y = 0);
 
-			/* Safe sets ;) */ 
 
 			void setText(const std::string& inText);    
 
@@ -29,6 +28,10 @@ namespace ucurses {
 
 			const std::string& getText() const;
 			std::string& getText();
+
+            // Make text wrap to component size
+            void wrapText();
+            void alignMiddle();
 
 			void loadFromFile(const std::string& filename);
 

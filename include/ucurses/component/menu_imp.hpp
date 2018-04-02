@@ -69,7 +69,14 @@ namespace ucurses {
 		}
 
 	template <typename T>
-		const T& menu_template<T>::getSelectedItem()
+		const T& menu_template<T>::getSelectedItem() const
+		{
+			if (selection != NOSELECT) 
+				return getItem(selection); 
+		}
+    
+    template <typename T>
+		T& menu_template<T>::getSelectedItem()
 		{
 			if (selection != NOSELECT) 
 				return getItem(selection); 
@@ -88,7 +95,14 @@ namespace ucurses {
 		}
 
 	template <typename T>
-		const T& menu_template<T>::getItem(short id) 
+		T& menu_template<T>::getItem(short id) 
+		{
+			if (id < items.size())
+				return items[id];
+		}
+    
+    template <typename T>
+		const T& menu_template<T>::getItem(short id) const
 		{
 			if (id < items.size())
 				return items[id];
@@ -105,4 +119,10 @@ namespace ucurses {
 		{
 			return items;
 		}
+	
+    template <typename T>
+		bool menu_template<T>::noneSelected() const
+        {
+            return selection == NOSELECT;
+        }
 }

@@ -26,11 +26,17 @@ namespace ucurses {
 			}
 		}
 	}
+
 	void CallbackStack::Execute()
 	{
 		stack_array.back().command.execute();
 		stack_array.pop_back();
 	}
+
+    void CallbackStack::write_form(std::ostream& stream) const
+    {
+        stream << "<Size> " << stack_array.size() << std::endl;
+    }
 	
 	std::string CallbackStack::getTip() const
 	{

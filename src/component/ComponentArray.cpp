@@ -31,7 +31,7 @@ namespace ucurses {
 	void ComponentArray::Process(int input)
 	{
 		for (auto& component : M_Components)
-			component->Process(input);
+			component->_process(input);
 	}
 
 	void ComponentArray::RemoveAll()

@@ -24,16 +24,17 @@ namespace ucurses {
 			void showHelp();
 
 			std::function<void()> onRefresh;
-			void setRefresh(std::function<void()> func);
+			std::function<void()> onSelect;
 
 			void selectNext();
 			void selectPrevious();
+
+            void alignMiddle();
 
 		protected:
 
 			virtual void Draw();
 			virtual void Process(int input);
-
 
 	};
 

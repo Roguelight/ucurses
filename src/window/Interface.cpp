@@ -8,9 +8,9 @@ namespace ucurses {
 
 	}
 
-	void Interface::Bind(Window* target)
+	void Interface::Bind(Window* win)
 	{
-		this->target = target;
+		target = win;
 		Initialize();
 	}
 /*	

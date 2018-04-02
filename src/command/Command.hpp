@@ -31,11 +31,11 @@ namespace ucurses {
 		void execute() { if (function) function(); }
 		void disable() { key = -1111111; }
 
+        void write_form(std::ostream& stream) const;
 		delegate function;
 		int key;
 
 	};
-
 
 	class CommandArray
 	{
@@ -49,11 +49,11 @@ namespace ucurses {
 
 			void Process(int key); 
 
+            void write_form(std::ostream& stream) const;
+
 		private:
 
 			vector<Command> commands;
 	};
-
-	
 
 	}

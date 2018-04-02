@@ -2,6 +2,7 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/command/Command.hpp>
+#include <iostream>
 
 namespace ucurses { 
 
@@ -18,11 +19,6 @@ namespace ucurses {
 			commands[it - commands.begin()].disable();
 		}
 	}
-
-	/*
-	 * Less expensive to access a single bit than remove the index
-	 * from all vectors
-	 */
 
 	void CommandArray::Add(int key, delegate func)
 	{ 
@@ -43,4 +39,28 @@ namespace ucurses {
 			    parse(command, key);
 		}
 	}
+            
+    void CommandArray::write_form(std::ostream& stream) const
+    {
+        if (stream)
+        {
+            stream << "<Size>: " << commands.size() << std::endl;
+            for (auto& command : commands)
+                command.write_form(stream);
+        }
+    }
+    
+    void Command::write_form(std::ostream& stream) const
+    {
+        if (stream)
+        {
+            stream << "<Key> " << key;
+            stream << "\n<Delegate> ";
+            if (function)
+                stream << "Set";
+            else
+                stream << "Null";
+            stream << std::endl;
+        }
+    }
 }

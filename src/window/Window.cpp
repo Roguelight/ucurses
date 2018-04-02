@@ -317,4 +317,16 @@ namespace ucurses {
 			delete it;
 		delete state;
 	}
+            
+    void Window::write_form(std::ostream& stream) const
+    {
+        Commands.write_form(stream); 
+    }
+            
+    void Window::Process(int input)
+    {
+		Components.Process(input);
+		Commands.Process(input);
+		callback_stack.Process(input);
+    }
 }

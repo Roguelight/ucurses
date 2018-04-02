@@ -6,7 +6,7 @@ namespace ucurses {
 
 	Label::Label(Window* host, coord x, coord y) : Component(host, x, y)
 	{
-
+        size.x = 50;
 	}
 
 	void Label::Draw()
@@ -29,9 +29,20 @@ namespace ucurses {
 	void Label::setText(const std::string& inText)
 	{
 		text = inText;
-		size_t n = std::count(text.begin(), text.end(), '\n');
-		setSize(0, n);
 	}
+
+    void Label::wrapText()
+    {
+        int frac = text.length() / size.x;
+        if (frac > 0)
+            for (int i = 1; i <= frac; ++i)
+                text[i * size.x] = '\n';
+    }
+            
+    void Label::alignMiddle()
+    {
+        position.x -= text.length() / 2;
+    }
 
 	/* 
 	 * Appends text at line, 

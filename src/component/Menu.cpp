@@ -26,8 +26,17 @@ namespace ucurses {
 			case 'k':
 				selectPrevious();
 				break;
+            case 10:
+                if (onSelect)
+                    onSelect();
+                break;
 		}
 	}
+
+    void Menu::alignMiddle()
+    {
+        position.x -= 8;
+    }
 
 	void Menu::showHelp()
 	{
@@ -50,11 +59,6 @@ namespace ucurses {
 		}
 	}
 
-	void Menu::setRefresh(std::function<void()> func)
-	{
-		onRefresh = func;
-	}
-		
 	void Menu::selectNext()
 	{
 		menu_template<std::string>::selectNext();

@@ -7,21 +7,21 @@
 
 namespace ucurses { 
 
-	Component::Component(Window* host, coord x, coord y) : H_Window(host), position(x, y)
+	Component::Component(Window* host, coord x, coord y) : H_Window(host), position(x, y), active(true)
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();
 		H_Window->addComponent(this);
 	}
 	
-	Component::Component(Window* host, coord2d pos) : H_Window(host), position(pos)
+	Component::Component(Window* host, coord2d pos) : H_Window(host), position(pos), active(true)
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();
 		H_Window->addComponent(this);
 	}
 
-	Component::Component(Interface* host, coord2d pos) : H_Window(host->getTarget())
+	Component::Component(Interface* host, coord2d pos) : H_Window(host->getTarget()), active(true)
 	{
 
 	}
@@ -137,6 +137,16 @@ namespace ucurses {
 		position.x = xpos;
 		position.y = ypos;
 	}
+			
+    void Component::setPosition(coord2d& src)
+    {
+        position = src;
+    }
+            
+    coord2d& Component::getPosition()
+    {
+        return position;
+    }
 
 	coord2d Component::getPosition() const
 	{
@@ -179,4 +189,30 @@ namespace ucurses {
 	{
 		this->color = color;
 	}
+
+    void Component::setActive(bool b)
+    {
+        active = b; 
+    }
+
+    void Component::toggleActive()
+    {
+        active = !active;
+    }
+    
+    bool Component::isActive()
+    {
+        return active;
+    }
+
+    void Component::_process(int input)
+    {
+        if (active)
+            Process(input);
+    }
+    
+    void Component::alignMiddle()
+    {
+        position.x -= 8;
+    }
 }

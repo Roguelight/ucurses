@@ -36,6 +36,7 @@ namespace ucurses {
 			void Process(int input);							/* Only passes input to active window */
 			void ClearAll();									/* Clears every window */
 			void Next();										/* Sets active window to next window in map */ 
+			void Previous();									/* Sets active window to next window in map */ 
 
 			void Refresh();										/* Updates all windows renders data to virtual screen */
 

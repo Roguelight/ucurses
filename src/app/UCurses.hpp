@@ -47,6 +47,8 @@ namespace ucurses {
             
 			coord2d getSize()	const;                         	/* Returns size of terminal screen */ 
 			bool	Okay() 	  	const;
+    
+            void loadConfig(const std::string& filepath);
 
 		protected:
 

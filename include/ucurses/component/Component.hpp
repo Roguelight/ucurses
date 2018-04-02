@@ -55,6 +55,7 @@ namespace ucurses {
 			void setSize(coord x, coord y);
 			void setSize(coord2d size);
 			void setPosition(coord x, coord y);
+			void setPosition(coord2d& src);
 			void setPosition(float x, float y);				/* Sets x and y based on percentage of window size */
 			void move(coord x, coord y);
 			
@@ -75,6 +76,11 @@ namespace ucurses {
 			void setHighlight(short color);
 			void setColor(short color);						/* Sets component color */
 
+            void setActive(bool b);
+            void toggleActive();
+            bool isActive();
+            void alignMiddle();
+
 		protected:
 
 			/* Cursor Manipulation */
@@ -93,18 +99,21 @@ namespace ucurses {
 			coord2d  getMiddle() 	const; 
 			coord2d  getCursor()  	const;
 			coord2d  getPosition()  const;
+            coord2d& getPosition();
 
 		protected:
 
 			void Update();
 			virtual void Draw() = 0;						/* Called in Update() to render component to window */
 			virtual void bindDefault() 	{}					/* Children can construct their own bindings or using default */
-			virtual void Process(int input) 		{}
+			virtual void Process(int input) {}              /* Override for behaviour in child */
+            void _process(int input);                       /* Called internally by engine */
 
 			coord2d position;
 			coord2d size;
 			short highlightColor;
 			short color;
+            bool active;
 
 			Window*      H_Window;     						/* Handle to host */
 	};

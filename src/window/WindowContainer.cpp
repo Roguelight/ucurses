@@ -114,15 +114,20 @@ namespace ucurses {
 			if ((++active) == M_Windows.size())
 				active = 0;
 	}
+    
+    void WindowContainer::Previous()
+	{
+		if (M_Windows.empty())
+			active = NOACTIVE;
+		else
+			if (--active < 0)
+				active = M_Windows.size() - 1;
+	}
 
 	void WindowContainer::Process(int input)
 	{ 
 		if (active != NOACTIVE)
-		{
-			M_Windows[active].Components.Process(input);
-			M_Windows[active].Commands.Process(input);
-			M_Windows[active].callback_stack.Process(input);
-		}
+            M_Windows[active].Process(input);
 	}
 
 }

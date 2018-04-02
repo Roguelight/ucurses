@@ -19,8 +19,10 @@ namespace ucurses {
 
 			/* Retrieval methods */
 			
-			const T& getSelectedItem();           
-			const T& getItem(short id);  				/* Performs bounds checking */ 
+			const T& getSelectedItem() const;           
+			T& getSelectedItem();           
+			const T& getItem(short id) const;  				/* Performs bounds checking */ 
+			T& getItem(short id);  				            /* Performs bounds checking */ 
 			const T& back();
 			short getSelectedIndex();
 
@@ -32,13 +34,15 @@ namespace ucurses {
 			const std::vector<T>& getItems() const;
 			std::vector<T>& getItems();
 
+			void selectNext();
+			void selectPrevious();
+
+            bool noneSelected() const;
+
 		protected:
 
 			std::vector<T> items;
-			
 			void removeItem(short id);
-			void selectNext();
-			void selectPrevious();
 			
 			short selection;
 			bool last()									{ return (selection + 1) == items.size(); }

@@ -11,14 +11,16 @@ namespace ucurses {
 		Window::colors = &Colors;
 		noecho();
 		cbreak();
+        curs_set(0);
 		keypad(stdscr, TRUE);
 
 		// Tab next
-		Commands.Add(9, std::bind( &WindowContainer::Next, &Windows));  
+		Commands.Add('d', std::bind( &WindowContainer::Previous, &Windows));  
+		Commands.Add('f', std::bind( &WindowContainer::Next, &Windows));  
 		tips.push_back("Tab: Switch window");
 
 		// End Application
-		Commands.Add(KEY_F(1), std::bind( &UCurses::End, this));
+		Commands.Add(KEY_F(4), std::bind( &UCurses::End, this));
 		tips.push_back("F1: Quit");
 
 		// Delete active window
@@ -126,4 +128,18 @@ namespace ucurses {
 		return tips;
 	}
 
+    void UCurses::loadConfig(const std::string& filepath)
+	{
+		ifstream file(filepath, ios_base::in);
+		if (file.good())
+		{
+			float values[3]; 
+
+			for (int i = 0; i < 3; ++i)
+				file >> values[i];
+
+			init_pair(1, values[0], values[1]);
+			init_pair(2, values[2], values[1]);
+		}
+	}
 }

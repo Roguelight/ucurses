@@ -24,12 +24,12 @@ namespace ucurses {
 			void Emplace(int key, std::function<void()> callback);
 			void Execute();
 
-
-			/* Only tests the last added callback (top()) */
+			/* Only tests the last added callback (back()) */
 			void Process(int key);						
 
 			std::string getTip() const;
 			void setTip(const std::string& inTip);
+            void write_form(std::ostream& stream) const;
 
 
 		protected:

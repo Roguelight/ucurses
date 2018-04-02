@@ -22,6 +22,7 @@ namespace ucurses {
 			void setText(const std::string& inString);
 			
             void getInput(); // *->E
+            std::function<void()> onTextEnter;
 
 		protected:
 

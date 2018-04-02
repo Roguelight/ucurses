@@ -11,13 +11,13 @@ namespace ucurses {
 		setSize(20, 1);
 		input = "";
 		subject = "Text";
-		//bindDefault();
+		bindDefault();
 	}
 
 	void TextEntry::bindDefault()
 	{
 		addCommand('e', std::bind( &TextEntry::getInput, this));
-		addTip("e: Input " + subject);
+		//addTip("e: Input " + subject);
 	}
 
 	void TextEntry::Process(int input)
@@ -57,12 +57,16 @@ namespace ucurses {
 		//move(-1, 0);
 		//
 		bool temp = H_Window->isDelay();
+        curs_set(true);
 		H_Window->setDelay(true);
 		wgetnstr(H_Window->getHandle(), in, 12);
 		H_Window->setDelay(temp);
+        curs_set(false);
 		attributeOff(A_BOLD);
 		noecho();
 		input = in;
+        if (onTextEnter)
+            onTextEnter();
 	}
 
 	void TextEntry::setSubject(string inString)

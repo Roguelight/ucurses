@@ -107,13 +107,16 @@ namespace ucurses {
 			void clearCommands();
 			void Escape();
 
+            void write_form(std::ostream& stream) const;
+
+			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
+
 		protected:
 
 			CommandArray Commands;
 			std::vector<std::string> tips;				/* Command tips displayed in bottom left corner of window */
 
-			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
-
+            void Process(int input);
 			void printCommands(); 
 
 		protected:
