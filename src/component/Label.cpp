@@ -29,6 +29,7 @@ namespace ucurses {
 	void Label::setText(const std::string& inText)
 	{
 		text = inText;
+        size.x = inText.length() / 2;
 	}
 
     void Label::wrapText()

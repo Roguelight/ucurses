@@ -21,9 +21,9 @@ namespace ucurses {
 	{
 		start_color();
 		// Default
-		init_pair(1, COLOR_WHITE, COLOR_BLACK);
-		init_pair(2, COLOR_CYAN, COLOR_BLACK);
-		Config::Load();
+		init_pair(1, COLOR_WHITE, 3);
+		init_pair(2, COLOR_CYAN, 3);
+		Config::Load("./color_scheme.conf");
 	}
 
 	short ColorContainer::Add(short foreground, short background)

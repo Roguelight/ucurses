@@ -18,7 +18,9 @@ namespace ucurses {
 
 			void Save();
 			bool LoadSliders();
-			static void Load();
+
+            // Default parameter for legacy compatibility
+			static void Load(const std::string& filepath = ".resources/config/color_scheme.conf");
 		
 			static std::string config;
 

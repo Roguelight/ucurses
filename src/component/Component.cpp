@@ -29,9 +29,9 @@ namespace ucurses {
 	void Component::Update()
 	{
 		setCursor(); 					/* Sets window draw position to component position */
-		H_Window->setColor(color);		/* Sets window draw color to component color */
+		wcolor_set(H_Window->getHandle(), color, nullptr);		/* Sets window draw color to component color */
 		Draw(); 						/* Calls appropriate Draw() method */
-		H_Window->unsetColor(color); 	/* Resets window draw color */
+		H_Window->resetColor(); 	/* Resets window draw color */
 	}
 
 	void Component::print(const std::string& inString)
@@ -213,6 +213,6 @@ namespace ucurses {
     
     void Component::alignMiddle()
     {
-        position.x -= 8;
+        position.x -= size.x / 2;
     }
 }

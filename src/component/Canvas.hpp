@@ -3,11 +3,15 @@
  * coord2d size for tracking array size. Provides low level access and does
  * not support dynamic allocation unlike Label.
  *
+ * Goal: Fit data for canvas cell in one byte by encoding the char information
+ * in the first 4 bits and the color information in the last 4 bits
+ *
  */
 
 #pragma once
 #include <ucurses/component/Component.hpp>
 #include <Eigen/Dense>
+#include <ctk/storage/Array.hpp>
 
 using namespace Eigen;
 typedef Array<char, Dynamic, Dynamic> ArrayXc;
@@ -20,11 +24,11 @@ namespace ucurses {
 
 			Canvas(Window* win, coord x = 0, coord y = 0);
 
-			const ArrayXc* data;
+			//const ArrayXc* data;
 
 			/* Refreshes component size for safe updating */
-			void setTarget(const ArrayXc& target, coord xsize, coord ysize);
-			void setTarget(const ArrayXc& target, coord2d size);
+		    void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
+			void setTarget(const ArrayXc* target, coord2d size);
 
 		protected:
 
@@ -32,5 +36,11 @@ namespace ucurses {
 			void bindDefault() {}
 
 	};
+
+    struct Cell
+    {
+        unsigned char symbol = '.';
+        unsigned char color = 0;
+    };
 
 }

@@ -11,6 +11,7 @@
 #pragma once
 
 #include <ucurses/app/UCurses.hpp>
+#include <ucurses/app/Application.hpp>
 #include <ucurses/window/Window.hpp>
 #include <ucurses/window/State.hpp>
 #include <ucurses/window/Interface.hpp>

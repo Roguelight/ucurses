@@ -20,7 +20,7 @@ namespace ucurses {
 		setDefaultColor(1);
 	}
 
-	Window::Window() : color(0)
+	Window::Window() 
 	{
 		H_Window = newwin(0,0,0,0);
 		keypad(H_Window, TRUE);
@@ -33,6 +33,7 @@ namespace ucurses {
 	{
 		delwin(H_Window);
 		UnbindAll();
+        Clear();
 	}
 
 	Window* Window::subWindow(coord2d size, coord2d pos)
@@ -224,20 +225,20 @@ namespace ucurses {
 		wbkgdset(H_Window, COLOR_PAIR(color));
 	}
 
-	void Window::setColor(short color)
+	void Window::setColor(short inColor)
 	{
-		wattron(H_Window, COLOR_PAIR(color));	
+        color = inColor;
+		wcolor_set(H_Window, color, nullptr);	
 	}
+
+    void Window::resetColor()
+    {
+		wcolor_set(H_Window, color, nullptr);	
+    }
 
 	short Window::getColor()
 	{
 		return color;
-	}
-
-	void Window::unsetColor(short color)
-	{
-		wattroff(H_Window, COLOR_PAIR(color));	
-		wattron(H_Window, COLOR_PAIR(this->color));	
 	}
 
 	// Highlighting
@@ -300,9 +301,11 @@ namespace ucurses {
     void Window::Bind(State* new_state)
     {
         Clear(); // Remove all widgets
-        delete state;
+        last = state;
         state = new_state;
         state->Bind(this);
+        delete last;
+        // Delete last state after binding new one
     }
 
 	void Window::Bind(Interface* new_interface)

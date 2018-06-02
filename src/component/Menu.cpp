@@ -2,6 +2,7 @@
 // Liam Rogers, All rights reserved.
 
 #include <ucurses/component/Menu.hpp>
+#include <ctk/file/Directory.hpp>
 
 namespace ucurses {
 
@@ -33,11 +34,6 @@ namespace ucurses {
 		}
 	}
 
-    void Menu::alignMiddle()
-    {
-        position.x -= 8;
-    }
-
 	void Menu::showHelp()
 	{
 		addTip("j: Down ");
@@ -46,16 +42,25 @@ namespace ucurses {
 
 	void Menu::Draw()
 	{
+        int longest = getLongestItem();
 		for (auto& item : items)
 		{
-			print(item);
+            if (padding)
+            {
+                int diff = longest - item.length();
+                if (diff >= 2)
+                {
+			        print(std::string(diff / 2, ' '));
+                }
+            }
+            print(item);
+            
 			setCursor(0, getCursor().y + 1);
 		}
 
 		if (selection != NOSELECT)
 		{
-			int size = getSelectedItem().length();
-			highlightWord(coord2d(0, selection), size, highlightColor, A_BOLD);
+			highlightWord(coord2d(0, selection), longest, highlightColor, A_BOLD);
 		}
 	}
 
@@ -64,6 +69,17 @@ namespace ucurses {
 		menu_template<std::string>::selectNext();
 		if (onRefresh)
 			onRefresh();
+	}
+    
+    void Menu::setDirectory(const std::string& inString)
+	{
+		ctk::file::Directory dir(inString);
+		dir.copyContents(items);
+
+		if (!(items.empty()))
+			selection = 0;
+		else
+			selection = -1;
 	}
 			
 	void Menu::selectPrevious()
@@ -86,4 +102,23 @@ namespace ucurses {
 		setSize(xsize, items.size());
 	}
 */
+    
+    void Menu::setPadding(bool b)
+    {
+        padding = b; 
+    }
+
+    int Menu::getLongestItem()
+    {
+        int counter = 0;
+        for (auto& item : items)
+            if (item.length() > counter)
+                counter = item.length();
+        return counter;
+    }
+
+    void Menu::alignMiddle()
+    {
+        position.x -= getLongestItem() / 2;
+    }
 }

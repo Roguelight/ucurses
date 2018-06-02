@@ -100,6 +100,7 @@ namespace ucurses {
 			coord2d  getCursor()  	const;
 			coord2d  getPosition()  const;
             coord2d& getPosition();
+			short color;
 
 		protected:
 
@@ -112,7 +113,6 @@ namespace ucurses {
 			coord2d position;
 			coord2d size;
 			short highlightColor;
-			short color;
             bool active;
 
 			Window*      H_Window;     						/* Handle to host */

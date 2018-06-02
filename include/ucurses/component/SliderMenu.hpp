@@ -26,6 +26,8 @@ namespace ucurses {
 
 			void showHelp();
 
+            bool print_numeric = false;
+
 		protected:
 
 			virtual void Draw();
@@ -34,7 +36,6 @@ namespace ucurses {
 			
 			virtual void bindDefault();
 			virtual void Process(int input);
-
 	};
 
 }

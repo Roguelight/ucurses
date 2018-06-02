@@ -39,10 +39,9 @@ namespace ucurses {
 	void UCurses::Run()
 	{
 		Start();
-		while( Okay() )
+		while( Running() )
 		{
-			int key = getInput();
-        	handleInput(key);
+        	handleInput();
 			Render();
 		}	
 	}
@@ -52,15 +51,11 @@ namespace ucurses {
 		endwin();	// End curses mode
 	}
 
-	void UCurses::handleInput(int input)
+	void UCurses::handleInput()
 	{
+		int input = Windows.getInput();
 		Commands.Process(input);
 		Windows.Process(input);
-	}
-
-	int UCurses::getInput()
-	{
-		return Windows.getInput();
 	}
 
 	void UCurses::Render()
@@ -78,7 +73,7 @@ namespace ucurses {
 		running = false;
 	}
 
-	bool UCurses::Okay() const
+	bool UCurses::Running() const
 	{
 		return running;
 	}          

@@ -10,6 +10,7 @@ namespace ucurses {
 		coord2d mid = target->getMiddle();
 
 		menu = new SliderMenu(target);
+        menu->print_numeric = true;
 		menu->setPosition(0.5f, 0.5f);
 
 		basic_slider& fore = menu->addItem("Foreground Color");
@@ -44,7 +45,7 @@ namespace ucurses {
 		short back = static_cast<short>(menu->getItem(1).getValue());
 		short primary = static_cast<short>(menu->getItem(2).getValue());
 		init_pair(target->getColor(), fore, back);
-		init_pair(2, primary, back);
+		init_pair(2, back, primary);
 		
 	}
 			
@@ -74,9 +75,9 @@ namespace ucurses {
 			return false;
 	}
 
-	void Config::Load()
+	void Config::Load(const std::string& filepath)
 	{
-		ifstream file(config, ios_base::in);
+		ifstream file(filepath, ios_base::in);
 		if (file.good())
 		{
 			float values[3]; 

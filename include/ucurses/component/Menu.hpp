@@ -31,10 +31,16 @@ namespace ucurses {
 
             void alignMiddle();
 
+            int getLongestItem();
+            void setPadding(bool b);
+
 		protected:
 
 			virtual void Draw();
 			virtual void Process(int input);
+
+			void setDirectory(const std::string& inString);
+            bool padding = false;
 
 	};
 

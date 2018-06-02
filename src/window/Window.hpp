@@ -76,7 +76,7 @@ namespace ucurses {
 			void attributeOff(int attributes);
 			void setDefaultColor(short color);					/* Sets default color for window, must already be created with init_pair */
 			void setColor(short color);							/* Sets a temporary color for drawing. Usually calls unset after */
-			void unsetColor(short color);						/* Unsets color for window, must already be created with init_pair */
+			void resetColor();						            /* Unsets color for window, must already be created with init_pair */
 			short getColor();
 
 			/*  Highlighting */
@@ -144,6 +144,7 @@ namespace ucurses {
 
 			WINDOW* H_Window;      						/* Direct handle to NCurses WINDOW data */
             State*  state;                              /* State pattern for handling UI Transitions */
+            State*  last;
 			string title;
 			bool deletable;
 			bool delay;

@@ -27,14 +27,12 @@ namespace ucurses {
 
 			UCurses();
 			~UCurses();
-			void Run();
+			void Run();                                     /* Application loop for input blocking programs */
 			void Start();									/* Performs initial render before delaying for certain windows */
 
-            
 			/* Loop functions - In intended order */
 
-			int  getInput();
-			void handleInput(int input);					/* Executes all commands mapped to input */
+			void handleInput();					            /* Executes all commands mapped to input */
 			void Render();									/* Finally updates actual screen with all data from virtual windows */
 
 			/* Windows */
@@ -46,7 +44,7 @@ namespace ucurses {
 			void addCommand(int key, delegate function);		/* Application specific commands. Close/Tabbing etc. */
             
 			coord2d getSize()	const;                         	/* Returns size of terminal screen */ 
-			bool	Okay() 	  	const;
+			bool Running() const;
     
             void loadConfig(const std::string& filepath);
 

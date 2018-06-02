@@ -37,14 +37,13 @@ ifeq ($(OS),Linux)
 	CXX := g++
 	LIBEXT := .so
 	OBJEXT := .o
-	LIBDIR := $(foreach l,$(LIBRARIES),-L$(WORKFLOW_LIB)/C++/$(l)/$(CXX))
 	TARGET := Linux
 	ifeq ($(strip $(target)),)
 		CXXFLAGS += -fPIC
 	endif
 	LIBEXT := .so
 	OBJEXT := .o
-	LIBDIR := $(foreach l,$(LIBRARIES),-L$(WORKFLOW_LIB)/C++/$(l)/$(TARGET))
+	LIBDIR := $(foreach l,$(LIBRARIES),-L$(WORKFLOW_LIB)/$(l))
 	RPATH :=$(subst -L,-Wl$(comma)-rpath=,$(LIBDIR))
 endif
 

@@ -23,8 +23,8 @@ namespace ucurses {
 			const ArrayXc* data;
 
 			/* Refreshes component size for safe updating */
-			void setTarget(const ArrayXc& target, coord xsize, coord ysize);
-			void setTarget(const ArrayXc& target, coord2d size);
+			void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
+			void setTarget(const ArrayXc* target, coord2d size);
 
 		protected:
 

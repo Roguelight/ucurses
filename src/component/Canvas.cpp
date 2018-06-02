@@ -29,15 +29,15 @@ namespace ucurses {
 	   }
 	   */
 
-	void Canvas::setTarget(const ArrayXc& target, coord xsize, coord ysize) 
+	void Canvas::setTarget(const ArrayXc* target, coord xsize, coord ysize) 
 	{
-		data = &target; 
+		data = target; 
 		setSize(xsize, ysize);
 	}
 
-	void Canvas::setTarget(const ArrayXc& target, coord2d size)
+	void Canvas::setTarget(const ArrayXc* target, coord2d size)
 	{
-		data = &target; 
+		data = target; 
 		setSize(size);
 	}
 
