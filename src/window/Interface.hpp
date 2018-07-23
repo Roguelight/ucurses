@@ -10,7 +10,7 @@ namespace ucurses {
 			Interface(coord x = 0, coord y = 0);
 			virtual void Bind(Window* win);
 			virtual void Update() {}
-
+            virtual void Process(int input) {}
 			Window* getTarget();
 
 		protected:

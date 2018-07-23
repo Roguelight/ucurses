@@ -314,5 +314,7 @@ namespace ucurses {
 		Components.Process(input);
 		Commands.Process(input);
 		callback_stack.Process(input);
+        if (state)
+            state->Process(input);
     }
 }
