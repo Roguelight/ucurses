@@ -21,7 +21,7 @@ namespace ucurses {
 
 			CallbackStack(size_t size = 4);
 
-			void Emplace(int key, std::function<void()> callback);
+			void Push(int key, std::function<void()> callback);
 			void Execute();
 
 			/* Only tests the last added callback (back()) */

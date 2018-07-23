@@ -11,14 +11,14 @@ namespace ucurses {
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();
-		H_Window->addComponent(this);
+		H_Window->Components.Add(this);
 	}
 	
 	Component::Component(Window* host, coord2d pos) : H_Window(host), position(pos), active(true)
 	{
 		highlightColor = 2;
 		color = H_Window->getColor();
-		H_Window->addComponent(this);
+		H_Window->Components.Add(this);
 	}
 
 	Component::Component(Interface* host, coord2d pos) : H_Window(host->getTarget()), active(true)
@@ -47,6 +47,11 @@ namespace ucurses {
 	void Component::print(char* c)
 	{
 		H_Window->print(c);
+	}
+	
+    void Component::print(Cell* cell)
+	{
+		H_Window->print(*cell);
 	}
 
 	void Component::moveCursor(coord x, coord y)

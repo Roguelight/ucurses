@@ -21,7 +21,7 @@ namespace ucurses {
 
 			void Add(Component* component);
 			void Update();
-			void RemoveAll();
+			void Clear();
 			const int getSize() const;
 			const int getCapacity() const; 
 

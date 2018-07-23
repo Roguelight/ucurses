@@ -9,6 +9,7 @@ namespace ucurses {
 
 			Interface(coord x = 0, coord y = 0);
 			virtual void Bind(Window* win);
+			virtual void Update() {}
 
 			Window* getTarget();
 

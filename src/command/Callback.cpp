@@ -10,7 +10,7 @@ namespace ucurses {
 		stack_array.reserve(size);
 	}
 
-	void CallbackStack::Emplace(int key, std::function<void()> callback)
+	void CallbackStack::Push(int key, std::function<void()> callback)
 	{
 		stack_array.emplace_back(key, callback,string(""));
 	}

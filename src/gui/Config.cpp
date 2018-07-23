@@ -27,9 +27,9 @@ namespace ucurses {
 			fore.setValue(5.f);
 		}
 
-		target->addCommand('l', bind( &Config::RefreshUI, this));
-		target->addCommand('h', bind( &Config::RefreshUI, this));
-        target->addCommand(10, bind( &Config::Escape, this));
+		target->Commands.Add('l', bind( &Config::RefreshUI, this));
+		target->Commands.Add('h', bind( &Config::RefreshUI, this));
+        target->Commands.Add(10, bind( &Config::Escape, this));
 		target->addTip("Enter: Confirm");
 	}
 

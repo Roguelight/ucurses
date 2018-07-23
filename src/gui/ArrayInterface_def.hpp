@@ -28,7 +28,7 @@ namespace ucurses {
 
 		obj_display = new Label(target, pos.x + 24, pos.y + 4);
         
-		target->addCommand(10, bind(&ArrayInterface::Select, this));
+		target->Commands.Add(10, bind(&ArrayInterface::Select, this));
 	}
 
 	template <typename T>

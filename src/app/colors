@@ -1,0 +1,10 @@
+Colors in UCurses should be defined at the application level. With every application
+setting up its own schemes for coloring text. This will achieve 'themed' applications
+without every character having to hold color data (besides the ucurses::Canvas). Instead
+the application will define a primary theme and different pairs for highlighting text.
+
+An example of some desirable functionality shown below:
+
+This is a string of text with one <RED>highlighted<RED> word
+
+Here, a red highlight will need to be initialized and highlightWord called to achieve the effect.

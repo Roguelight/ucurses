@@ -17,8 +17,8 @@ namespace ucurses { namespace ArrayUI {
         
 		Label* display = new Label(win, pos.x + 30, pos.y);
         
-		win->addCommand('S', bind(Search<T>, lib, search, display));
-        win->addCommand(10, bind(Select<T>, lib, list, display));
+		win->Commands.Add('S', bind(Search<T>, lib, search, display));
+        win->Commands.Add(10, bind(Select<T>, lib, list, display));
         
 		win->addTip("S: Search Array"); 
         win->addTip("Enter: Display Selected");

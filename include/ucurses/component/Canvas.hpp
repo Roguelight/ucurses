@@ -3,14 +3,13 @@
  * coord2d size for tracking array size. Provides low level access and does
  * not support dynamic allocation unlike Label.
  *
+ * Stores symbol and color data for each cell allowing for individually colored
+ * cells
  */
 
 #pragma once
 #include <ucurses/component/Component.hpp>
-#include <Eigen/Dense>
-
-using namespace Eigen;
-typedef Array<char, Dynamic, Dynamic> ArrayXc;
+#include <ctk/storage/Array.hpp>
 
 namespace ucurses { 
 
@@ -18,19 +17,19 @@ namespace ucurses {
 	{
 		public:
 
-			Canvas(Window* win, coord x = 0, coord y = 0);
+			Canvas(Window* win, coord2d size);
 
-			const ArrayXc* data;
+			//const ArrayXc* data;
+            ctk::Array<Cell> cells;
+            void Initialize();
 
 			/* Refreshes component size for safe updating */
-			void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
-			void setTarget(const ArrayXc* target, coord2d size);
+		    //void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
+			//void setTarget(const ArrayXc* target, coord2d size);
 
 		protected:
 
 			virtual void Draw();
 			void bindDefault() {}
-
 	};
-
 }

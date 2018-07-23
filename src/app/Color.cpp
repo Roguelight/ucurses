@@ -46,4 +46,10 @@ namespace ucurses {
 		else
 			return color;
 	}
+
+    void InitializePair(short primary, short hlid,  short f, short b, short highlight)
+    {
+		init_pair(primary, f, b);
+		init_pair(hlid, b, highlight);
+    }
 }

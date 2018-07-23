@@ -27,7 +27,7 @@
 
 namespace ucurses { 
 
-	enum class Color : short { DARK_GREY = 0 };
+    enum class DefaultPairs : short { };
 	using namespace std;
 
 	class ColorContainer
@@ -52,5 +52,7 @@ namespace ucurses {
 			short size; 
 			short colors; 
 	};
+
+    void InitializePair(short primary, short hlid,  short f, short b, short highlight);
 
 }

@@ -54,7 +54,6 @@ namespace ucurses {
 			Window* subWindow(coord2d size, coord2d pos);
 			Window* subWindow(ctk::Vec2f size, ctk::Vec2f pos);
 
-			void Clear(); 										/* Destroys all components and commands */
 			void ClearScreen();									/* Erases contents of screen */
 
 			/* Window Manipulation */
@@ -68,15 +67,16 @@ namespace ucurses {
 			void  print(const std::string& inString);        	/* Prints from current cursor position 			*/
 			void  print(char c);
 			void  print(char* c);
+            void  print(Cell& cell);
 
 			/* Attributes */
 
-			void setAttributes(int attributes);					/* Attributes can be OR | for combined effects */
-			void attributeOn(int attributes);					/* eg attributeOn(A_BLINK | COLOR_PAIR(n)) */
+			void setAttributes(int attributes);				/* Attributes can be OR | for combined effects */
+			void attributeOn(int attributes);				/* eg attributeOn(A_BLINK | COLOR_PAIR(n)) */
 			void attributeOff(int attributes);
-			void setDefaultColor(short color);					/* Sets default color for window, must already be created with init_pair */
-			void setColor(short color);							/* Sets a temporary color for drawing. Usually calls unset after */
-			void resetColor();						            /* Unsets color for window, must already be created with init_pair */
+	        void setDefaultColor(short color);
+			void setColor(short color);						/* Sets a temporary color for drawing. Usually calls unset after */
+			void resetColor();						        /* Unsets color for window, must already be created with init_pair */
 			short getColor();
 
 			/*  Highlighting */
@@ -99,21 +99,16 @@ namespace ucurses {
 
 			/* Commands */
 
-			void addCommand(int key, delegate func);
-			void pushCallback(int key, delegate func = 0);	/* Adds callback to the stack */
+			CommandArray Commands;
+			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
 			void setCallbackTip(const string& in);
 			void addTip(const std::string& tip);
 			void addTip(std::string&& tip);
-			void clearCommands();
 			void Escape();
 
-            void write_form(std::ostream& stream) const;
-
-			CallbackStack callback_stack;				/* Escape command. Changed independantly of commands stored CommandArray */
 
 		protected:
 
-			CommandArray Commands;
 			std::vector<std::string> tips;				/* Command tips displayed in bottom left corner of window */
 
             void Process(int input);
@@ -121,16 +116,13 @@ namespace ucurses {
 
 		protected:
 
-			/* Components */
-
-			ComponentArray Components;
 			void Update(); // Update components
 			void printBorder();
 
 		public:
 
-			void addComponent(Component* component);
-			void clearComponents(); 
+            ComponentArray Components;
+			void Clear(); 										/* Destroys all components and commands */
 
 			// A window can only have one given state at a time
 			// However a state is an interface that clears the window on binding

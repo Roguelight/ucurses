@@ -1,3 +1,8 @@
+/*
+ * UCurses application implements CTK Application interface
+ * handling input, rendering and automatic updating of widgets
+ */
+
 #pragma once
 
 #include <ctk/application/Application.hpp>

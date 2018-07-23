@@ -91,6 +91,7 @@ namespace ucurses {
 			void print(const std::string& inString); 
 			void print(char c);
 			void print(char* c);
+			void print(Cell* cell);
 
 		public:
 

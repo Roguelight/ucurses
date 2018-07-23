@@ -75,38 +75,12 @@ namespace ucurses {
 	{
 		Commands.Clear();
 		tips.clear();
-		Components.RemoveAll();
-	}
-
-	void Window::clearCommands()
-	{
-		Commands.Clear();
-		tips.clear();
-	}
-
-	void Window::clearComponents()
-	{
-		Components.RemoveAll();
-	}
-
-	void Window::addComponent(Component* component)
-	{
-		Components.Add(component);
-	}
-
-	void Window::addCommand(int key, delegate func)
-	{
-		Commands.Add(key,func);
+		Components.Clear();
 	}
 
 	void Window::Escape()
 	{
 		callback_stack.Execute(); 
-	}
-
-	void Window::pushCallback(int key, delegate func)
-	{
-		callback_stack.Emplace(key, func);
 	}
 
 	void Window::setCallbackTip(const string& in)
@@ -133,6 +107,8 @@ namespace ucurses {
 		print(title);
 		printCommands();
 		Components.Update();
+        if (state)
+            state->Update();
 	}
 
 	void Window::ClearScreen()
@@ -180,6 +156,18 @@ namespace ucurses {
 		coord2d curpos = getCursor();
 		wmove(H_Window, curpos.y + y, curpos.x + x);
 	}
+
+    void Window::print(Cell& cell)
+    {
+        short primary = 0;
+        short bg = 0;
+        // Save current color
+        pair_content(color, &primary, &bg);
+        init_pair(color, cell.color, bg);
+		waddch(H_Window, cell.symbol);
+        // Reset color
+        init_pair(color, primary, bg);
+    }
 
 	void Window::print(const std::string& inString)
 	{
@@ -320,11 +308,6 @@ namespace ucurses {
 			delete it;
 		delete state;
 	}
-            
-    void Window::write_form(std::ostream& stream) const
-    {
-        Commands.write_form(stream); 
-    }
             
     void Window::Process(int input)
     {

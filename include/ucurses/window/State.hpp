@@ -6,6 +6,9 @@ namespace ucurses {
 
 	class State : public Interface
 	{
+        public:
+
+            virtual void Update() {}
 
 	};
 

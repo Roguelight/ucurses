@@ -18,51 +18,51 @@ namespace ucurses {
 		text->loadFromFile(".resources/gui/ucurses_welcome");
 		text->highlightRow(1, 2, A_BOLD);
 		
-		win->addCommand(10, std::bind(&Intro::showTitle, win));
+		win->Commands.Add(10, std::bind(&Intro::showTitle, win));
 	}
 
 	//void Intro::Second(Window* winI
 	void Intro::showTips(Window* win)
 	{
 		coord2d size = win->getSize();
-		win->clearCommands();
+		win->Commands.Clear();
 		
 		Label* tipshelp = new Label(win, 3, size.y - 6);
 		tipshelp->loadFromFile(".resources/gui/ucurses_command_display");
 
 		win->addTip("n: Advance ");
-		win->addCommand('n', std::bind(&Intro::Tab, win));
+		win->Commands.Add('n', std::bind(&Intro::Tab, win));
 
 	}
 	
 	void Intro::showTitle(Window* win)
 	{
-		win->clearCommands(); // Clearing commands avoids reconstructing duplicate components
+		win->Commands.Clear(); // Clearing commands avoids reconstructing duplicate components
 		Label* title = new Label(win, 2, 1);
 		title->setText("^ Above this line is the title bar, notice that it is highlighted ^");
 		title->appendLine("Press 'c' to continue");
-		win->addCommand('c', std::bind(&Intro::showTips, win));
+		win->Commands.Add('c', std::bind(&Intro::showTips, win));
 	}
 
 	void Intro::Tab(Window* win)
 	{
-		win->clearCommands();
+		win->Commands.Clear();
 		coord2d mid = win->getMiddle();
 		Window* extra = win->subWindow(coord2d(60, 10), coord2d(50, 20));
 		Label* hidden = new Label(win, 70, 27);
 		hidden->setText("Now press 'n' to go to the next window");
 		extra->setTitle("Extra window");
 		extra->addTip("Enter: Do something");
-		extra->addCommand(10, std::bind(&Intro::Extra, extra));
+		extra->Commands.Add(10, std::bind(&Intro::Extra, extra));
 		win->Clear();	
-		win->addCommand('n', std::bind(&Intro::Component, win));
+		win->Commands.Add('n', std::bind(&Intro::Component, win));
 		Label* text = new Label(win, 3, 6);
 		text->loadFromFile(".resources/gui/tabs_demo");
 	}
 
 	void Intro::Extra(Window* win)
 	{
-		win->clearCommands();
+		win->Commands.Clear();
 		Label* text = new Label(win, 3, 3);
 		text->setText("This window is no longer needed.");
 		text->appendLine("Press f2 to destroy this window.");
@@ -88,7 +88,7 @@ namespace ucurses {
 		Label* entry_prompt = new Label(win, 5, 27);
 		entry_prompt->setText("Enter the string 'Icarus' to finish the tutorial!");
 
-		win->addCommand(10, std::bind(&Intro::Select, win, menu, menu_display));
+		win->Commands.Add(10, std::bind(&Intro::Select, win, menu, menu_display));
 	}
 
 	void Intro::Select(Window* win, Menu* menu, Label* display)

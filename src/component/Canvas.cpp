@@ -5,9 +5,12 @@
 
 namespace ucurses { 
 
-	Canvas::Canvas(Window* win, coord x, coord y) : Component(win, x, y), data(nullptr)
+	Canvas::Canvas(Window* win, coord2d size) : Component(win, coord2d{0,0}), cells(size.x, size.y) 
 	{
-
+        setSize(size.x, size.y);
+        for (int y = 0; y < size.y; ++y)
+            for (int x = 0; x < size.x; ++x)
+                cells.data.emplace_back();
 	}
 
 	/*
@@ -29,29 +32,17 @@ namespace ucurses {
 	   }
 	   */
 
-	void Canvas::setTarget(const ArrayXc* target, coord xsize, coord ysize) 
-	{
-		data = target; 
-		setSize(xsize, ysize);
-	}
-
-	void Canvas::setTarget(const ArrayXc* target, coord2d size)
-	{
-		data = target; 
-		setSize(size);
-	}
-
-	void Canvas::Draw()
-	{
-		if (data)
-		{
-			for (int y = 0; y < size.y; y++)
-			{
-				setCursor(0, y);
-				for (int x = 0; x < size.x; x++)
-					print(data->operator()(x,y));
-			}
-		}
-	}
+    void Canvas::Draw()
+    {
+        for (int y = 0; y < size.y; y++)
+        {
+            setCursor(0, y);
+            for (int x = 0; x < size.x; x++)
+            {
+                Cell* cell = cells.Get(x, y);
+                print(cell);
+            }
+        }
+    }
 
 }

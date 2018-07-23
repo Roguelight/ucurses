@@ -9,7 +9,6 @@ class CanvasTest : public ucurses::Application
 
     protected:
 
-        ArrayXc canvas_data;
         ctk::RandomGenerator rg;
         ucurses::Canvas* canvas;
 };
