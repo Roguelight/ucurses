@@ -102,13 +102,13 @@ namespace ucurses {
 
 	void Window::Update()
 	{
+        if (state)
+            state->Update();
 		printBorder();
 		setCursor(2,0);
 		print(title);
 		printCommands();
 		Components.Update();
-        if (state)
-            state->Update();
 	}
 
 	void Window::ClearScreen()
