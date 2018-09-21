@@ -5,6 +5,7 @@ namespace ucurses {
 
 	Slider::Slider(Window* host, coord x, coord y) : Component(host, x, y)
 	{
+        size.x = 28;
 		setHighlight(1);
 		//bindDefault();
 	}

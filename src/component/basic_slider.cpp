@@ -3,19 +3,19 @@
 
 namespace ucurses { 
 
-	basic_slider::basic_slider() : value(0.0f), limit(100.f)
+	basic_slider::basic_slider() : value(0.0f)
 	{
 
 	}
 	
-	basic_slider::basic_slider(const std::string& name) : value(0.0f), limit(100.f), subject(name)
+	basic_slider::basic_slider(const std::string& name) : value(0.0f), subject(name)
 	{
 	
 	}
 
 	void basic_slider::increment()
     {
-		if ((value + 1.0f) <= limit)
+		if ((value + 1.0f) <= 100.f)
 			value += 1.0f;
 	}
 

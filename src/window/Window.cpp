@@ -289,11 +289,9 @@ namespace ucurses {
     void Window::Bind(State* new_state)
     {
         Clear(); // Remove all widgets
-        last = state;
+        delete state;
         state = new_state;
         state->Bind(this);
-        delete last;
-        // Delete last state after binding new one
     }
 
 	void Window::Bind(Interface* new_interface)

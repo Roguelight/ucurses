@@ -24,17 +24,14 @@ namespace ucurses {
 			void decrement(); 
 
 			inline float getValue() const					{ return value; }
-			inline float getPercentage() const				{ return value / (limit / 100.f); }
 			inline const std::string& getSubject() const	{ return subject; }
 
 			void setSubject(const std::string& name)		{ subject = name; } 
 			void setValue(float f) 							{ value = f; } 
-			void setLimit(float f)							{ limit = f; }
 
 		protected:
 
 			float value;
-			float limit;									/* Maximum value */
 			std::string subject;
 	};
 

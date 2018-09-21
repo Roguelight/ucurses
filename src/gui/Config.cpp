@@ -17,10 +17,6 @@ namespace ucurses {
 		basic_slider& back = menu->addItem("Background Color");
 		basic_slider& primary = menu->addItem("Highlight Color");
 
-		fore.setLimit(250.f);
-		primary.setLimit(250.f);
-		back.setLimit(250.f);
-
 		if (!LoadSliders())
 		{
 			primary.setValue(4.f);
@@ -41,9 +37,9 @@ namespace ucurses {
 
 	void Config::RefreshUI()
 	{
-		short fore = static_cast<short>(menu->getItem(0).getValue());
-		short back = static_cast<short>(menu->getItem(1).getValue());
-		short primary = static_cast<short>(menu->getItem(2).getValue());
+		short fore = static_cast<short>(menu->getItem(0).getValue() * 2.55f);
+		short back = static_cast<short>(menu->getItem(1).getValue() * 2.55f);
+		short primary = static_cast<short>(menu->getItem(2).getValue() * 2.55f);
 		init_pair(target->getColor(), fore, back);
 		init_pair(2, back, primary);
 		
