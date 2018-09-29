@@ -136,7 +136,6 @@ namespace ucurses {
 
 			WINDOW* H_Window;      						/* Direct handle to NCurses WINDOW data */
             State*  state;                              /* State pattern for handling UI Transitions */
-            State*  last;
 			string title;
 			bool deletable;
 			bool delay;

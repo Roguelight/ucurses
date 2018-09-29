@@ -103,19 +103,27 @@ namespace ucurses {
             coord2d& getPosition();
 			short color;
 
+            void setVisibility(bool b);
+            void toggleInvisibility();
+            bool isVisible();
+
 		protected:
 
 			void Update();
 			virtual void Draw() = 0;						/* Called in Update() to render component to window */
 			virtual void bindDefault() 	{}					/* Children can construct their own bindings or using default */
 			virtual void Process(int input) {}              /* Override for behaviour in child */
-            void _process(int input);                       /* Called internally by engine */
 
 			coord2d position;
 			coord2d size;
 			short highlightColor;
             bool active;
-
+            bool visible = true;
 			Window*      H_Window;     						/* Handle to host */
+
+        private:
+
+            void _process(int input);                       /* Called internally by engine */
+
 	};
 }

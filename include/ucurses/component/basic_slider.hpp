@@ -11,6 +11,7 @@
 #pragma once
 #include <string>
 #include <fstream>
+
 namespace ucurses { 
 
 	class basic_slider

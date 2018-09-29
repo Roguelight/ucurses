@@ -28,10 +28,16 @@ namespace ucurses {
 
 	void Component::Update()
 	{
-		setCursor(); 					/* Sets window draw position to component position */
-		wcolor_set(H_Window->getHandle(), color, nullptr);		/* Sets window draw color to component color */
-		Draw(); 						/* Calls appropriate Draw() method */
-		H_Window->resetColor(); 	/* Resets window draw color */
+        // Sets window draw position to component position
+		setCursor();
+
+        // Sets window draw color to component color
+		wcolor_set(H_Window->getHandle(), color, nullptr);
+
+        if (visible)
+		    Draw();
+
+		H_Window->resetColor(); 	                            
 	}
 
 	void Component::print(const std::string& inString)
@@ -208,6 +214,21 @@ namespace ucurses {
     bool Component::isActive()
     {
         return active;
+    }
+            
+    void Component::setVisibility(bool b)
+    {
+        visible = b; 
+    }
+
+    void Component::toggleInvisibility()
+    {
+        visible = !visible;
+    }
+
+    bool Component::isVisible()
+    {
+        return visible;    
     }
 
     void Component::_process(int input)
