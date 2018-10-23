@@ -32,6 +32,13 @@ namespace ucurses {
 	   }
 	   */
 
+    void Canvas::centerWindow()
+    {
+        setPosition(0.5f, 0.5f);
+        position.x -= size.x;
+        position.y -= size.y / 2;
+    }
+
     void Canvas::Draw()
     {
         for (int y = 0; y < size.y; y++)
@@ -41,6 +48,7 @@ namespace ucurses {
             {
                 Cell* cell = cells.Get(x, y);
                 print(cell);
+                print(' ');
             }
         }
     }

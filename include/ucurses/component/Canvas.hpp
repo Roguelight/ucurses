@@ -23,6 +23,8 @@ namespace ucurses {
             ctk::Array<Cell> cells;
             void Initialize();
 
+            void centerWindow();
+
 			/* Refreshes component size for safe updating */
 		    //void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
 			//void setTarget(const ArrayXc* target, coord2d size);

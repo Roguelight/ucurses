@@ -21,7 +21,7 @@ comma :=,
 
 MAIN := ucurses
 
-LIBRARIES := boost ctk
+LIBRARIES := ctk
 LIBFILES := $(DYNAMIC) -lctk -lboost_filesystem -lboost_system -lncurses -Wl,--as-needed
 
 CXX := g++
