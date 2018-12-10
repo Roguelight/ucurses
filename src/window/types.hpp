@@ -9,8 +9,10 @@ namespace ucurses {
 
     struct Cell
     {
-        unsigned char symbol = '.';
-        unsigned short color = 6;
+        Cell(int symbol, short color) : symbol(symbol), color(color) {}
+
+        int symbol = ' ';
+        unsigned short color = 1;
         void write_form(std::ostream& stream) const
         { 
             stream << symbol << ' ' << color << std::endl; 

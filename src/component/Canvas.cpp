@@ -8,34 +8,28 @@ namespace ucurses {
 	Canvas::Canvas(Window* win, coord2d size) : Component(win, coord2d{0,0}), cells(size.x, size.y) 
 	{
         setSize(size.x, size.y);
-        for (int y = 0; y < size.y; ++y)
-            for (int x = 0; x < size.x; ++x)
-                cells.data.emplace_back();
 	}
 
-	/*
-	   void Canvas::loadFromText(const std::string& filepath)
-	   {
-	   if (data == nullptr)
-	   {
-	   std::fstream text(filepath, ios_base::in);
-	   data = new ArrayXc(size.x, size.y);
+    void Canvas::Clear()
+    {
+        cells.data.clear();
+        for (int y = 0; y < size.y; ++y)
+            for (int x = 0; x < size.x; ++x)
+                cells.data.emplace_back(' ', 1);
+    }
 
-	   for (int y = 0; y < size.y; y++)
-	   for (int x = 0; x < size.x + 1; x++) // Read and discard \n 
-	   {
-	   char c;
-	   text.get(c);
-	   if (c != '\n')
-	   data->(x,y) = c;
-	   }
-	   }
-	   */
+    void Canvas::Fill(char c, unsigned short color)
+    {
+        for (int y = 0; y < size.y; ++y)
+            for (int x = 0; x < size.x; ++x)
+                cells.data.emplace_back(c, color);
+    }
 
     void Canvas::centerWindow()
     {
+        int divisor = (spread ? 1 : 2);
         setPosition(0.5f, 0.5f);
-        position.x -= size.x;
+        position.x -= size.x / divisor;
         position.y -= size.y / 2;
     }
 
@@ -48,9 +42,15 @@ namespace ucurses {
             {
                 Cell* cell = cells.Get(x, y);
                 print(cell);
-                print(' ');
+                if (spread)
+                    print(' ');
             }
         }
+    }
+
+    void Canvas::setSpread(bool b)
+    {
+        spread = b;
     }
 
 }

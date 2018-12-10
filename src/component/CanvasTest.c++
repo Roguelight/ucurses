@@ -3,5 +3,5 @@
 int main()
 {
     CanvasTest testapp;
-    testapp.Run();
+    testapp.Start();
 }

@@ -11,6 +11,7 @@ namespace ucurses {
 		Window::colors = &Colors;
 		noecho();
 		cbreak();
+		raw();
         curs_set(0);
 		keypad(stdscr, TRUE);
 
@@ -32,7 +33,7 @@ namespace ucurses {
 
 	void UCurses::Start()
 	{
-		Render();
+		//Render();
 		running = true;
 	}
 

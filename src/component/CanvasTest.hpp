@@ -1,10 +1,12 @@
 #pragma once
 #include <ucurses/ucurses.hpp>
 
+
+
 class CanvasTest : public ucurses::Application
 {
     public:   
-        
+
         CanvasTest();
 
     protected:
@@ -12,3 +14,4 @@ class CanvasTest : public ucurses::Application
         ctk::RandomGenerator rg;
         ucurses::Canvas* canvas;
 };
+

@@ -16,7 +16,7 @@ namespace ucurses {
 		H_Window = newwin(size.y, size.x, position.y, position.x);
 		keypad(H_Window, TRUE);
 		deletable = false;
-		setDelay(true);
+		setDelay(false);
 		setDefaultColor(1);
 	}
 
@@ -25,7 +25,7 @@ namespace ucurses {
 		H_Window = newwin(0,0,0,0);
 		keypad(H_Window, TRUE);
 		deletable = false;
-		setDelay(true);
+		setDelay(false);
 		setDefaultColor(1);
 	}
 
@@ -93,6 +93,11 @@ namespace ucurses {
 		tips.push_back(tip);
 	}
 
+    void Window::ClearTips()
+    {
+        tips.clear();
+    }
+
 	void Window::addTip(string&& tip)
 	{
 		tips.push_back(tip);
@@ -102,11 +107,11 @@ namespace ucurses {
 
 	void Window::Update()
 	{
-        if (state)
-            state->Update();
 		printBorder();
 		setCursor(2,0);
 		print(title);
+        if (state)
+            state->Update();
 		printCommands();
 		Components.Update();
 	}
@@ -118,7 +123,7 @@ namespace ucurses {
 
 	void Window::printBorder()
 	{
-		box(H_Window, '|', '-');
+		wborder(H_Window, 0, 0, 0, 0, 0, 0, 0 ,0);
 	}
 
 	/* Construction */
@@ -159,14 +164,9 @@ namespace ucurses {
 
     void Window::print(Cell& cell)
     {
-        short primary = 0;
-        short bg = 0;
-        // Save current color
-        pair_content(color, &primary, &bg);
-        init_pair(color, cell.color, bg);
+		wcolor_set(H_Window, cell.color, nullptr);	
 		waddch(H_Window, cell.symbol);
-        // Reset color
-        init_pair(color, primary, bg);
+		wcolor_set(H_Window, color, nullptr);	
     }
 
 	void Window::print(const std::string& inString)
@@ -174,7 +174,7 @@ namespace ucurses {
 		waddstr(H_Window, inString.c_str());
 	}
 
-	void Window::print(char c)
+	void Window::print(int c)
 	{
 		waddch(H_Window, c);
 	}
@@ -209,7 +209,7 @@ namespace ucurses {
 	void Window::setDefaultColor(short color)
 	{
 		this->color = color;
-		wattron(H_Window, COLOR_PAIR(this->color));	
+		wattron(H_Window, COLOR_PAIR(color));	
 		wbkgdset(H_Window, COLOR_PAIR(color));
 	}
 

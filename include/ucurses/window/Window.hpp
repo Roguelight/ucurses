@@ -65,7 +65,7 @@ namespace ucurses {
 			void  setCursor(coord x, coord y); 					/* Sets cursor to absolute position 			*/
 			void  moveCursor(coord x, coord y);        			/* Moves cursor to relative to current position */
 			void  print(const std::string& inString);        	/* Prints from current cursor position 			*/
-			void  print(char c);
+			void  print(int c);
 			void  print(char* c);
             void  print(Cell& cell);
 
@@ -123,6 +123,7 @@ namespace ucurses {
 
             ComponentArray Components;
 			void Clear(); 										/* Destroys all components and commands */
+            void ClearTips();
 
 			// A window can only have one given state at a time
 			// However a state is an interface that clears the window on binding

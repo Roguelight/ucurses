@@ -21,7 +21,7 @@ comma :=,
 
 MAIN := ucurses
 
-LIBRARIES := ctk
+LIBRARIES := ctk boost
 LIBFILES := $(DYNAMIC) -lctk -lboost_filesystem -lboost_system -lncurses -Wl,--as-needed
 
 CXX := g++
@@ -81,7 +81,7 @@ endif
 
 #*****************  Build  ************************************************
 
-LIBPATH :=lib/$(TARGET)
+LIBPATH :=lib/
 BUILDPATH :=bin/$(TARGET)
 
 #*****************  Branching  ********************************************

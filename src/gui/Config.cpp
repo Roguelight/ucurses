@@ -41,7 +41,7 @@ namespace ucurses {
 		short back = static_cast<short>(menu->getItem(1).getValue() * 2.55f);
 		short primary = static_cast<short>(menu->getItem(2).getValue() * 2.55f);
 		init_pair(target->getColor(), fore, back);
-		init_pair(2, back, primary);
+		init_pair(2, primary, back);
 		
 	}
 			

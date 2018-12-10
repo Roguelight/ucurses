@@ -6,7 +6,6 @@ namespace ucurses {
     {
         appwindow = gui.createWindow();
         appwindow->setDelay(false);
-        gui.Start();
     }
 
     void Application::processInput()
@@ -16,8 +15,10 @@ namespace ucurses {
 
     void Application::Render()
     {
-        running = gui.Running();
-        gui.Render(); 
+        if (gui.Running())
+            gui.Render(); 
+        else
+            Quit();
     }
 
     void Application::setName(const std::string& inName)

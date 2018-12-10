@@ -11,27 +11,34 @@
 #include <ucurses/component/Component.hpp>
 #include <ctk/storage/Array.hpp>
 
+
 namespace ucurses { 
 
-	class Canvas : public Component
-	{
-		public:
+    class Canvas : public Component
+    {
+        public:
 
-			Canvas(Window* win, coord2d size);
+            Canvas(Window* win, coord2d size);
 
-			//const ArrayXc* data;
+            //const ArrayXc* data;
             ctk::Array<Cell> cells;
-            void Initialize();
+
+            void Fill(char c, unsigned short color = 1);
+            void Clear();
+            void setSpread(bool b);
 
             void centerWindow();
 
-			/* Refreshes component size for safe updating */
-		    //void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
-			//void setTarget(const ArrayXc* target, coord2d size);
+            /* Refreshes component size for safe updating */
+            //void setTarget(const ArrayXc* target, coord xsize = 0, coord ysize = 0);
+            //void setTarget(const ArrayXc* target, coord2d size);
 
-		protected:
+        protected:
 
-			virtual void Draw();
-			void bindDefault() {}
-	};
+            virtual void Draw();
+            void bindDefault() {}
+
+            // Used to print spaces between cells to give them a more square feel
+            bool spread = false;
+    };
 }

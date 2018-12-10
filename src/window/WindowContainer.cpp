@@ -93,9 +93,10 @@ namespace ucurses {
 			M_Windows[i].Update();
 
 			/* Must highlight after update for visible effect */
-			if (i == active) 
-				M_Windows[i].highlightRow(0, 1, A_BOLD);
+			//if (i == active) 
+				//M_Windows[i].highlightRow(0, 1, A_BOLD);
 
+            M_Windows[i].setDefaultColor(M_Windows[i].getColor());
 			wnoutrefresh(M_Windows[i].getHandle());
 		}
 	}
