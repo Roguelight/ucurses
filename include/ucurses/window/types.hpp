@@ -17,5 +17,10 @@ namespace ucurses {
         { 
             stream << symbol << ' ' << color << std::endl; 
         } 
+        Cell& operator=(Cell rhs)
+        {
+            symbol = rhs.symbol;
+            color = rhs.color;
+        }
     };
 }

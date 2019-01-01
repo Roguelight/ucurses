@@ -47,7 +47,7 @@ namespace ucurses {
 			
 	void Config::Save()
 	{
-		ofstream file(config, ios_base::out);
+        std::ofstream file(config, ios_base::out);
 
 		for (auto& slider : menu->getItems())
 			file << slider.getValue() << std::endl;
@@ -55,7 +55,7 @@ namespace ucurses {
 
 	bool Config::LoadSliders()
 	{
-		ifstream file(config, ios_base::in);
+        std::ifstream file(config, ios_base::in);
 	
 		if (file.good())
 		{
@@ -73,7 +73,7 @@ namespace ucurses {
 
 	void Config::Load(const std::string& filepath)
 	{
-		ifstream file(filepath, ios_base::in);
+        std::ifstream file(filepath, ios_base::in);
 		if (file.good())
 		{
 			float values[3]; 
